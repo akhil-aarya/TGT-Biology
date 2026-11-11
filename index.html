@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="hi" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPESSC TGT Biology 2026 CBT Mock Test Portal</title>
+  
+  <meta name="description" content="Official Pattern UPESSC TGT Biology CBT Mock Test 2026. 120 Questions (30 GK + 90 Biology), 360 Marks (+3, -1), Bilingual Hindi/English, Detailed Solutions.">
+  <meta name="theme-color" content="#0f172a">
+  
+  <!-- Google Fonts & Tailwind CSS CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons & Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans Devanagari"', 'sans-serif'],
+          },
+          colors: {
+            cbt: {
+              answered: '#16a34a',     /* Green */
+              unanswered: '#dc2626',   /* Red */
+              review: '#9333ea',       /* Purple */
+              notvisited: '#94a3b8',   /* Slate Gray */
+              primary: '#0f766e',      /* Teal */
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    .cbt-radio:checked + label {
+      border-color: #0d9488;
+      background-color: #f0fdfa;
+      box-shadow: 0 0 0 1px #0d9488;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-teal-600 selection:text-white">
+
+  <!-- ================= TOP CBT HEADER BAR ================= -->
+  <header class="bg-slate-900 text-white sticky top-0 z-50 border-b border-slate-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
+      
+      <!-- Brand & Exam Title -->
+      <div class="flex items-center gap-2 sm:gap-3 cursor-pointer" onclick="confirmGoHome()">
+        <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold shadow-md shadow-teal-500/20 shrink-0">
+          <i data-lucide="dna" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-sm sm:text-base tracking-tight text-white">UPESSC TGT Biology</span>
+            <span class="bg-amber-400 text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded uppercase">2026 Pattern</span>
+          </div>
+          <p class="text-[10px] text-slate-400 hidden sm:block">By Akhil Aarya • 120 Qs | 360 Marks (+3, -1) | 120 Mins</p>
+        </div>
+      </div>
+
+      <!-- Controls: Language Toggle + Timer + Actions -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        
+        <!-- Language Switcher (EN / HI) -->
+        <button onclick="toggleLanguage()" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+          <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+          <span id="lang-indicator">हिन्दी</span>
+        </button>
+
+        <!-- Timer (Active in Test View) -->
+        <div id="cbt-timer-container" class="hidden flex items-center gap-1.5 bg-slate-950 border border-slate-700 text-amber-300 px-3 py-1.5 rounded-lg font-mono font-bold text-xs sm:text-sm">
+          <i data-lucide="clock" class="w-4 h-4 text-amber-400 animate-pulse"></i>
+          <span id="cbt-timer">02:00:00</span>
+        </div>
+
+        <!-- Add Question Drawer Trigger (Free Content Expansion) -->
+        <button onclick="openQuestionDrawer()" class="hidden md:inline-flex items-center gap-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1.5 rounded-lg font-medium border border-slate-700" title="Add / View Question JSON">
+          <i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i>
+          <span>Add Questions</span>
+        </button>
+
+        <!-- Monetization / WhatsApp Study Pack Trigger -->
+        <button onclick="openMonetizeModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg transition shadow-sm whitespace-nowrap">
+          <span>Notes ₹51</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MONETIZATION BANNER (728x90 Google AdSense Style) ================= -->
+  <div class="max-w-7xl mx-auto w-full px-3 sm:px-6 pt-3">
+    <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5">
+        <span class="bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded text-[10px] tracking-wider uppercase border border-slate-200">Sponsor</span>
+        <span class="font-medium text-slate-700">🎯 <strong>UPESSC 2026 Biology Master Pack (By Akhil Aarya)</strong>: 2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack.</span>
+      </div>
+      <button onclick="openMonetizeModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-1.5 rounded-lg transition shrink-0">
+        Unlock Study Pack @ ₹121
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN APP VIEWPORT ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4">
+
+    <!-- VIEW 1: HOME & TEST SELECTION -->
+    <section id="view-home" class="space-y-6">
+      
+      <!-- Notification Compliance Alert Banner -->
+      <div class="bg-gradient-to-r from-teal-900 via-slate-900 to-slate-950 text-white p-6 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden">
+        <div class="max-w-3xl space-y-3 relative z-10">
+          <div class="inline-flex flex-wrap items-center gap-2 bg-teal-500/20 text-teal-300 border border-teal-500/30 px-3 py-1 rounded-full text-xs font-semibold">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+            <span>As per UPESSC Advt. 07/2026 Notification</span>
+            <span class="text-amber-300 font-bold">• By Akhil Aarya</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
+            UP TGT Biology CBT Mock Test Platform
+          </h1>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+            Strictly designed as per the latest <strong>360 Marks Scheme</strong>. Test includes <strong>Section A (30 GK Questions)</strong> and <strong>Section B (90 Biology: Zoology & Botany Questions)</strong> with negative marking (+3 marks, -1 penalty) and bilingual switch.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button onclick="startCbtTest()" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-6 py-3 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-amber-400/20">
+              <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i>
+              <span>Start Full CBT Mock (120 Questions)</span>
+            </button>
+            <button onclick="openMonetizeModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3 rounded-xl text-sm transition border border-white/20">
+              Complete Revision Notes PDF (₹51)
+            </button>
+            <button onclick="openMonetizeModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="bg-emerald-600/90 hover:bg-emerald-600 text-white font-semibold px-5 py-3 rounded-xl text-sm transition border border-emerald-400/30">
+              2500+ MCQs & 15 CBT Pack (₹121)
+            </button>
+          </div>
+        </div>
+        <div class="absolute right-4 -bottom-10 opacity-10 pointer-events-none hidden lg:block">
+          <i data-lucide="microscope" class="w-72 h-72"></i>
+        </div>
+      </div>
+
+      <!-- Syllabus & Scheme Quick Card Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-400 font-semibold uppercase">Exam Structure</div>
+          <div class="text-lg font-bold text-slate-900 mt-1">120 MCQs</div>
+          <div class="text-[11px] text-teal-700 font-medium">30 GK + 90 Bio</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-400 font-semibold uppercase">Marking Scheme</div>
+          <div class="text-lg font-bold text-slate-900 mt-1">360 Marks</div>
+          <div class="text-[11px] text-emerald-700 font-medium">+3 Correct, -1 Negative</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-400 font-semibold uppercase">Total Duration</div>
+          <div class="text-lg font-bold text-slate-900 mt-1">120 Minutes</div>
+          <div class="text-[11px] text-purple-700 font-medium">Live CBT Countdown</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-xs text-slate-400 font-semibold uppercase">Language</div>
+          <div class="text-lg font-bold text-slate-900 mt-1">Bilingual</div>
+          <div class="text-[11px] text-amber-700 font-medium">Instant Hindi ⇄ English</div>
+        </div>
+      </div>
+
+      <!-- Topic Practice Modules -->
+      <div class="space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">Unit-wise Biology Practice</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="home-topic-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Premium Study Packs Section (₹51 & ₹121) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">Quick Revision Pack</span>
+              <span class="text-xl font-black text-slate-900">₹51 <span class="text-xs font-normal text-slate-400 line-through">₹199</span></span>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900">Complete Revision PDF Notes & Topic-wise One-Liners</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Curated by <strong>Akhil Aarya</strong>: Bentham & Hooker families, Life Cycles (Plasmodium, Obelia, Cycas, Pinus), Embryology & Ecology short notes in Hindi & English.
+            </p>
+          </div>
+          <button onclick="openMonetizeModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="mt-4 w-full py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Unlock Revision PDF Notes @ ₹51</span>
+          </button>
+        </div>
+
+        <div class="bg-white border-2 border-teal-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="bg-teal-100 text-teal-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">Bestseller Target Batch</span>
+              <span class="text-xl font-black text-teal-700">₹121 <span class="text-xs font-normal text-slate-400 line-through">₹399</span></span>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900">2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Includes all ₹51 Revision Notes + 15 Official Pattern Mock Tests (120 Qs each: 30 GK + 90 Biology) + Previous Year Solved Papers with explanations.
+            </p>
+          </div>
+          <button onclick="openMonetizeModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="mt-4 w-full py-2.5 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>Unlock Complete 2500+ MCQ Bundle @ ₹121</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Official UPESSC 2026 Revised Syllabus Explorer -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h2 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
+              <i data-lucide="book-open-check" class="w-5 h-5 text-teal-700"></i>
+              <span>UPESSC TGT Biology 2026 Official Revised Syllabus (Advt. 07/2026)</span>
+            </h2>
+            <p class="text-xs text-slate-500">Subject Code-06 | Total 120 Questions (30 General Knowledge + 90 Zoology & Botany) | 360 Marks</p>
+          </div>
+          <span class="bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1 rounded-lg self-start sm:self-auto">660 Total Posts (Boys: 632, Girls: 28)</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- Zoology Syllabus -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="font-extrabold text-teal-800 text-sm flex items-center justify-between">
+              <span>(A) Zoology (जन्तु विज्ञान)</span>
+              <span class="text-[10px] bg-teal-100 px-2 py-0.5 rounded">Sec B</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-600 leading-relaxed list-disc pl-4">
+              <li><strong>Non-Chordata:</strong> Entamoeba, Plasmodium, Paramoecium, Euglena, Leucosolenia, Sycon, Hydra, Obelia, Aurelia, Fasciola, Taenia, Ascaris, Nereis, Pheretima, Leech, Cockroach, Musca, Mosquito, Palaemon, Unio, Pila, Starfish.</li>
+              <li><strong>Protochordata & Chordata:</strong> Herdmania, Amphioxus, Scoliodon, Rana tigrina, Uromastix, Columba, Oryctolagus.</li>
+              <li><strong>Cell Biology & Genetics:</strong> Mitosis, Meiosis, Gametogenesis, Mendelism, Linkage, Crossing Over, Eugenics.</li>
+              <li><strong>Evolution, Ecology & Physiology:</strong> Lamarckism, Darwinism, Digestion, Respiration, Circulation, Excretion, Nervous & Endocrine, Biochemistry, Embryology (Amphioxus, Frog, Chick), Zoogeography.</li>
+            </ul>
+          </div>
+
+          <!-- Botany Syllabus -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="font-extrabold text-emerald-800 text-sm flex items-center justify-between">
+              <span>(B) Botany (वनस्पति विज्ञान)</span>
+              <span class="text-[10px] bg-emerald-100 px-2 py-0.5 rounded">Sec B</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-600 leading-relaxed list-disc pl-4">
+              <li><strong>Cryptogams & Gymnosperms:</strong> Viruses, Lichens, Algae (Nostoc, Volvox, Oedogonium, Ectocarpus, Batrachospermum), Fungi (Rhizopus, Albugo, Puccinia, Agaricus), Bryophyta (Riccia, Marchantia, Funaria), Pteridophyta (Lycopodium, Selaginella, Equisetum, Marsilea), Cycas, Pinus & Palaeobotany.</li>
+              <li><strong>Taxonomy (Bentham & Hooker):</strong> 14 Families (Ranunculaceae, Brassicaceae, Fabaceae, Asteraceae, Solanaceae, Lamiaceae, Liliaceae, Poaceae, etc.) & Economic Botany.</li>
+              <li><strong>Anatomy & Embryology:</strong> Anomalous secondary growth (Tinospora, Dracaena, Boerhaavia, Nyctanthes), Micro/Megasporogenesis.</li>
+              <li><strong>Plant Physiology & Soil Science:</strong> Photosynthesis, Respiration, N2 Cycle, Hormones.</li>
+            </ul>
+          </div>
+
+          <!-- General Knowledge Syllabus -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="font-extrabold text-sky-800 text-sm flex items-center justify-between">
+              <span>General Knowledge (सामान्य ज्ञान)</span>
+              <span class="text-[10px] bg-sky-100 px-2 py-0.5 rounded">Sec A: 30 Qs</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-600 leading-relaxed list-disc pl-4">
+              <li><strong>Unit 1 (Current Affairs):</strong> State, National & International Events, Personalities in News, Sports.</li>
+              <li><strong>Unit 2 (History, Polity, Economy & Geography):</strong> Indian National Movement, Indian Constitution & Educational Constitutional Provisions, Indian Economy, Basic Geography & Population.</li>
+              <li><strong>Unit 3 (General Science & ICT):</strong> Health & Hygiene (Vitamins, Minerals, Deficiency Diseases, Hormones, Enzymes), Computer & Internet Terminology, ICT Uses & Educational Technology.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 2: CBT EXAM ARENA (NTA / TCS-iON Style) -->
+    <section id="view-cbt" class="hidden space-y-3">
+      
+      <!-- CBT Stats Header Bar -->
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
+        
+        <!-- Section Filter Tabs -->
+        <div class="flex items-center gap-1.5">
+          <button id="tab-sec-all" onclick="filterCbtSection('all')" class="px-3 py-1.5 rounded-lg font-bold bg-slate-900 text-white">
+            All (120)
+          </button>
+          <button id="tab-sec-gk" onclick="filterCbtSection('gk')" class="px-3 py-1.5 rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">
+            Sec A: GK (30)
+          </button>
+          <button id="tab-sec-bio" onclick="filterCbtSection('bio')" class="px-3 py-1.5 rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">
+            Sec B: Biology (90)
+          </button>
+        </div>
+
+        <!-- Real-Time Attempt Counts -->
+        <div class="flex items-center gap-3 text-[11px] sm:text-xs">
+          <span class="flex items-center gap-1 text-emerald-700 font-semibold">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+            <span id="stat-answered">0</span> Answered
+          </span>
+          <span class="flex items-center gap-1 text-purple-700 font-semibold">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+            <span id="stat-review">0</span> Review
+          </span>
+          <span class="flex items-center gap-1 text-rose-700 font-semibold">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
+            <span id="stat-unanswered">0</span> Unanswered
+          </span>
+        </div>
+
+        <!-- Submit Button -->
+        <button onclick="promptSubmitTest()" class="px-4 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg transition shadow-sm">
+          Submit Exam
+        </button>
+      </div>
+
+      <!-- CBT Split Screen Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        
+        <!-- Left 8/12: Question Area -->
+        <div class="lg:col-span-8 space-y-3">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm min-h-[460px] flex flex-col justify-between">
+            
+            <div>
+              <!-- Question Header -->
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                  <span id="q-section-badge" class="bg-teal-100 text-teal-800 text-[11px] font-bold px-2.5 py-0.5 rounded">
+                    Section A: General Knowledge
+                  </span>
+                  <span id="q-topic-badge" class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded">
+                    Polity
+                  </span>
+                </div>
+                <div class="text-xs font-bold text-slate-400">
+                  Q <span id="q-current-number" class="text-teal-700 text-base">1</span> of <span id="q-total-count">120</span>
+                </div>
+              </div>
+
+              <!-- Question Text (Bilingual Switchable) -->
+              <div class="space-y-2 mb-6">
+                <p id="q-main-text" class="text-base sm:text-lg font-semibold text-slate-900 leading-relaxed">
+                  <!-- Loaded via JS -->
+                </p>
+                <p id="q-sub-text" class="text-xs sm:text-sm text-slate-500 italic">
+                  <!-- Secondary language text -->
+                </p>
+              </div>
+
+              <!-- 4 Options (A, B, C, D) -->
+              <div id="cbt-options-list" class="space-y-2.5">
+                <!-- Loaded dynamically -->
+              </div>
+            </div>
+
+            <!-- CBT Action Footer -->
+            <div class="pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2">
+                <button onclick="toggleMarkReview()" id="btn-mark-review" class="px-3.5 py-2 border border-purple-300 text-purple-700 hover:bg-purple-50 rounded-lg font-semibold transition flex items-center gap-1">
+                  <i data-lucide="flag" class="w-3.5 h-3.5"></i>
+                  <span id="review-btn-text">Mark for Review</span>
+                </button>
+                <button onclick="clearCurrentResponse()" class="px-3 py-2 text-slate-500 hover:text-rose-600 font-medium">
+                  Clear Response
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button onclick="navigateQuestion(-1)" id="btn-prev" class="px-4 py-2 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-lg font-semibold transition disabled:opacity-40">
+                  Previous
+                </button>
+                <button onclick="saveAndNext()" id="btn-next" class="px-5 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg font-bold transition shadow-sm">
+                  Save & Next
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right 4/12: Question Palette Matrix -->
+        <div class="lg:col-span-4 space-y-3">
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
+            
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="font-bold text-xs text-slate-900">Question Palette</span>
+              <span class="text-[11px] text-slate-400 font-medium" id="palette-filter-label">All 120 Questions</span>
+            </div>
+
+            <!-- Palette Status Legend -->
+            <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded bg-emerald-600 shrink-0"></span>
+                <span>Answered</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded bg-rose-600 shrink-0"></span>
+                <span>Unanswered</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded bg-purple-600 shrink-0"></span>
+                <span>For Review</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded bg-slate-200 shrink-0"></span>
+                <span>Not Visited</span>
+              </div>
+            </div>
+
+            <!-- Number Matrix Grid -->
+            <div id="cbt-palette-grid" class="grid grid-cols-6 gap-1.5 max-h-[380px] overflow-y-auto pr-1">
+              <!-- Grid bubbles loaded dynamically -->
+            </div>
+
+            <!-- In-CBT Native Micro Sponsor Box -->
+            <div class="p-2.5 bg-amber-50 rounded-xl border border-amber-200 flex items-center justify-between text-[11px]">
+              <div>
+                <p class="font-bold text-amber-900">TGT Biology Hand-written Formulae</p>
+                <p class="text-amber-700 text-[10px]">Short tricks by Akhil Aarya (PDF Notes)</p>
+              </div>
+              <button onclick="openMonetizeModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-2.5 py-1 rounded text-[10px] shrink-0">
+                ₹51 Get
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- VIEW 3: COMPREHENSIVE RESULT & DIAGNOSTIC ANALYTICS -->
+    <section id="view-result" class="hidden space-y-6">
+      
+      <!-- Scorecard Header -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div class="text-center max-w-lg mx-auto space-y-2">
+          <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl mx-auto flex items-center justify-center">
+            <i data-lucide="award" class="w-8 h-8"></i>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">UPESSC 2026 CBT Result</h2>
+          <p class="text-xs sm:text-sm text-slate-500">Official Marking Scheme (+3 Correct, -1 Incorrect Penalty)</p>
+        </div>
+
+        <!-- 5-Metric Score Matrix -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-6">
+          <div class="p-4 rounded-xl bg-slate-900 text-white text-center">
+            <div class="text-2xl sm:text-3xl font-black text-amber-400" id="res-total-score">0</div>
+            <div class="text-[10px] uppercase font-bold text-slate-400 mt-1">Final Score (/360)</div>
+          </div>
+          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
+            <div class="text-2xl sm:text-3xl font-black text-emerald-700" id="res-correct-count">0</div>
+            <div class="text-[10px] uppercase font-bold text-emerald-800 mt-1">Correct (+3 each)</div>
+          </div>
+          <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-center">
+            <div class="text-2xl sm:text-3xl font-black text-rose-700" id="res-incorrect-count">0</div>
+            <div class="text-[10px] uppercase font-bold text-rose-800 mt-1">Wrong (-1 deducted)</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
+            <div class="text-2xl sm:text-3xl font-black text-slate-700" id="res-unattempted-count">0</div>
+            <div class="text-[10px] uppercase font-bold text-slate-500 mt-1">Unattempted (0)</div>
+          </div>
+          <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-center col-span-2 sm:col-span-1">
+            <div class="text-2xl sm:text-3xl font-black text-teal-700" id="res-accuracy-percent">0%</div>
+            <div class="text-[10px] uppercase font-bold text-teal-800 mt-1">Net Accuracy</div>
+          </div>
+        </div>
+
+        <!-- Subject-Wise Section Breakdown -->
+        <div class="mt-6 pt-6 border-t border-slate-100 space-y-3">
+          <h3 class="text-sm font-bold text-slate-900">Subject-wise Performance Breakdown</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <div class="flex items-center justify-between font-bold text-xs text-slate-900">
+                <span>Section A: General Knowledge (30 Qs)</span>
+                <span id="res-gk-score" class="text-teal-700">0 / 90 Marks</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2">
+                <div id="res-gk-bar" class="bg-teal-600 h-2 rounded-full" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <div class="flex items-center justify-between font-bold text-xs text-slate-900">
+                <span>Section B: Biology - Zoology & Botany (90 Qs)</span>
+                <span id="res-bio-score" class="text-emerald-700">0 / 270 Marks</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2">
+                <div id="res-bio-bar" class="bg-emerald-600 h-2 rounded-full" style="width: 0%"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DIAGNOSTIC: CHAPTERS NEEDED FOR PRACTICE (Weak Area Detector) -->
+        <div class="mt-6 p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+          <div class="flex items-center gap-2 text-amber-900 font-bold text-sm">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+            <span>Chapters Needed For Practice (कमजोर विषय विश्लेषण)</span>
+          </div>
+          <p class="text-xs text-amber-800 leading-relaxed">
+            Aapne jin chapters me galat answers diye hain ya unhe chhod diya hai, unki targeted list:
+          </p>
+          <div id="weak-chapters-container" class="flex flex-wrap gap-2 pt-1">
+            <!-- Badges populated by JS -->
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-center gap-3 text-xs">
+          <button onclick="showDetailedSolutions('all')" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl flex items-center gap-1.5 transition">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+            <span>Detailed Solutions (All 120 Qs)</span>
+          </button>
+          <button onclick="showDetailedSolutions('incorrect')" class="px-4 py-2.5 bg-rose-100 hover:bg-rose-200 text-rose-800 font-bold rounded-xl transition">
+            Review Wrong Answers Only
+          </button>
+          <button onclick="shareScoreWhatsApp()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center gap-1.5 transition shadow-sm">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
+            <span>Share Result on WhatsApp</span>
+          </button>
+          <button onclick="startCbtTest()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition">
+            Retake Full CBT
+          </button>
+        </div>
+
+      </div>
+
+      <!-- DETAILED SOLUTIONS ACCORDION -->
+      <div id="solutions-section" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">Detailed Explanations & Answer Key</h3>
+          <div class="flex items-center gap-2 text-xs">
+            <button onclick="filterSolutionList('all')" id="sol-filter-all" class="px-2.5 py-1 bg-slate-900 text-white rounded font-medium">All</button>
+            <button onclick="filterSolutionList('incorrect')" id="sol-filter-inc" class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded font-medium">Incorrect</button>
+          </div>
+        </div>
+        <div id="solution-items-container" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= BRANDED FOOTER ================= -->
+  <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-5 px-4 mt-8 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-white">UPESSC TGT Biology CBT Portal 2026</span>
+        <span>•</span>
+        <span class="text-teal-400 font-semibold">Created & Curated By Akhil Aarya</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="openMonetizeModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="hover:text-amber-300 underline">Revision Notes (₹51)</button>
+        <span>|</span>
+        <button onclick="openMonetizeModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="hover:text-emerald-300 underline">Full Mock Pack (₹121)</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MONETIZATION MODAL ================= -->
+  <div id="monetize-modal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 relative">
+      <button onclick="closeMonetizeModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="text-center space-y-1">
+        <div class="w-11 h-11 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <div class="text-[11px] font-bold text-teal-700 uppercase tracking-wide">By Akhil Aarya</div>
+        <h3 id="modal-title" class="text-base sm:text-lg font-extrabold text-slate-900">Complete Revision PDF Notes & Topic-wise One-Liners</h3>
+        <p class="text-xs text-slate-500">Pay directly via any UPI App (GPay, PhonePe, Paytm) & get instant WhatsApp delivery.</p>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+        <div class="text-[10px] text-amber-900 font-bold uppercase tracking-wider">UPESSC 2026 Shagun Offer</div>
+        <div class="text-3xl font-black text-amber-700 mt-0.5" id="modal-price">₹51</div>
+        <div class="text-[10px] text-slate-500">One-Time Contribution • Lifetime PDF Access</div>
+      </div>
+
+      <div class="space-y-1.5 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+        <div class="flex items-center gap-2">
+          <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+          <span>Cytology, Genetics, Bentham-Hooker & Plant Physio Notes</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+          <span>2500+ Chapter-wise MCQs with Detailed Solutions (₹121 Pack)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+          <span>15 Full-Length CBT Mock Test PDFs (360 Marks Scheme)</span>
+        </div>
+      </div>
+
+      <!-- UPI Payment Row & Banking Name Trust Badge -->
+      <div class="space-y-2.5">
+        <div class="border border-emerald-500/30 bg-emerald-50/50 p-3 rounded-xl space-y-2 text-xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-[10px] uppercase font-bold text-slate-400">Merchant UPI ID:</div>
+              <div id="upi-display" class="font-mono font-bold text-slate-800 text-sm">akhilaarya.tgt@upi</div>
+            </div>
+            <button onclick="copyUpiId()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-lg font-bold text-xs hover:bg-emerald-700 transition">
+              Copy UPI
+            </button>
+          </div>
+          <div class="pt-1.5 border-t border-emerald-200/70 flex items-center gap-1.5 text-[11px] text-emerald-900 font-semibold">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <span>UPI Account Holder: <strong>Akhilesh (Akhil Aarya)</strong></span>
+          </div>
+        </div>
+
+        <button onclick="openWhatsAppCheckout()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Send Screenshot on WhatsApp & Get Files</span>
+        </button>
+      </div>
+
+      <p class="text-[10px] text-center text-slate-400">
+        Instant PDF access delivered directly to your WhatsApp within 5 minutes.
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= ADD QUESTIONS DRAWER (For Easy Extensibility) ================= -->
+  <div id="question-drawer" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="file-json" class="w-5 h-5 text-teal-700"></i>
+          <h3 class="font-bold text-sm sm:text-base text-slate-900">Add / Paste New Questions (JSON Format)</h3>
+        </div>
+        <button onclick="closeQuestionDrawer()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-500">
+        Aapko website code me ghusne ki zaroorat nahi hai. Niche diye gaye format me questions paste karke "Import Questions" dabayein:
+      </p>
+
+      <textarea id="json-input" class="w-full flex-1 p-3 font-mono text-[11px] bg-slate-900 text-emerald-400 rounded-xl border border-slate-700 focus:outline-none focus:ring-1 focus:ring-teal-500 resize-none h-60" placeholder='[
+  {
+    "id": 121,
+    "section": "bio",
+    "topic": "Algae",
+    "question_hi": "...",
+    "question_en": "...",
+    "options_hi": ["A", "B", "C", "D"],
+    "options_en": ["A", "B", "C", "D"],
+    "correct": 1,
+    "explanation_hi": "...",
+    "explanation_en": "..."
+  }
+]'></textarea>
+
+      <div class="flex items-center justify-between gap-3 pt-2">
+        <button onclick="loadSampleTemplate()" class="text-xs text-teal-700 hover:underline font-semibold">
+          Load Sample JSON
+        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="closeQuestionDrawer()" class="px-4 py-2 border rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button onclick="importJsonQuestions()" class="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg text-xs font-bold transition">Import Questions</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SUBMIT CONFIRMATION MODAL ================= -->
+  <div id="submit-confirm-modal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+      <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto">
+        <i data-lucide="check-circle" class="w-6 h-6"></i>
+      </div>
+      <h3 class="font-extrabold text-base text-slate-900">Submit Exam?</h3>
+      
+      <!-- Summary Table -->
+      <div class="bg-slate-50 p-3 rounded-xl border text-xs space-y-1.5 text-left text-slate-600">
+        <div class="flex justify-between"><span>Total Questions:</span><strong id="modal-sum-total">120</strong></div>
+        <div class="flex justify-between"><span>Answered:</span><strong class="text-emerald-700" id="modal-sum-ans">0</strong></div>
+        <div class="flex justify-between"><span>Marked for Review:</span><strong class="text-purple-700" id="modal-sum-rev">0</strong></div>
+        <div class="flex justify-between"><span>Unanswered:</span><strong class="text-rose-700" id="modal-sum-unans">120</strong></div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="document.getElementById('submit-confirm-modal').classList.add('hidden')" class="flex-1 py-2.5 border border-slate-300 hover:bg-slate-100 rounded-xl text-xs font-bold text-slate-700">
+          Resume Test
+        </button>
+        <button onclick="finalizeAndSubmitExam()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition">
+          Confirm Submit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GENERIC ALERT MODAL ================= -->
+  <div id="custom-alert-box" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-xs w-full p-5 shadow-xl text-center space-y-3">
+      <div id="alert-title-text" class="font-bold text-slate-900 text-sm">Alert</div>
+      <p id="alert-msg-text" class="text-xs text-slate-600 leading-relaxed"></p>
+      <button onclick="document.getElementById('custom-alert-box').classList.add('hidden')" class="w-full py-2 bg-teal-700 text-white rounded-lg text-xs font-bold">
+        OK
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ENGINE ================= -->
+  <script>
+    // ==========================================
+    // 1. MASTER QUESTION BANK (UPESSC 2026 SPEC)
+    // 30 GK + 90 Biology (Zoology & Botany)
+    // ==========================================
+    const DEFAULT_QUESTIONS = [
+      // ----- SECTION A: GENERAL KNOWLEDGE (Q1 to Q30 Syllabus) -----
+      {
+        id: 1,
+        section: "gk",
+        topic: "Current Affairs & Schemes",
+        question_hi: "उत्तर प्रदेश सरकार द्वारा बेसिक और माध्यमिक शिक्षा में डिजिटल साक्षरता को बढ़ावा देने हेतु कौन-सा मुख्य पोर्टल संचालित किया जा रहा है?",
+        question_en: "Which main portal is operated by the Government of UP to promote digital literacy in basic and secondary education?",
+        options_hi: ["दीक्षा (DIKSHA) व प्रेरणा पोर्टल", "ई-साथी पोर्टल", "उमंग ऐप", "युवा स्वरोजगार पोर्टल"],
+        options_en: ["DIKSHA & Prerna Portal", "e-Sathi Portal", "UMANG App", "Yuva Swarojgar Portal"],
+        correct: 0,
+        explanation_hi: "दीक्षा (DIKSHA) और 'मिशन प्रेरणा' पोर्टल उत्तर प्रदेश बेसिक एवं माध्यमिक विद्यालयों में शिक्षण गुणवत्ता और ई-लर्निंग सामग्री हेतु संचालित मुख्य मंच हैं।",
+        explanation_en: "DIKSHA and 'Mission Prerna' are primary digital initiatives by Uttar Pradesh education department for digital pedagogies and tracking learning outcomes."
+      },
+      {
+        id: 2,
+        section: "gk",
+        topic: "Indian Constitution & Polity",
+        question_hi: "संविधान के किस अनुच्छेद के तहत 6 से 14 वर्ष की आयु के बच्चों के लिए निःशुल्क एवं अनिवार्य शिक्षा को मौलिक अधिकार (Right to Education) बनाया गया?",
+        question_en: "Under which Article of the Constitution was Free & Compulsory Education for children aged 6 to 14 made a Fundamental Right?",
+        options_hi: ["अनुच्छेद 19(1)", "अनुच्छेद 21-A", "अनुच्छेद 45", "अनुच्छेद 30(2)"],
+        options_en: ["Article 19(1)", "Article 21-A", "Article 45", "Article 30(2)"],
+        correct: 1,
+        explanation_hi: "86वें संविधान संशोधन अधिनियम 2002 द्वारा अनुच्छेद 21-A जोड़ा गया, जिसके तहत प्राथमिक शिक्षा को मौलिक अधिकार का दर्जा दिया गया।",
+        explanation_en: "The 86th Constitutional Amendment Act of 2002 inserted Article 21-A, establishing education as a Fundamental Right."
+      },
+      {
+        id: 3,
+        section: "gk",
+        topic: "General Science & Vitamins",
+        question_hi: "विटामिन B12 (Cyanocobalamin) की कमी से मानव शरीर में कौन-सा गंभीर रक्ताल्पता (Anemia) रोग होता है?",
+        question_en: "Deficiency of Vitamin B12 (Cyanocobalamin) causes which severe form of anemia in the human body?",
+        options_hi: ["थैलेसीमिया", "घातक रक्ताल्पता (Pernicious Anemia)", "सिकल सेल एनीमिया", "एप्लास्टिक एनीमिया"],
+        options_en: ["Thalassemia", "Pernicious Anemia", "Sickle Cell Anemia", "Aplastic Anemia"],
+        correct: 1,
+        explanation_hi: "विटामिन B12 और आंतरिक कारक (Castle's intrinsic factor) की कमी से लाल रक्त कणिकाओं की परिपक्वता बाधित होती है और Pernicious Anemia हो जाता है।",
+        explanation_en: "Vitamin B12 deficiency impairs RBC maturation leading to macrocytic Pernicious Anemia."
+      },
+      {
+        id: 4,
+        section: "gk",
+        topic: "ICT & Computer Terminology",
+        question_hi: "कंप्यूटर में किसी फ़ाइल या प्रोग्राम को इंटरनेट सर्वर से स्थानीय डिस्क पर प्राप्त करने की प्रक्रिया क्या कहलाती है?",
+        question_en: "What is the process of receiving a file or program from an internet server to a local disk called?",
+        options_hi: ["अपलोडिंग (Uploading)", "डाउनलोडिंग (Downloading)", "ब्राउजिंग (Browsing)", "सर्फिंग (Surfing)"],
+        options_en: ["Uploading", "Downloading", "Browsing", "Surfing"],
+        correct: 1,
+        explanation_hi: "रिमोट सर्वर से डेटा को स्थानीय कंप्यूटर पर कॉपी करना 'डाउनलोडिंग' कहलाता है, जबकि अपने कंप्यूटर से सर्वर पर भेजना 'अपलोडिंग' है।",
+        explanation_en: "Transferring data from a remote computer/server to a local device is known as Downloading."
+      },
+      {
+        id: 5,
+        section: "gk",
+        topic: "Indian Geography",
+        question_hi: "भारत की कौन-सी नदी 'कर्क रेखा' (Tropic of Cancer) को दो बार पार करती है?",
+        question_en: "Which river in India crosses the Tropic of Cancer twice?",
+        options_hi: ["नर्मदा नदी", "मही नदी", "ताप्ती नदी", "चम्बल नदी"],
+        options_en: ["Narmada River", "Mahi River", "Tapti River", "Chambal River"],
+        correct: 1,
+        explanation_hi: "मध्य प्रदेश से निकलने वाली 'मही नदी' राजस्थान और गुजरात से बहते हुए कर्क रेखा को दो बार काटती है।",
+        explanation_en: "Mahi River originates in MP and crosses the Tropic of Cancer twice during its course."
+      },
+
+      // ----- SECTION B: BIOLOGY - ZOOLOGY & BOTANY (Q31 to Q120 Syllabus) -----
+      {
+        id: 31,
+        section: "bio",
+        topic: "Protozoa & Life Cycle",
+        question_hi: "मलेरिया परजीवी (Plasmodium) की संक्रामक अवस्था (Infective stage) जो मादा एनोफिलीज़ के काटने से मनुष्य के रक्त में प्रवेश करती है, वह है:",
+        question_en: "The infective stage of Plasmodium that enters human blood through the bite of female Anopheles mosquito is:",
+        options_hi: ["ट्रोफोज़ोआइट (Trophozoite)", "स्पोरोज़ोआइट (Sporozoite)", "मीरोज़ोआइट (Merozoite)", "गेमिटोसाइट (Gametocyte)"],
+        options_en: ["Trophozoite", "Sporozoite", "Merozoite", "Gametocyte"],
+        correct: 1,
+        explanation_hi: "मलेरिया परजीवी की संक्रामक अवस्था 'स्पोरोज़ोआइट' (Sporozoite) होती है, जो मच्छर की लार ग्रंथियों में संचित रहती है और दंश के समय मानव रक्त में प्रवेश करती है।",
+        explanation_en: "Sporozoites are the motile, sickle-shaped infective stage stored in salivary glands of female Anopheles."
+      },
+      {
+        id: 32,
+        section: "bio",
+        topic: "Cell Biology & Meiosis",
+        question_hi: "अर्धसूत्री विभाजन (Meiosis-I) के प्रोफेज-1 की किस उप-अवस्था में 'क्रॉसिंग ओवर' (Crossing Over) और पुनर्योजन ग्रंथि (Recombination nodule) बनते हैं?",
+        question_en: "During which sub-stage of Prophase-I of Meiosis does Crossing Over and chiasmata initiation take place?",
+        options_hi: ["लेप्टोटीन (Leptotene)", "जाइगोटीन (Zygotene)", "पैकाइटीन (Pachytene)", "डिप्लोटीन (Diplotene)"],
+        options_en: ["Leptotene", "Zygotene", "Pachytene", "Diplotene"],
+        correct: 2,
+        explanation_hi: "पैकाइटीन (Pachytene) अवस्था में नॉन-सिस्टर क्रोमैटिड्स के मध्य रीकॉम्बिनेज (Recombinase) एंजाइम की उपस्थिति में क्रॉसिंग ओवर संपन्न होता है।",
+        explanation_en: "Crossing over and gene exchange take place during the Pachytene stage mediated by enzyme recombinase."
+      },
+      {
+        id: 33,
+        section: "bio",
+        topic: "Taxonomy & Bentham-Hooker",
+        question_hi: "बेंथम एवं हूकर (Bentham and Hooker) की प्राकृतिक वर्गीकरण पद्धति में द्विबीजपत्री (Dicotyledons) को किन तीन प्रमुख वर्गों में विभाजित किया गया है?",
+        question_en: "In Bentham and Hooker's natural system of classification, Dicotyledons are divided into which three sub-classes?",
+        options_hi: [
+          "पॉलीपेटली, गेमोपेटली एवं मोनोक्लेमाइडी",
+          "थैलोफाइटा, ब्रायोफाइटा एवं टेरिडोफाइटा",
+          "जिम्नोस्पर्म, एन्जियोस्पर्म एवं ब्रायोफाइटा",
+          "आर्किड्स, एपिटेलस एवं मोनोकॉट"
+        ],
+        options_en: [
+          "Polypetalae, Gamopetalae, and Monochlamydeae",
+          "Thallophyta, Bryophyta, and Pteridophyta",
+          "Gymnosperms, Angiosperms, and Bryophyta",
+          "Archids, Apetalous, and Monocots"
+        ],
+        correct: 0,
+        explanation_hi: "बेंथम और हूकर ने डाइकॉट्स (Dicotyledonae) को दलपुंज (Petals) की प्रकृति के आधार पर Polypetalae, Gamopetalae और Monochlamydeae में वर्गीकृत किया था।",
+        explanation_en: "Bentham and Hooker divided Dicotyledonae into Polypetalae (free petals), Gamopetalae (fused petals), and Monochlamydeae (perianth single/absent)."
+      },
+      {
+        id: 34,
+        section: "bio",
+        topic: "Plant Physiology & Photosynthesis",
+        question_hi: "C4 पादपों (जैसे मक्का एवं गन्ना) की पत्तियों में पायी जाने वाली विशिष्ट शारीरिक संरचना (Anatomy) को क्या कहते हैं?",
+        question_en: "The specialized leaf anatomy found in C4 plants (like Maize and Sugarcane) is termed as:",
+        options_hi: ["रेनफोर्स्ड एनाटॉमी", "क्रैंज एनाटॉमी (Kranz Anatomy)", "वेसिकुलर एनाटॉमी", "डाइकोटोमस एनाटॉमी"],
+        options_en: ["Reinforced Anatomy", "Kranz Anatomy", "Vesicular Anatomy", "Dichotomous Anatomy"],
+        correct: 1,
+        explanation_hi: "C4 पौधों की पत्तियों में संवहन बंडल के चारों ओर पूलाच्छद (Bundle sheath) कोशिकाओं का घेरा पाया जाता है, जिसे 'क्रैंज शारीरिकी' (Kranz Anatomy) कहते हैं। इसमें रुबिस्को (RuBisCO) केवल बंडल शीथ में होता है।",
+        explanation_en: "Kranz anatomy features bundle sheath cells arranged like a wreath with chloroplasts specialized for decarboxylation and RuBisCO action."
+      },
+      {
+        id: 35,
+        section: "bio",
+        topic: "Algae & Life Cycles",
+        question_hi: "'रेड रस्ट ऑफ टी' (Red Rust of Tea) नामक रोग किस परजीवी शैवाल (Parasitic Alga) के कारण होता है?",
+        question_en: "The disease 'Red Rust of Tea' is caused by which parasitic green alga?",
+        options_hi: ["सिफैलेयूरोस (Cephaleuros virescens)", "स्पाइरोगाइरा (Spirogyra)", "एक्टोकार्पस (Ectocarpus)", "पॉलीसाइफोनिया (Polysiphonia)"],
+        options_en: ["Cephaleuros virescens", "Spirogyra", "Ectocarpus", "Polysiphonia"],
+        correct: 0,
+        explanation_hi: "सिफैलेयूरोस (Cephaleuros virescens) एक हरित परजीवी शैवाल है जो चाय और कॉफी की पत्तियों पर लाल रतुआ (Red rust) रोग उत्पन्न करता है।",
+        explanation_en: "Cephaleuros virescens is an epiphytic and parasitic green alga causing red rust in Camellia sinensis (tea)."
+      },
+      {
+        id: 36,
+        section: "bio",
+        topic: "Chordata & Pisces",
+        question_hi: "'डॉग फिश' (Scoliodon) में किस प्रकार के शल्क (Scales) पाए जाते हैं?",
+        question_en: "Which type of scales are characteristically found in the skin of Dogfish (Scoliodon)?",
+        options_hi: ["साइक्लॉयड शल्क", "टीनोइड शल्क", "प्लैकोइड शल्क (Placoid scales)", "गैनोइड शल्क"],
+        options_en: ["Cycloid scales", "Ctenoid scales", "Placoid scales", "Ganoid scales"],
+        correct: 2,
+        explanation_hi: "उपास्थिल मछलियों (Chondrichthyes) जैसे स्कोलियोडॉन की त्वचा में छोटे, दांतों के समान प्लैकोइड शल्क (Placoid scales) धंसे होते हैं जो डर्मिस से विकसित होते हैं।",
+        explanation_en: "Placoid scales (dermal denticles) are characteristic of cartilaginous fishes like Scoliodon."
+      },
+      {
+        id: 37,
+        section: "bio",
+        topic: "Gymnosperms & Palaeobotany",
+        question_hi: "साइकस (Cycas) के बीजांड (Ovule) की प्रमुख विशेषता क्या है?",
+        question_en: "What is the notable biological characteristic of the ovule in Cycas?",
+        options_hi: ["यह पादप जगत में सबसे छोटा होता है", "यह पादप जगत में सबसे विशाल (Largest in plant kingdom) होता है", "यह बहु-अध्यावरणी होता है", "इसमें भ्रूणपोष अनुपस्थित होता है"],
+        options_en: ["It is the smallest in plant kingdom", "It is the largest in plant kingdom", "It has multiple integuments", "It completely lacks endosperm"],
+        correct: 1,
+        explanation_hi: "साइकस (Cycas circinalis) का बीजांड, नर युग्मक (Sperm) और अंडाणु पादप जगत में सबसे बड़े ज्ञात अंगों में से हैं।",
+        explanation_en: "Cycas possesses the largest ovule and sperms among all living gymnosperms and plants."
+      },
+      {
+        id: 38,
+        section: "bio",
+        topic: "Endocrine & Animal Physiology",
+        question_hi: "स्तनधारियों में 'कैल्सीटोनिन' (Calcitonin) हार्मोन का मुख्य कार्य क्या है?",
+        question_en: "What is the primary physiological function of the hormone Calcitonin in mammals?",
+        options_hi: ["रक्त में कैल्शियम के स्तर को कम करना", "रक्त में ग्लूकोज स्तर बढ़ाना", "हृदय गति तेज करना", "रक्तचाप में वृद्धि करना"],
+        options_en: ["Decreasing blood calcium levels", "Increasing blood glucose levels", "Accelerating heart beat", "Elevating arterial blood pressure"],
+        correct: 0,
+        explanation_hi: "थायरॉयड ग्रंथि की पैराफॉलिकुलर (C-cells) कोशिकाओं द्वारा स्रावित कैल्सीटोनिन रक्त में Ca2+ की मात्रा को कम करता है, यह पैराथॉर्मोन (PTH) का विरोधी (antagonist) है।",
+        explanation_en: "Calcitonin lowers blood calcium by promoting bone mineralization and inhibiting osteoclasts."
+      }
+    ];
+
+    // ==========================================
+    // 2. RUNTIME STATE ENGINE
+    // ==========================================
+    let questionsList = [...DEFAULT_QUESTIONS];
+    let currentIdx = 0;
+    let selectedLang = 'hi'; // 'hi' or 'en'
+    let userAnswers = {}; // { qId: optionIndex (0,1,2,3) }
+    let reviewStatus = {}; // { qId: true/false }
+    let visitedQuestions = new Set();
+    let currentSectionFilter = 'all'; // 'all', 'gk', 'bio'
+    
+    // Exam Timer (120 Minutes = 7200 seconds)
+    const TOTAL_TIME_SECONDS = 7200;
+    let remainingSeconds = TOTAL_TIME_SECONDS;
+    let timerTimer = null;
+    let isTestActive = false;
+
+    // Local Storage Persistence for questions
+    try {
+      const savedQ = localStorage.getItem('upessc_tgt_custom_q');
+      if (savedQ) {
+        const parsed = JSON.parse(savedQ);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          questionsList = parsed;
+        }
+      }
+    } catch (e) {}
+
+    // ==========================================
+    // 3. SOUND SYNTHESIZER
+    // ==========================================
+    function playBeep(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.connect(g);
+        g.connect(ctx.destination);
+
+        if (type === 'tick') {
+          osc.frequency.setValueAtTime(600, ctx.currentTime);
+          g.gain.setValueAtTime(0.04, ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.08);
+        } else if (type === 'submit') {
+          osc.frequency.setValueAtTime(523, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(784, ctx.currentTime + 0.25);
+          g.gain.setValueAtTime(0.1, ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.3);
+        }
+      } catch(e) {}
+    }
+
+    // ==========================================
+    // 4. LANGUAGE TOGGLE LOGIC
+    // ==========================================
+    function toggleLanguage() {
+      selectedLang = (selectedLang === 'hi') ? 'en' : 'hi';
+      document.getElementById('lang-indicator').innerText = (selectedLang === 'hi') ? 'हिन्दी' : 'English';
+      if (isTestActive) {
+        renderCurrentQuestion();
+      }
+      playBeep('tick');
+    }
+
+    // ==========================================
+    // 5. CBT TIMER CONTROLLER
+    // ==========================================
+    function startTimerEngine() {
+      if (timerTimer) clearInterval(timerTimer);
+      remainingSeconds = TOTAL_TIME_SECONDS;
+      updateTimerDisplay();
+
+      timerTimer = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay();
+
+        // 10 minutes warning
+        if (remainingSeconds === 600) {
+          showAlert("10 Minutes Remaining!", "Dhyan dein, परीक्षा समाप्त होने में केवल 10 मिनट शेष हैं। Apne sabhi prashna check karein.");
+        }
+
+        // Time up
+        if (remainingSeconds <= 0) {
+          clearInterval(timerTimer);
+          showAlert("Time is Up!", "Aapka 120 minute ka samay poora ho gaya hai. Test automatically submit ho raha hai.");
+          finalizeAndSubmitExam();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const h = Math.floor(remainingSeconds / 3600);
+      const m = Math.floor((remainingSeconds % 3600) / 60);
+      const s = remainingSeconds % 60;
+      const fmt = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      document.getElementById('cbt-timer').innerText = fmt;
+    }
+
+    // ==========================================
+    // 6. SCREEN ROUTING
+    // ==========================================
+    function showScreen(screenId) {
+      ['view-home', 'view-cbt', 'view-result'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+
+      const timerCont = document.getElementById('cbt-timer-container');
+      if (screenId === 'view-cbt') {
+        timerCont.classList.remove('hidden');
+      } else {
+        timerCont.classList.add('hidden');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function confirmGoHome() {
+      if (isTestActive) {
+        const ok = window.confirm("Test is running. Agar aap home page par jayenge to aapki progress pause ho jayegi. Kya aap nikalna chahte hain?");
+        if (!ok) return;
+      }
+      showScreen('view-home');
+    }
+
+    // ==========================================
+    // 7. CBT TEST INITIALIZATION & NAVIGATION
+    // ==========================================
+    function startCbtTest() {
+      isTestActive = true;
+      userAnswers = {};
+      reviewStatus = {};
+      visitedQuestions.clear();
+      currentIdx = 0;
+      currentSectionFilter = 'all';
+
+      visitedQuestions.add(questionsList[0].id);
+      startTimerEngine();
+      showScreen('view-cbt');
+      updatePaletteTabsUI();
+      renderCurrentQuestion();
+      updatePalette();
+      updateSummaryStats();
+      playBeep('tick');
+    }
+
+    function renderCurrentQuestion() {
+      const q = questionsList[currentIdx];
+      visitedQuestions.add(q.id);
+
+      // Section Badges
+      const secBadge = document.getElementById('q-section-badge');
+      const topicBadge = document.getElementById('q-topic-badge');
+
+      if (q.section === 'gk') {
+        secBadge.innerText = "Section A: General Knowledge (सामान्य ज्ञान)";
+        secBadge.className = "bg-sky-100 text-sky-800 text-[11px] font-bold px-2.5 py-0.5 rounded";
+      } else {
+        secBadge.innerText = "Section B: Biology (जीव विज्ञान - जन्तु व वनस्पति)";
+        secBadge.className = "bg-teal-100 text-teal-800 text-[11px] font-bold px-2.5 py-0.5 rounded";
+      }
+      topicBadge.innerText = q.topic;
+
+      document.getElementById('q-current-number').innerText = currentIdx + 1;
+      document.getElementById('q-total-count').innerText = questionsList.length;
+
+      // Question Texts according to language toggle
+      const mainText = document.getElementById('q-main-text');
+      const subText = document.getElementById('q-sub-text');
+      if (selectedLang === 'hi') {
+        mainText.innerText = q.question_hi || q.question_en;
+        subText.innerText = q.question_en || "";
+      } else {
+        mainText.innerText = q.question_en || q.question_hi;
+        subText.innerText = q.question_hi || "";
+      }
+
+      // Render Options
+      const optionsContainer = document.getElementById('cbt-options-list');
+      const currentSelected = userAnswers[q.id];
+      const opts = (selectedLang === 'hi' && q.options_hi) ? q.options_hi : q.options_en;
+
+      optionsContainer.innerHTML = opts.map((optText, optIdx) => {
+        const isChecked = currentSelected === optIdx;
+        const letter = ['A', 'B', 'C', 'D'][optIdx];
+        return `
+          <div onclick="selectCbtOption(${optIdx})" class="p-3.5 sm:p-4 rounded-xl border cursor-pointer transition flex items-center gap-3.5 ${isChecked ? 'border-teal-600 bg-teal-50/80 ring-1 ring-teal-600' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ${isChecked ? 'bg-teal-700 text-white' : 'bg-slate-100 text-slate-700'}">
+              ${letter}
+            </span>
+            <span class="text-xs sm:text-sm font-medium text-slate-900">${optText}</span>
+          </div>
+        `;
+      }).join('');
+
+      // Mark for Review state
+      const isReview = !!reviewStatus[q.id];
+      const rText = document.getElementById('review-btn-text');
+      const rBtn = document.getElementById('btn-mark-review');
+      if (isReview) {
+        rText.innerText = "Marked for Review";
+        rBtn.className = "px-3.5 py-2 bg-purple-700 text-white rounded-lg font-semibold transition flex items-center gap-1";
+      } else {
+        rText.innerText = "Mark for Review";
+        rBtn.className = "px-3.5 py-2 border border-purple-300 text-purple-700 hover:bg-purple-50 rounded-lg font-semibold transition flex items-center gap-1";
+      }
+
+      // Nav Buttons
+      document.getElementById('btn-prev').disabled = (currentIdx === 0);
+      const nextBtn = document.getElementById('btn-next');
+      if (currentIdx === questionsList.length - 1) {
+        nextBtn.innerText = "Submit Test";
+      } else {
+        nextBtn.innerText = "Save & Next";
+      }
+
+      updatePalette();
+      updateSummaryStats();
+      lucide.createIcons();
+    }
+
+    function selectCbtOption(optIdx) {
+      const q = questionsList[currentIdx];
+      userAnswers[q.id] = optIdx;
+      playBeep('tick');
+      renderCurrentQuestion();
+    }
+
+    function clearCurrentResponse() {
+      const q = questionsList[currentIdx];
+      delete userAnswers[q.id];
+      renderCurrentQuestion();
+    }
+
+    function toggleMarkReview() {
+      const q = questionsList[currentIdx];
+      reviewStatus[q.id] = !reviewStatus[q.id];
+      renderCurrentQuestion();
+    }
+
+    function navigateQuestion(step) {
+      const target = currentIdx + step;
+      if (target >= 0 && target < questionsList.length) {
+        currentIdx = target;
+        renderCurrentQuestion();
+      }
+    }
+
+    function saveAndNext() {
+      if (currentIdx < questionsList.length - 1) {
+        currentIdx++;
+        renderCurrentQuestion();
+      } else {
+        promptSubmitTest();
+      }
+    }
+
+    function jumpToCbtIndex(targetIndex) {
+      if (targetIndex >= 0 && targetIndex < questionsList.length) {
+        currentIdx = targetIndex;
+        renderCurrentQuestion();
+      }
+    }
+
+    // ==========================================
+    // 8. SECTION PALETTE TABS & MATRIX
+    // ==========================================
+    function filterCbtSection(sec) {
+      currentSectionFilter = sec;
+      updatePaletteTabsUI();
+      updatePalette();
+    }
+
+    function updatePaletteTabsUI() {
+      const tabs = {
+        'all': document.getElementById('tab-sec-all'),
+        'gk': document.getElementById('tab-sec-gk'),
+        'bio': document.getElementById('tab-sec-bio')
+      };
+      Object.keys(tabs).forEach(k => {
+        if (k === currentSectionFilter) {
+          tabs[k].className = "px-3 py-1.5 rounded-lg font-bold bg-slate-900 text-white";
+        } else {
+          tabs[k].className = "px-3 py-1.5 rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200";
+        }
+      });
+    }
+
+    function updatePalette() {
+      const grid = document.getElementById('cbt-palette-grid');
+      grid.innerHTML = questionsList.map((q, idx) => {
+        // Apply Section Filter
+        if (currentSectionFilter === 'gk' && q.section !== 'gk') return '';
+        if (currentSectionFilter === 'bio' && q.section !== 'bio') return '';
+
+        const isCurrent = idx === currentIdx;
+        const isAnswered = userAnswers[q.id] !== undefined;
+        const isMarked = !!reviewStatus[q.id];
+        const isVisited = visitedQuestions.has(q.id);
+
+        let bg = "bg-slate-200 text-slate-600"; // Not Visited
+        if (isAnswered && isMarked) {
+          bg = "bg-purple-600 text-white";
+        } else if (isAnswered) {
+          bg = "bg-emerald-600 text-white";
+        } else if (isMarked) {
+          bg = "bg-purple-500 text-white";
+        } else if (isVisited) {
+          bg = "bg-rose-500 text-white"; // Visited but unattempted
+        }
+
+        const ring = isCurrent ? "ring-2 ring-slate-900 ring-offset-1 font-bold scale-105" : "";
+
+        return `
+          <button onclick="jumpToCbtIndex(${idx})" class="w-8 h-8 rounded-lg text-xs font-semibold flex items-center justify-center transition ${bg} ${ring}">
+            ${idx + 1}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function updateSummaryStats() {
+      let ans = 0;
+      let rev = 0;
+      let unans = 0;
+
+      questionsList.forEach(q => {
+        if (userAnswers[q.id] !== undefined) ans++;
+        if (reviewStatus[q.id]) rev++;
+      });
+      unans = questionsList.length - ans;
+
+      document.getElementById('stat-answered').innerText = ans;
+      document.getElementById('stat-review').innerText = rev;
+      document.getElementById('stat-unanswered').innerText = unans;
+    }
+
+    // ==========================================
+    // 9. SUBMIT & SCORING (+3, -1 OFFICIAL PATTERN)
+    // ==========================================
+    function promptSubmitTest() {
+      let ans = 0;
+      let rev = 0;
+      questionsList.forEach(q => {
+        if (userAnswers[q.id] !== undefined) ans++;
+        if (reviewStatus[q.id]) rev++;
+      });
+
+      document.getElementById('modal-sum-total').innerText = questionsList.length;
+      document.getElementById('modal-sum-ans').innerText = ans;
+      document.getElementById('modal-sum-rev').innerText = rev;
+      document.getElementById('modal-sum-unans').innerText = questionsList.length - ans;
+
+      document.getElementById('submit-confirm-modal').classList.remove('hidden');
+    }
+
+    function finalizeAndSubmitExam() {
+      document.getElementById('submit-confirm-modal').classList.add('hidden');
+      if (timerTimer) clearInterval(timerTimer);
+      isTestActive = false;
+      playBeep('submit');
+
+      // Marking calculation as per UPESSC 2026 Notification:
+      // +3 marks for correct, -1 mark penalty for incorrect
+      let correct = 0;
+      let incorrect = 0;
+      let unattempted = 0;
+
+      let gkScore = 0;
+      let bioScore = 0;
+
+      const weakTopicsSet = new Set();
+
+      questionsList.forEach(q => {
+        const u = userAnswers[q.id];
+        if (u === undefined) {
+          unattempted++;
+          weakTopicsSet.add(q.topic);
+        } else if (u === q.correct) {
+          correct++;
+          if (q.section === 'gk') gkScore += 3;
+          else bioScore += 3;
+        } else {
+          incorrect++;
+          weakTopicsSet.add(q.topic);
+          if (q.section === 'gk') gkScore -= 1;
+          else bioScore -= 1;
+        }
+      });
+
+      const totalScore = (correct * 3) - (incorrect * 1);
+      const attempted = correct + incorrect;
+      const accuracy = attempted > 0 ? Math.round((correct / attempted) * 100) : 0;
+
+      // Populate Scorecard
+      document.getElementById('res-total-score').innerText = totalScore;
+      document.getElementById('res-correct-count').innerText = correct;
+      document.getElementById('res-incorrect-count').innerText = incorrect;
+      document.getElementById('res-unattempted-count').innerText = unattempted;
+      document.getElementById('res-accuracy-percent').innerText = accuracy + '%';
+
+      // Section Progress Bars
+      document.getElementById('res-gk-score').innerText = `${Math.max(0, gkScore)} / 90 Marks`;
+      document.getElementById('res-gk-bar').style.width = `${Math.min(100, Math.max(0, (gkScore / 90) * 100))}%`;
+
+      document.getElementById('res-bio-score').innerText = `${Math.max(0, bioScore)} / 270 Marks`;
+      document.getElementById('res-bio-bar').style.width = `${Math.min(100, Math.max(0, (bioScore / 270) * 100))}%`;
+
+      // Chapters Needed For Practice (Weak Area Diagnosis)
+      const weakContainer = document.getElementById('weak-chapters-container');
+      if (weakTopicsSet.size === 0) {
+        weakContainer.innerHTML = `<span class="text-xs text-emerald-700 font-bold">Outstanding! Aapke sabhi topics me full accuracy rahi hai.</span>`;
+      } else {
+        weakContainer.innerHTML = Array.from(weakTopicsSet).map(topic => `
+          <span class="inline-flex items-center gap-1 bg-white border border-amber-300 text-amber-900 px-3 py-1 rounded-full text-xs font-semibold shadow-xs">
+            <i data-lucide="book-open" class="w-3 h-3 text-amber-600"></i>
+            <span>${topic}</span>
+          </span>
+        `).join('');
+      }
+
+      showScreen('view-result');
+      lucide.createIcons();
+
+      // Trigger Confetti Celebration
+      try {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch (e) {}
+    }
+
+    // ==========================================
+    // 10. DETAILED SOLUTION DISPLAY & FILTERS
+    // ==========================================
+    let currentSolFilter = 'all';
+
+    function showDetailedSolutions(filterType) {
+      currentSolFilter = filterType;
+      document.getElementById('solutions-section').classList.remove('hidden');
+      renderSolutionsList();
+      document.getElementById('solutions-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function filterSolutionList(filterType) {
+      currentSolFilter = filterType;
+      document.getElementById('sol-filter-all').className = (filterType === 'all') 
+        ? "px-2.5 py-1 bg-slate-900 text-white rounded font-medium" 
+        : "px-2.5 py-1 bg-slate-100 text-slate-700 rounded font-medium";
+      document.getElementById('sol-filter-inc').className = (filterType === 'incorrect') 
+        ? "px-2.5 py-1 bg-slate-900 text-white rounded font-medium" 
+        : "px-2.5 py-1 bg-slate-100 text-slate-700 rounded font-medium";
+      renderSolutionsList();
+    }
+
+    function renderSolutionsList() {
+      const container = document.getElementById('solution-items-container');
+      
+      const filtered = questionsList.filter(q => {
+        const u = userAnswers[q.id];
+        if (currentSolFilter === 'incorrect') {
+          return u !== undefined && u !== q.correct;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center bg-white rounded-xl border border-slate-200 text-slate-500 text-xs">No questions found matching this filter.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((q, idx) => {
+        const u = userAnswers[q.id];
+        const isCorrect = (u === q.correct);
+        const isSkipped = (u === undefined);
+
+        let badge = `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">+3 Correct</span>`;
+        if (isSkipped) {
+          badge = `<span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded">Not Attempted (0)</span>`;
+        } else if (!isCorrect) {
+          badge = `<span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded">-1 Incorrect</span>`;
+        }
+
+        const opts = (selectedLang === 'hi' && q.options_hi) ? q.options_hi : q.options_en;
+        const qText = (selectedLang === 'hi') ? q.question_hi : q.question_en;
+        const expText = (selectedLang === 'hi') ? q.explanation_hi : q.explanation_en;
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <span class="font-bold text-xs text-slate-400 uppercase">Q.${q.id} • ${q.topic}</span>
+              ${badge}
+            </div>
+
+            <p class="font-semibold text-slate-900 text-sm leading-relaxed">${qText}</p>
+
+            <!-- 4 Options with Colored Highlights -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+              ${opts.map((opt, oIdx) => {
+                let borderStyle = "border-slate-200 text-slate-700 bg-white";
+                if (oIdx === q.correct) {
+                  borderStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold ring-1 ring-emerald-500";
+                } else if (oIdx === u && !isCorrect) {
+                  borderStyle = "border-rose-400 bg-rose-50 text-rose-800 line-through";
+                }
+                const letter = ['A', 'B', 'C', 'D'][oIdx];
+                return `
+                  <div class="p-2.5 rounded-lg border flex items-center gap-2 ${borderStyle}">
+                    <span class="font-bold shrink-0">${letter}.</span>
+                    <span>${opt}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Conceptual Explanation -->
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-1">
+              <div class="font-bold text-teal-800 flex items-center gap-1">
+                <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-500"></i>
+                <span>Explanation (विस्तृत व्याख्या):</span>
+              </div>
+              <p class="leading-relaxed">${expText}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 11. MONETIZATION & ZERO-COST EARNING
+    // ==========================================
+    let currentMonetizeItem = "Complete Revision PDF Notes & Topic-wise One-Liners";
+    let currentMonetizePrice = 51;
+
+    function openMonetizeModal(productName, price) {
+      currentMonetizeItem = productName;
+      currentMonetizePrice = price;
+      document.getElementById('modal-title').innerText = productName;
+      document.getElementById('modal-price').innerText = `₹${price}`;
+      document.getElementById('monetize-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeMonetizeModal() {
+      document.getElementById('monetize-modal').classList.add('hidden');
+    }
+
+    function copyUpiId() {
+      const upi = document.getElementById('upi-display').innerText;
+      const el = document.createElement('textarea');
+      el.value = upi;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      showAlert("akhilesh354@sbi", `UPI ID (${upi}) copy ho gaya hai. GPay/PhonePe par Account Holder 'Akhilesh (Akhil Aarya)' ko ₹${currentMonetizePrice} send karke WhatsApp par screenshot bhejein.`);
+    }
+
+    function openWhatsAppCheckout() {
+      const myWhatsAppNumber = "918853594921"; // Placeholder: Aap apna number yaha set kar sakte hain
+      const text = `Namaste Akhil Aarya Sir (Akhilesh), Maine UP TGT Biology Portal se '${currentMonetizeItem}' (₹${currentMonetizePrice}) ke liye UPI payment kiya hai. Kripya study notes aur mock test PDF send karein.`;
+      const url = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+      closeMonetizeModal();
+    }
+
+    function shareScoreWhatsApp() {
+      const score = document.getElementById('res-total-score').innerText;
+      const acc = document.getElementById('res-accuracy-percent').innerText;
+      const msg = `Maine UP TGT Biology CBT Mock Test 2026 diya aur mera Score ${score}/360 Marks (Accuracy: ${acc}) raha! Aap bhi free mock test attempt karein: ${window.location.href}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // ==========================================
+    // 12. QUESTION ADDER DRAWER (JSON EXTENSIBILITY)
+    // ==========================================
+    function openQuestionDrawer() {
+      document.getElementById('question-drawer').classList.remove('hidden');
+    }
+
+    function closeQuestionDrawer() {
+      document.getElementById('question-drawer').classList.add('hidden');
+    }
+
+    function loadSampleTemplate() {
+      const template = [
+        {
+          "id": questionsList.length + 1,
+          "section": "bio",
+          "topic": "Bryophyta",
+          "question_hi": "मार्केन्शिया (Marchantia) के थैलस में अलैंगिक जनन किसके द्वारा होता है?",
+          "question_en": "Asexual reproduction in the thallus of Marchantia occurs via:",
+          "options_hi": ["जेम्मा कप (Gemma cups)", "एकीनेट्स", "हेट्रोसिस्ट", "एप्लेनोस्पोर"],
+          "options_en": ["Gemma cups", "Akinetes", "Heterocysts", "Aplanospores"],
+          "correct": 0,
+          "explanation_hi": "मार्केन्शिया के पृष्ठीय तल पर बहुकोशिकीय, हरे रंग के जेम्मा कप (Gemmae) बनते हैं जो नए थैलस को जन्म देते हैं।",
+          "explanation_en": "Multicellular green gemma cups situated on dorsal thallus surface serve for vegetative multiplication."
+        }
+      ];
+      document.getElementById('json-input').value = JSON.stringify(template, null, 2);
+    }
+
+    function importJsonQuestions() {
+      const val = document.getElementById('json-input').value.trim();
+      if (!val) {
+        showAlert("Empty Input", "Kripya valid JSON data paste karein.");
+        return;
+      }
+      try {
+        const parsed = JSON.parse(val);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          questionsList = [...questionsList, ...parsed];
+          localStorage.setItem('upessc_tgt_custom_q', JSON.stringify(questionsList));
+          closeQuestionDrawer();
+          showAlert("Questions Added!", `${parsed.length} naye questions safaltapoorvak jod diye gaye hain.`);
+          initHomeModules();
+        } else {
+          showAlert("Invalid JSON", "Data ek Array format me hona chahiye (e.g. [{...}]).");
+        }
+      } catch (err) {
+        showAlert("JSON Parse Error", "JSON format me syntax error hai. Brackets aur commas check karein.");
+      }
+    }
+
+    function showAlert(title, msg) {
+      document.getElementById('alert-title-text').innerText = title;
+      document.getElementById('alert-msg-text').innerText = msg;
+      document.getElementById('custom-alert-box').classList.remove('hidden');
+    }
+
+    // ==========================================
+    // 13. APP LAUNCH & INITIALIZATION
+    // ==========================================
+    function initHomeModules() {
+      const container = document.getElementById('home-topic-grid');
+      const topics = [
+        { name: "Full CBT Mock Test (120 Qs)", sub: "30 GK + 90 Bio | 360 Marks", icon: "award", tag: "Exam Real" },
+        { name: "Zoology: Non-Chordata & Chordata", sub: "Plasmodium, Cockroach, Scoliodon", icon: "bug", tag: "High Weightage" },
+        { name: "Botany: Bentham & Hooker Taxonomy", sub: "14 Angiosperm Families & Cryptogams", icon: "leaf", tag: "Compulsory" },
+        { name: "Cell Biology & Mendelian Genetics", sub: "Mitosis, Meiosis, Linkage & Crossing Over", icon: "dna", tag: "Scoring" },
+        { name: "Plant & Human Physiology", sub: "Photosynthesis, Enzymes & Hormones", icon: "activity", tag: "Concept Heavy" },
+        { name: "General Knowledge & Computer ICT", sub: "UP Current, Polity (Art 21A), Vitamins", icon: "globe", tag: "30 Questions" }
+      ];
+
+      container.innerHTML = topics.map(t => `
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="w-8 h-8 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center font-bold">
+                <i data-lucide="${t.icon}" class="w-4 h-4"></i>
+              </span>
+              <span class="text-[10px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded">${t.tag}</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm mt-1">${t.name}</h4>
+            <p class="text-xs text-slate-500">${t.sub}</p>
+          </div>
+          <button onclick="startCbtTest()" class="mt-4 w-full py-2 bg-slate-900 hover:bg-teal-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+            <span>Attempt Test</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    window.onload = function() {
+      initHomeModules();
+      lucide.createIcons();
+    };
+  </script>
+</body>
+</html>
