@@ -883,6 +883,346 @@
 
     // CORE VERIFIED BILINGUAL QUESTION BANK
     const BASE_QUESTIONS = [
+      {
+        id: 31, section: "zoo", chapterId: "zoo_non_chordata", topic: "Protozoa",
+        q_hi: "पैरामीशियम (Paramoecium) में कोशिकाद्रव्यी वंशागति (Cytoplasmic inheritance) से संबंधित 'कापा कण' (Kappa particles) क्या उत्पन्न करते हैं?",
+        q_en: "What is secreted by 'Kappa particles' associated with cytoplasmic inheritance in Paramoecium?",
+        options_hi: ["हिप्नोटॉक्सिन (Hypnotoxin)", "पैरामीसिन (Paramecin)", "हीमोजोइन (Haemozoin)", "लाइसोजाइम (Lysozyme)"],
+        options_en: ["Hypnotoxin", "Paramecin", "Haemozoin", "Lysozyme"],
+        correct: 1,
+        exp_hi: "पैरामीशियम के किलर स्ट्रेन (Killer strain) में कापा कण पाए जाते हैं, जो जल में 'पैरामीसिन' नामक विषैला पदार्थ स्रावित करके सेंसिटिव स्ट्रेन को नष्ट करते हैं। इसकी खोज सोयाबर्न (Sonneborn) ने की थी।",
+        exp_en: "Killer strains of Paramoecium contain cytoplasmic Kappa particles that secrete a toxic substance called 'Paramecin', discovered by T.M. Sonneborn."
+      },
+      {
+        id: 32, section: "zoo", chapterId: "zoo_non_chordata", topic: "Protozoa",
+        q_hi: "यूग्लीना (Euglena) में संचित भोज्य पदार्थ (Reserve food material) किस रूप में पाया जाता है?",
+        q_en: "In which form is reserve food material stored in Euglena?",
+        options_hi: ["ग्लाइकोजन (Glycogen)", "पैरामाइलॉन / पैरामाइलम (Paramylon)", "स्टार्च (Starch)", "वसा बूंदें (Fat droplets)"],
+        options_en: ["Glycogen", "Paramylon (Paramylum)", "True Starch", "Fat droplets"],
+        correct: 1,
+        exp_hi: "यूग्लीना मिश्रपोषी (Mixotrophic) पोषण दर्शाता है और इसमें संचित भोजन पैरामाइलॉन (β-1,3-glucan पॉलीसैकेराइड) के रूप में होता है, जो आयोडीन के साथ नीला रंग नहीं देता।",
+        exp_en: "Euglena exhibits mixotrophic nutrition and stores food as Paramylon (Paramylum), a β-1,3-glucan polysaccharide."
+      },
+      {
+        id: 33, section: "zoo", chapterId: "zoo_non_chordata", topic: "Protozoan Diseases",
+        q_hi: "मनुष्य में 'काला-अजार' (Kala-azar / Visceral Leishmaniasis) रोग का वाहक (Vector) कौन-सा कीट है?",
+        q_en: "Which insect vector transmits 'Kala-azar' (Visceral Leishmaniasis) caused by Leishmania donovani?",
+        options_hi: ["त्से-त्से मक्खी (Glossina)", "सैंडफ्लाई / बालू मक्खी (Phlebotomus)", "मादा एनाफिलीज", "क्यूलेक्स मच्छर"],
+        options_en: ["Tsetse fly (Glossina)", "Sandfly (Phlebotomus)", "Female Anopheles", "Culex mosquito"],
+        correct: 1,
+        exp_hi: "काला-अजार रोग का कारक प्रोटोजोआ लीशमैनिया डोनोवानी (Leishmania donovani) है तथा इसका वाहक बालू मक्खी (Sandfly - Phlebotomus argentipes) है।",
+        exp_en: "Kala-azar is caused by the flagellate protozoan Leishmania donovani and transmitted by the sandfly (Phlebotomus)."
+      },
+      {
+        id: 34, section: "zoo", chapterId: "zoo_non_chordata", topic: "Porifera",
+        q_hi: "साइकॉन (Sycon / Scypha) के साइकॉनॉइड नाल तंत्र (Syconoid Canal System) में जल प्रवाह का सही पथ क्या है?",
+        q_en: "What is the correct path of water current in the Syconoid canal system of Sycon?",
+        options_hi: [
+          "डर्मल ऑस्टिया → अंतर्वाही नाल → प्रोसोपाइल → अरीय नाल → एपोपाइल → स्पंजगुहा → ऑस्कुलम",
+          "डर्मल ऑस्टिया → अरीय नाल → प्रोसोपाइल → अंतर्वाही नाल → एपोपाइल → स्पंजगुहा → ऑस्कुलम",
+          "प्रोसोपाइल → डर्मल ऑस्टिया → अंतर्वाही नाल → स्पंजगुहा → अरीय नाल → ऑस्कुलम",
+          "डर्मल ऑस्टिया → स्पंजगुहा → अरीय नाल → एपोपाइल → ऑस्कुलम"
+        ],
+        options_en: [
+          "Dermal ostia → Incurrent canal → Prosopyle → Radial canal → Apopyle → Spongocoel → Osculum",
+          "Dermal ostia → Radial canal → Prosopyle → Incurrent canal → Apopyle → Spongocoel → Osculum",
+          "Prosopyle → Dermal ostia → Incurrent canal → Spongocoel → Radial canal → Osculum",
+          "Dermal ostia → Spongocoel → Radial canal → Apopyle → Osculum"
+        ],
+        correct: 0,
+        exp_hi: "साइकॉन में जल डर्मल ऑस्टिया से अंतर्वाही नाल (Incurrent canal) में आता है, फिर प्रोसोपाइल से कीप कोशिकाओं (Choanocytes) युक्त अरीय नाल (Radial canal) में और एपोपाइल से स्पंजगुहा होते हुए ऑस्कुलम से बाहर निकलता है।",
+        exp_en: "In Sycon, water flows through Dermal ostia → Incurrent canal → Prosopyle → Flagellated Radial canal → Apopyle → Spongocoel → Osculum."
+      },
+      {
+        id: 35, section: "zoo", chapterId: "zoo_non_chordata", topic: "Coelenterata",
+        q_hi: "ऑरेलिया (Aurelia - Jellyfish) के जीवन-चक्र में स्ट्रोबिलेशन (Strobilation) द्वारा बनने वाला स्वतंत्र तैरने वाला लार्वा कौन-सा है?",
+        q_en: "Which larval stage is formed directly by transverse fission (Strobilation) of the Scyphistoma in Aurelia?",
+        options_hi: ["प्लैनुला (Planula)", "इफाइरा लार्वा (Ephyra larva)", "हाइड्रूला (Hydrula)", "एक्टिनुला (Actinula)"],
+        options_en: ["Planula", "Ephyra larva", "Hydrula", "Actinula"],
+        correct: 1,
+        exp_hi: "ऑरेलिया के जीवन-चक्र में स्काइफिस्टोमा (Scyphistoma) के अनुप्रस्थ विभाजन (Strobilation) से तश्तरीनुमा इफाइरा (Ephyra) लार्वा बनता है, जो वयस्क मेडुसा में विकसित होता है।",
+        exp_en: "In Aurelia, the sessile scyphistoma undergoes strobilation to release free-swimming saucer-shaped Ephyra larvae."
+      },
+      {
+        id: 36, section: "zoo", chapterId: "zoo_non_chordata", topic: "Helminthes",
+        q_hi: "टीनिया सोलियम (Taenia solium) द्वारा अधपके सूअर के मांस (Measly pork) से मनुष्य में संक्रमण किस अवस्था द्वारा होता है?",
+        q_en: "Through which stage does Taenia solium infect humans when they consume undercooked 'measly pork'?",
+        options_hi: ["ओंकोस्फीयर (Oncosphere)", "हेक्साकैंथ (Hexacanth)", "सिस्टीसर्कस सेलुलोसी (Cysticercus cellulosae)", "मिरासिडियम (Miracidium)"],
+        options_en: ["Oncosphere", "Hexacanth", "Cysticercus cellulosae (Bladder worm)", "Miracidium"],
+        correct: 2,
+        exp_hi: "मनुष्य के लिए संक्रामक अवस्था 'सिस्टीसर्कस सेलुलोसी' (Bladder worm) है जो सूअर के मांस में पाई जाती है, जबकि सूअर (द्वितीयक पोषद) के लिए संक्रामक अवस्था ओंकोस्फीयर/हेक्साकैंथ है।",
+        exp_en: "Cysticercus cellulosae (bladder worm) present in measly pork is the infective stage for humans, whereas Oncosphere/Hexacanth is infective for the secondary host (pig)."
+      },
+      {
+        id: 37, section: "zoo", chapterId: "zoo_non_chordata", topic: "Helminthes",
+        q_hi: "एस्केरिस लुम्ब्रिकॉइडिस (Ascaris lumbricoides) के संबंध में कौन-सा कथन सही है?",
+        q_en: "Which of the following is true regarding Ascaris lumbricoides?",
+        options_hi: [
+          "यह द्विपोषदीय (Digenetic) और वास्तविक प्रगुहीय है",
+          "इसकी संक्रामक अवस्था द्वितीय जूवेनाइल रैंब्डिटिफॉर्म लार्वा (2nd stage Rhabditiform larva) युक्त अंडा है",
+          "इसमें ज्वाला कोशिकाएं (Flame cells) उत्सर्जी अंग हैं",
+          "इसमें एम्फिड्स पुच्छीय सिरे पर होते हैं"
+        ],
+        options_en: [
+          "It is digenetic and eucoelomate",
+          "Its infective stage is embryonated egg with 2nd stage Rhabditiform larva",
+          "Flame cells are its excretory organs",
+          "Amphids are located at the posterior end"
+        ],
+        correct: 1,
+        exp_hi: "एस्केरिस एकपोषदीय (Monogenetic) व कूटप्रगुहीय (Pseudocoelomate) है। मनुष्य में संक्रमण द्वितीय अवस्था के रैंब्डिटिफॉर्म लार्वा (2nd stage juvenile) युक्त अंडे निगलने से होता है और उत्सर्जन H-आकार की रेनेट कोशिकाओं से होता है।",
+        exp_en: "Ascaris is monogenetic and pseudocoelomate; embryonated eggs containing the 2nd stage rhabditiform juvenile are infective to humans."
+      },
+      {
+        id: 38, section: "zoo", chapterId: "zoo_non_chordata", topic: "Annelida",
+        q_hi: "नेरीस (Nereis) की लैंगिक रूप से परिपक्व स्वतंत्र तैरने वाली अवस्था को क्या कहते हैं?",
+        q_en: "What is the sexually mature, pelagic form of Nereis called?",
+        options_hi: ["ट्रोकोफोर (Trochophore)", "हेटरोनेरीस (Heteronereis)", "एपिटोक (Epitoke)", "एटोक (Atoke)"],
+        options_en: ["Trochophore", "Heteronereis", "Epitoke", "Atoke"],
+        correct: 1,
+        exp_hi: "प्रजनन काल में नेरीस के पश्च भाग में युग्मक बनने से इसका रूपांतरण स्वतंत्र तैरने वाले 'हेटरोनेरीस' (Heteronereis) में हो जाता है। इस परिघटना को एपिटोकी (Epitoky) कहते हैं।",
+        exp_en: "During breeding season, burrow-dwelling Nereis transforms into an active swimming sexual stage called Heteronereis (process known as Epitoky)."
+      },
+      {
+        id: 39, section: "zoo", chapterId: "zoo_non_chordata", topic: "Annelida",
+        q_hi: "भारतीय मवेशी जोंक (Hirudinaria granulosa) में प्रगुहा (Coelom) में भरा रहने वाला विशिष्ट ऊतक कौन-सा है?",
+        q_en: "Which characteristic tissue fills the coelomic space in Indian cattle leech (Hirudinaria)?",
+        options_hi: ["क्लोरागोजेन ऊतक", "बॉट्रॉइडल ऊतक (Botryoidal tissue)", "एरिओलर ऊतक", "मायलॉइड ऊतक"],
+        options_en: ["Chloragogen tissue", "Botryoidal tissue", "Areolar tissue", "Myeloid tissue"],
+        correct: 1,
+        exp_hi: "जोंक के शरीर में निश्चित 33 खंड होते हैं तथा इसकी वास्तविक सीलोम अत्यंत सम्मानित होकर भूरे रंग के 'बॉट्रॉइडल ऊतक' (Botryoidal tissue) से भरी होती है, जो उत्सर्जन व संवहन में सहायक है।",
+        exp_en: "In Hirudinaria, the coelom is greatly reduced and packed with mesenchymatous Botryoidal tissue having excretory and vascular functions."
+      },
+      {
+        id: 40, section: "zoo", chapterId: "zoo_non_chordata", topic: "Arthropoda",
+        q_hi: "तिलचट्टे (Cockroach) में 'जूवेनाइल हार्मोन' (Juvenile hormone / Neotenin) का स्रावण किस ग्रंथि द्वारा होता है?",
+        q_en: "Which endocrine gland secretes Juvenile Hormone (Neotenin) in Cockroach?",
+        options_hi: ["प्रोथोरेसिक ग्रंथि", "कॉर्पोरा अलाटा (Corpora allata)", "कॉर्पोरा कार्डियाका", "मशरूम ग्रंथि"],
+        options_en: ["Prothoracic gland", "Corpora allata", "Corpora cardiaca", "Mushroom gland"],
+        correct: 1,
+        exp_hi: "कॉर्पोरा अलाटा द्वारा जूवेनाइल हार्मोन स्रावित होता है जो निम्फ (Nymph) के लार्वा लक्षणों को बनाए रखता है, जबकि प्रोथोरेसिक ग्रंथि से निर्मोचन हार्मोन 'एकडाइसोन' (Ecdysone) निकलता है।",
+        exp_en: "Corpora allata secretes Juvenile hormone which retains nymphal characters, while the prothoracic gland secretes Ecdysone for moulting."
+      },
+      {
+        id: 41, section: "zoo", chapterId: "zoo_non_chordata", topic: "Arthropoda",
+        q_hi: "मच्छर (Mosquito) में श्रवण संवेदी 'जॉनस्टन का अंग' (Johnston's organ) कहाँ स्थित होता है?",
+        q_en: "Where is the auditory 'Johnston's organ' located in mosquitoes?",
+        options_hi: ["उदर के प्रथम खंड पर", "शृंगिका के पेडिसल (Pedicel of antenna) में", "अग्र टांगों की टिबिया पर", "हाल्टर्स के आधार पर"],
+        options_en: ["First abdominal segment", "Pedicel (2nd segment) of antenna", "Tibia of forelegs", "Base of halteres"],
+        correct: 1,
+        exp_hi: "मच्छरों में ध्वनि व कंपन ग्रहण करने वाला जॉनस्टन का अंग शृंगिका (Antenna) के दूसरे खंड अर्थात् पेडिसल (Pedicel) में स्थित होता है।",
+        exp_en: "Johnston's organ is a chordotonal auditory organ located in the pedicel (second segment) of the antenna in mosquitoes."
+      },
+      {
+        id: 42, section: "zoo", chapterId: "zoo_non_chordata", topic: "Arthropoda",
+        q_hi: "झींगा (Palaemon - Prawn) में उत्सर्जी अंग कौन-सा होता है?",
+        q_en: "Which structure serves as the main excretory organ in Palaemon (Prawn)?",
+        options_hi: ["मैलपीघी नलिकाएं", "हरित ग्रंथियां / शृंगिका ग्रंथियां (Green glands / Antennary glands)", "कॉक्सल ग्रंथियां", "बोजेनस का अंग"],
+        options_en: ["Malpighian tubules", "Green glands (Antennary glands)", "Coxal glands", "Organ of Bojanus"],
+        correct: 1,
+        exp_hi: "पैलीमॉन (Prawn) में उत्सर्जन द्वितीय शृंगिका (Antenna) के कॉक्सा में स्थित 'हरित ग्रंथियों' (Green glands / Antennary glands) द्वारा होता है तथा संतुलन अंग 'स्टैटोसिस्ट' एंटिन्यूल के प्रीकॉक्सा में होता है।",
+        exp_en: "Excretion in Palaemon is performed by a pair of Green glands (Antennary glands) situated in the coxa of each antenna."
+      },
+      {
+        id: 43, section: "zoo", chapterId: "zoo_non_chordata", topic: "Economic Insects",
+        q_hi: "रेशम कीट (Bombyx mori) में घातक 'पेब्राइन रोग' (Pebrine disease) किस परजीवी द्वारा होता है?",
+        q_en: "The destructive 'Pebrine disease' in silkworm (Bombyx mori) is caused by which organism?",
+        options_hi: ["नोसेमा बॉम्बिसिस (Nosema bombycis - प्रोटोजोआ)", "बोवेरिया बैसियाना (कवक)", "बैसिलस थुरिंजिएंसिस (जीवाणु)", "न्यूक्लियर पॉलीहेड्रोसिस वायरस"],
+        options_en: ["Nosema bombycis (Protozoa)", "Beauveria bassiana (Fungus)", "Bacillus thuringiensis (Bacterium)", "Nuclear Polyhedrosis Virus"],
+        correct: 0,
+        exp_hi: "रेशम कीट में पेब्राइन रोग एक माइक्रोस्पोरिडियन प्रोटोजोआ 'नोसेमा बॉम्बिसिस' (Nosema bombycis) के कारण होता है, जबकि मस्कार्डाइन रोग कवक से और फ्लैचेरी रोग जीवाणु/वायरस से होता है।",
+        exp_en: "Pebrine disease in silkworms is caused by the microsporidian protozoan parasite Nosema bombycis."
+      },
+      {
+        id: 44, section: "zoo", chapterId: "zoo_non_chordata", topic: "Mollusca",
+        q_hi: "यूनियो (Unio - स्वच्छ जलीय सीप) के जीवन-चक्र में पाया जाने वाला लार्वा कौन-सा है जो मछलियों के गिल्स पर बाह्य परजीवी होता है?",
+        q_en: "Which larval stage of Unio lives as an ectoparasite on the gills of freshwater fishes?",
+        options_hi: ["वेलिजर लार्वा", "ग्लोचिडियम लार्वा (Glochidium larva)", "ट्रोकोफोर लार्वा", "बाइपिनेरिया लार्वा"],
+        options_en: ["Veliger larva", "Glochidium larva", "Trochophore larva", "Bipinnaria larva"],
+        correct: 1,
+        exp_hi: "यूनियो में 'ग्लोचिडियम' (Glochidium) लार्वा बनता है, जो मछलियों की त्वचा या क्लोम (Gills) पर अस्थायी बाह्य परजीवी के रूप में जीवन व्यतीत करता है। यूनियो में उत्सर्जन 'बोजेनस के अंग' (Organ of Bojanus) और केबर के अंग द्वारा होता है।",
+        exp_en: "Unio produces a specialized Glochidium larva that attaches as an ectoparasite on fish gills before metamorphosing into an adult."
+      },
+      {
+        id: 45, section: "zoo", chapterId: "zoo_non_chordata", topic: "Echinodermata",
+        q_hi: "तारा मछली (Asterias / Starfish) के जल संवहन तंत्र (Water Vascular System) में रिंग नाल से जुड़ी 'टाइडमैन की काय' (Tiedemann's bodies) का मुख्य कार्य क्या है?",
+        q_en: "What is the main function of 'Tiedemann's bodies' associated with the ring canal in Starfish (Asterias)?",
+        options_hi: ["जल का निस्यंदन", "भक्षकाणुओं / अमीबोसाइट्स का निर्माण (Production of phagocytic amoebocytes)", "गैसीय विनिमय", "प्रजनन युग्मकों का निर्माण"],
+        options_en: ["Filtration of sea water", "Production of phagocytic coelomocytes / amoebocytes", "Gaseous exchange", "Gamete formation"],
+        correct: 1,
+        exp_hi: "तारा मछली की वलय नाल (Ring canal) की भीतरी सतह पर 9 पीली ग्रंथिल संरचनाएं 'टाइडमैन की काय' (Racemose glands) होती हैं, जो भक्षकाणुओं (Amoebocytes) का निर्माण करती हैं।",
+        exp_en: "Nine yellowish Tiedemann's bodies (racemose glands) open into the ring canal of Asterias and produce phagocytic amoebocytes."
+      },
+      {
+        id: 46, section: "zoo", chapterId: "zoo_chordata", topic: "Protochordata",
+        q_hi: "हर्डमानिया (Herdmania) के रक्त में पाई जाने वाली हरी रक्त कणिकाएं, जो समुद्री जल से वैनेडियम (Vanadium) का अवशोषण करती हैं, क्या कहलाती हैं?",
+        q_en: "What are the specialized green blood corpuscles in Herdmania that extract Vanadium from sea water?",
+        options_hi: ["क्लोरोक्रूओरिन कोशिकाएं", "वैनेडोसाइट्स (Vanadocytes)", "सोलेनोसाइट्स (Solenocytes)", "नेफ्रोसाइट्स (Nephrocytes)"],
+        options_en: ["Chlorocruorin cells", "Vanadocytes", "Solenocytes", "Nephrocytes"],
+        correct: 1,
+        exp_hi: "हर्डमानिया के रक्त में हरी रक्त कणिकाएं 'वैनेडोसाइट्स' (Vanadocytes) पाई जाती हैं जो समुद्री जल से वैनेडियम धातु का संचय करती हैं तथा इसका बाह्य चोल 'ट्यूनिसिन' (सेल्यूलोज समान पदार्थ) का बना होता है।",
+        exp_en: "Herdmania possesses specialized green blood cells called Vanadocytes capable of extracting vanadium from seawater."
+      },
+      {
+        id: 47, section: "zoo", chapterId: "zoo_chordata", topic: "Protochordata",
+        q_hi: "एम्फिऑक्सस (Amphioxus / Branchiostoma) में उत्सर्जन किस संरचना द्वारा होता है?",
+        q_en: "Excretion in Amphioxus (Branchiostoma) is carried out by:",
+        options_hi: ["तंत्रिका ग्रंथि (Neural gland)", "ज्वाला कोशिकाएं / सोलेनोसाइट्स युक्त प्रोटोनेफ्रिडिया (Protonephridia with Solenocytes)", "मैलपीघी नलिकाएं", "वृक्क (Mesonephric kidney)"],
+        options_en: ["Neural gland", "Protonephridia with Solenocytes", "Malpighian tubules", "Mesonephric kidneys"],
+        correct: 1,
+        exp_hi: "एम्फिऑक्सस एक शीर्षरज्जुकी (Cephalochordate) है जिसमें एक्टोडर्मल उत्पत्ति के प्रोटोनेफ्रिडिया व 'सोलेनोसाइट्स' (Solenocytes / Flame cells) उत्सर्जन का कार्य करते हैं।",
+        exp_en: "Amphioxus excretes nitrogenous waste through ectodermal protonephridia equipped with flagellated Solenocytes."
+      },
+      {
+        id: 48, section: "zoo", chapterId: "zoo_chordata", topic: "Pisces (Scoliodon)",
+        q_hi: "स्कोलियोडॉन (Scoliodon - Dogfish) के हृदय और आंत्र के संदर्भ में कौन-सा युग्म सही है?",
+        q_en: "Which combination correctly describes the heart and intestine of Scoliodon?",
+        options_hi: [
+          "द्विकक्षीय शिरापरक हृदय (Venous heart) तथा आंत्र में स्क्रॉल कपाट (Scroll valve)",
+          "त्रिकक्षीय हृदय तथा आंत्र में सर्पिल कपाट",
+          "द्विकक्षीय हृदय तथा आंत्र में टिफ्लोसोल",
+          "चतुष्कक्षीय हृदय तथा आंत्र में पाइलोरिक सीका"
+        ],
+        options_en: [
+          "2-chambered Venous heart and Scroll valve in intestine",
+          "3-chambered heart and Spiral valve",
+          "2-chambered heart and Typhlosole",
+          "4-chambered heart and Pyloric caeca"
+        ],
+        correct: 0,
+        exp_hi: "स्कोलियोडॉन के हृदय में केवल अशुद्ध (अनाक्सीकृत) रक्त बहता है इसलिए इसे शिरापरक हृदय (Venous/Branchial heart) कहते हैं, तथा अवशोषण सतह बढ़ाने के लिए इसकी आंत्र में घड़ी की स्प्रिंग जैसा 'स्क्रॉल वाल्व' (Scroll valve) होता है।",
+        exp_en: "Scoliodon has a 2-chambered venous heart pumping only deoxygenated blood to gills, and its intestine contains a longitudinally rolled Scroll valve."
+      },
+      {
+        id: 49, section: "zoo", chapterId: "zoo_chordata", topic: "Amphibia (Rana)",
+        q_hi: "मेंढक (Rana tigrina) में 'बिडर की नाल' (Bidder's canal) कहाँ पाई जाती है और इसका कार्य क्या है?",
+        q_en: "Where is 'Bidder's canal' located in male frog (Rana tigrina) and what does it conduct?",
+        options_hi: [
+          "वृषण के भीतर; केवल हार्मोन का संवहन",
+          "वृक्क (Kidney) के भीतर; शुक्राणुओं का संवहन",
+          "यकृत के भीतर; पित्त का संवहन",
+          "मस्तिष्क में; प्रमस्तिष्क मेरु द्रव का संवहन"
+        ],
+        options_en: [
+          "Inside testis; conducts hormones",
+          "Inside kidney; conducts spermatozoa from vasa efferentia to urinogenital duct",
+          "Inside liver; conducts bile",
+          "In brain; conducts cerebrospinal fluid"
+        ],
+        correct: 1,
+        exp_hi: "नर मेंढक के वृक्क (Mesonephric kidney) के भीतरी किनारे पर अनुदैर्ध्य रूप से 'बिडर की नाल' पाई जाती है, जिसमें शुक्रवाहिकाएं (Vasa efferentia) खुलती हैं और यह शुक्राणुओं को मूत्रजनन वाहिनी में पहुँचाती है।",
+        exp_en: "Bidder's canal runs longitudinally inside the medial margin of the male frog's kidney and receives sperm from vasa efferentia."
+      },
+      {
+        id: 50, section: "zoo", chapterId: "zoo_chordata", topic: "Amphibia (Rana)",
+        q_hi: "मेंढक (Rana tigrina) के कशेरुक दंड (Vertebral column) में 8वीं एवं 9वीं कशेरुकाओं का स्वरूप क्रमशः कैसा होता है?",
+        q_en: "In the vertebral column of frog (Rana tigrina), the centra of the 8th and 9th vertebrae are respectively:",
+        options_hi: [
+          "अग्रगर्ती (Procoelous) एवं उभयगर्ती",
+          "उभयगर्ती (Amphicoelous - 8वीं) एवं अगर्ती/उभयपट्ठी (Acoelous - 9वीं)",
+          "पश्चगर्ती (Opisthocoelous) एवं विषमगर्ती",
+          "दोनों अग्रगर्ती (Procoelous)"
+        ],
+        options_en: [
+          "Procoelous and Amphicoelous",
+          "Amphicoelous (8th) and Acoelous/Biconvex (9th Sacral)",
+          "Opisthocoelous and Heterocoelous",
+          "Both Procoelous"
+        ],
+        correct: 1,
+        exp_hi: "मेंढक की 2 से 7वीं कशेरुकाएं अग्रगर्ती (Procoelous) होती हैं, 8वीं कशेरुका उभयगर्ती (Amphicoelous) तथा 9वीं (त्रिक/Sacral) कशेरुका अगर्ती (Acoelous - आगे से उत्तल व पीछे से दो गुलिकाओं युक्त) होती है।",
+        exp_en: "In frog, vertebrae 2–7 are procoelous, the 8th vertebra is amphicoelous, and the 9th (sacral) vertebra is acoelous."
+      },
+      {
+        id: 51, section: "zoo", chapterId: "zoo_chordata", topic: "Reptilia (Uromastix)",
+        q_hi: "यूरोमैस्टिक्स (Uromastix - Spiny-tailed lizard) की करोटि (Skull) और ग्रंथि तंत्र का विशिष्ट लक्षण क्या है?",
+        q_en: "Which characteristic feature is found in Uromastix (Spiny-tailed lizard)?",
+        options_hi: [
+          "द्विकंदकीय करोटि (Dicondylic skull) तथा पसीने की ग्रंथियां",
+          "एककंदकीय करोटि (Monocondylic skull), जैकबसन का अंग तथा जांघों पर फीमोरल छिद्र (Femoral pores)",
+          "चतुष्कक्षीय हृदय तथा वायवीय हड्डियां",
+          "उभयगर्ती कशेरुकाएं तथा बाह्य निषेचन"
+        ],
+        options_en: [
+          "Dicondylic skull and sweat glands",
+          "Monocondylic skull, Jacobson's organ and Femoral pores on thighs",
+          "Complete 4-chambered heart and pneumatic bones",
+          "Amphicoelous vertebrae and external fertilization"
+        ],
+        correct: 1,
+        exp_hi: "यूरोमैस्टिक्स में सरीसृपों के समान एककंदकीय करोटि (Monocondylic skull), घ्राण संवेदी 'जैकबसन का अंग', अग्रगर्ती कशेरुकाएं तथा जांघों की अधर सतह पर फीमोरल ग्रंथियों के छिद्र पाए जाते हैं।",
+        exp_en: "Uromastix possesses a monocondylic skull, olfactory Jacobson's organs, procoelous vertebrae, and femoral pores on the ventral side of the thighs."
+      },
+      {
+        id: 52, section: "zoo", chapterId: "zoo_chordata", topic: "Aves (Columba)",
+        q_hi: "कबूतर (Columba livia) के नेत्र के काचाभ कोष्ठ (Vitreous chamber) में पाई जाने वाली कंघीनुमा संवहनी संरचना क्या कहलाती है?",
+        q_en: "What is the comb-like vascular structure projecting into the vitreous humor of the eye in Pigeon (Columba)?",
+        options_hi: ["सिरिंक्स (Syrinx)", "पेक्टेन (Pecten)", "फोविया (Fovea)", "टैपेटम (Tapetum)"],
+        options_en: ["Syrinx", "Pecten", "Fovea", "Tapetum"],
+        correct: 1,
+        exp_hi: "पक्षियों (जैसे कबूतर) की आँख में अंध बिंदु से निकली पंखे या कंघे जैसी वर्णकयुक्त संरचना 'पेक्टेन' (Pecten) होती है, जो रेटिना को पोषण प्रदान करती है और समंजन (Accommodation) में मदद करती है।",
+        exp_en: "Pecten is a vascular, pleated comb-like structure projecting from the blind spot into the vitreous chamber of the avian eye for retinal nutrition and accommodation."
+      },
+      {
+        id: 53, section: "zoo", chapterId: "zoo_chordata", topic: "Aves (Columba)",
+        q_hi: "कबूतर (Columba) के कंकाल एवं परिसंचरण तंत्र के विषय में कौन-सा कथन सत्य है?",
+        q_en: "Which statement is correct regarding the skeletal and circulatory systems of Columba (Pigeon)?",
+        options_hi: [
+          "इसमें बाईं दैहिक चाप (Left systemic arch) तथा अगर्ती कशेरुकाएं होती हैं",
+          "इसमें केवल दाईं दैहिक महाधमनी चाप (Right systemic arch) तथा सैडल के आकार की विषमगर्ती (Heterocoelous) कशेरुकाएं होती हैं",
+          "इसमें दोनों दैहिक चाप तथा केंद्रकविहीन RBCs होती हैं",
+          "इसमें वृक्क निवाहिका तंत्र पूर्णतः अनुपस्थित होता है तथा दांत पाए जाते हैं"
+        ],
+        options_en: [
+          "Left systemic arch and acoelous vertebrae",
+          "Only Right systemic aortic arch and saddle-shaped Heterocoelous vertebrae",
+          "Both systemic arches and non-nucleated RBCs",
+          "Teeth present in beak and amphicoelous vertebrae"
+        ],
+        correct: 1,
+        exp_hi: "पक्षियों (कबूतर) में केवल दाईं दैहिक महाधमनी चाप (Right systemic arch) होती है (जबकि स्तनधारियों में बाईं होती है), कशेरुकाएं विषमगर्ती (Heterocoelous) होती हैं, तथा विशबोन 'फरकुला' (Furcula) दोनों क्लेविकल के जुड़ने से बनता है।",
+        exp_en: "Birds retain only the Right systemic aortic arch (mammals have the left), possess saddle-shaped heterocoelous cervical vertebrae, and have nucleated oval RBCs."
+      },
+      {
+        id: 54, section: "zoo", chapterId: "zoo_chordata", topic: "Mammalia (Oryctolagus)",
+        q_hi: "खरगोश (Oryctolagus cuniculus) का सही दंत सूत्र (Dental formula) क्या है और इसमें कौन-से दांत अनुपस्थित होते हैं?",
+        q_en: "What is the correct dental formula of Rabbit (Oryctolagus cuniculus) and which teeth are absent forming the diastema?",
+        options_hi: [
+          "I 2/1, C 0/0, PM 3/2, M 3/3 = 28 (रदनक / Canines अनुपस्थित)",
+          "I 2/2, C 1/1, PM 2/2, M 3/3 = 32 (अग्रचर्वणक अनुपस्थित)",
+          "I 1/1, C 0/0, PM 0/0, M 3/3 = 16 (रदनक व अग्रचर्वणक अनुपस्थित)",
+          "I 3/3, C 1/1, PM 4/4, M 2/3 = 42"
+        ],
+        options_en: [
+          "I 2/1, C 0/0, PM 3/2, M 3/3 × 2 = 28 (Canines absent)",
+          "I 2/2, C 1/1, PM 2/2, M 3/3 × 2 = 32 (Premolars absent)",
+          "I 1/1, C 0/0, PM 0/0, M 3/3 × 2 = 16 (Canines & Premolars absent)",
+          "I 3/3, C 1/1, PM 4/4, M 2/3 × 2 = 42"
+        ],
+        correct: 0,
+        exp_hi: "खरगोश (लैगोमॉर्फा) का दंत सूत्र 2033/1023 × 2 = 28 होता है। इसमें रदनक (Canines) पूर्णतः अनुपस्थित होते हैं, जिसके कारण कृंतक (Incisors) और अग्रचर्वणक (Premolars) के बीच खाली स्थान 'डायस्टेमा' (Diastema) बन जाता है।",
+        exp_en: "Rabbit has the dental formula I 2/1, C 0/0, PM 3/2, M 3/3 × 2 = 28. Canines are absent, creating a toothless gap called Diastema."
+      },
+      {
+        id: 55, section: "zoo", chapterId: "zoo_chordata", topic: "Mammalia (Oryctolagus)",
+        q_hi: "खरगोश (Oryctolagus) एवं अन्य यूथीरियन स्तनधारियों के मस्तिष्क के दोनों प्रमस्तिष्क गोलार्द्धों को जोड़ने वाली तंत्रिका पट्टी तथा अपरा (Placenta) का प्रकार क्या है?",
+        q_en: "Which nerve tract connects the two cerebral hemispheres in Rabbit (Oryctolagus) and what type of placenta does it possess?",
+        options_hi: [
+          "कॉर्पस कैलोसम (Corpus callosum) तथा हीमोएंडोथीलियल अपरा (Haemoendothelial placenta)",
+          "कॉर्पस स्ट्रिएटम तथा एपिथीलियोकोरियल अपरा",
+          "कॉर्पस ल्यूटियम तथा सिंडेस्मोकोरियल अपरा",
+          "क्रूरा सेरेब्री तथा एंडोथीलियोकोरियल अपरा"
+        ],
+        options_en: [
+          "Corpus callosum and Haemoendothelial placenta",
+          "Corpus striatum and Epitheliochorial placenta",
+          "Corpus luteum and Syndesmochorial placenta",
+          "Crura cerebri and Endotheliochorial placenta"
+        ],
+        correct: 0,
+        exp_hi: "स्तनधारियों का अनन्य लक्षण दोनों प्रमस्तिष्क गोलार्द्धों को जोड़ने वाला 'कॉर्पस कैलोसम' (Corpus callosum) तथा पेशीय डायाफ्राम है। खरगोश में अत्यंत अंतरंग 'हीमोएंडोथीलियल' (Haemoendothelial) प्रकार का अपरा पाया जाता है।",
+        exp_en: "Corpus callosum uniquely connects the two cerebral hemispheres in eutherian mammals, and Rabbit possesses a discoidal, haemoendothelial placenta."
+      },
       // GS QUESTIONS
       {
         id: 1, section: "gs", chapterId: "gs_complete", topic: "Polity & Education",
