@@ -7,874 +7,1886 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
     @keyframes growUp {
       from { transform: scaleY(0); opacity: 0; }
       to { transform: scaleY(1); opacity: 1; }
-    }<!-- ... existing code ... -->
+    }
     .bar-animate {
-      animation: growUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: bottom;
+      animation: growUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @media print {
       body * { visibility: hidden; }
       #pdf-printable-area, #pdf-printable-area * { visibility: visible; }
-      #pdf-printable-area { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; color: black; }
+      #pdf-printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 20px;
+        background: white;
+        color: black;
+      }
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-teal-600 selection:text-white">
+<body class="min-h-screen flex flex-col">
 
-  <!-- ================= TOP NAVIGATION BAR (WITH ALWAYS-VISIBLE HOME BUTTON & PDF STORE) ================= -->
-  <header class="bg-slate-900 text-white sticky top-0 z-50 border-b border-slate-800 shadow-md">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
-      
-      <!-- Left: Brand + Prominent Home Button -->
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+        <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-extrabold text-xl shadow-sm">
+          🧬
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-lg text-slate-900 leading-none">BioPrep TGT 2026</h1>
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">By Akhil Aarya</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">UPESSC Official Pattern: 120 Qs • 360 Marks (+3 / -1)</p>
+        </div>
+      </div>
+
       <div class="flex items-center gap-2 sm:gap-3">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="handleHomeNavigation()">
-          <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold shadow-md shadow-teal-500/20 shrink-0">
-            <i data-lucide="dna" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="font-extrabold text-sm sm:text-base tracking-tight text-white">BioPrep TGT</span>
-              <span class="bg-amber-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded uppercase">2026</span>
-            </div>
-            <p class="text-[10px] text-slate-400 hidden sm:block">By Akhil Aarya • UPESSC Official Pattern (+3, -1)</p>
-          </div>
-        </div>
-
-        <!-- Always Visible HOME Button -->
-        <button onclick="handleHomeNavigation()" class="ml-1 sm:ml-2 flex items-center gap-1.5 bg-teal-700 hover:bg-teal-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm border border-teal-500/40" title="Go to Home Dashboard">
-          <i data-lucide="home" class="w-3.5 h-3.5"></i>
-          <span>Home</span>
+        <button onclick="goHome()" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm flex items-center gap-1.5 transition">
+          <span>🏠</span> <span>Home</span>
         </button>
-
-        <!-- Exam Pattern Badge (Desktop) -->
-        <div class="hidden xl:flex items-center gap-1.5 bg-slate-800/90 border border-slate-700 px-3 py-1 rounded-lg text-[11px] text-slate-300 font-semibold">
-          <span class="text-amber-400 font-bold">120 Qs</span> • <span>360 Marks</span> • <span class="text-emerald-400">+3</span>/<span class="text-rose-400">-1</span> • <span>120 Mins</span>
-        </div>
-      </div>
-
-      <!-- Right Controls: Language Toggle + Timer + PDF Store Button (NO PUBLIC ADD QUESTION BUTTON) -->
-      <div class="flex items-center gap-1.5 sm:gap-2.5">
-        
-        <!-- Language Switcher (HI / EN) -->
-        <button onclick="toggleLanguage()" class="flex items-center gap-1 bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          <i data-lucide="languages" class="w-3.5 h-3.5"></i>
-          <span id="lang-indicator">हिन्दी</span>
+        <button onclick="toggleLanguage()" id="global-lang-btn" class="px-3 py-1.5 rounded-lg border border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-bold text-sm transition">
+          🌐 हिन्दी / EN
         </button>
-
-        <!-- Live Timer (Visible During Active Quiz/CBT) -->
-        <div id="cbt-timer-container" class="hidden flex items-center gap-1.5 bg-slate-950 border border-amber-500/50 text-amber-300 px-2.5 sm:px-3 py-1.5 rounded-lg font-mono font-bold text-xs sm:text-sm">
-          <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400 animate-pulse"></i>
-          <span id="cbt-timer">02:00:00</span>
-        </div>
-
-        <!-- Quick PDF Store Button -->
-        <button onclick="openPdfStoreTab()" class="flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs px-2.5 sm:px-3.5 py-1.5 rounded-lg transition shadow-sm whitespace-nowrap">
-          <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-          <span>PDF Store (₹51)</span>
+        <button onclick="openPayModal('Complete Revision PDF Notes & One-Liners Pack', 51)" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-sm shadow-sm transition">
+          📄 PDF Store (₹51)
         </button>
       </div>
+    </div>
 
+    <!-- PROMO RIBBON -->
+    <div class="bg-slate-900 text-white text-xs py-2 px-4">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <p class="font-medium">
+          🎯 <span class="text-amber-400 font-bold">UPESSC TGT Biology 2026 Master Pack (By Akhil Aarya):</span> Topic-wise Bilingual PDF Notes @ ₹51 & Complete 15 Mock Tests + 2500 MCQs @ ₹121!
+        </p>
+        <div class="flex items-center gap-2">
+          <button onclick="switchMainTab('pdf')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 font-semibold">📄 Free PDFs</button>
+          <button onclick="openPayModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 font-bold">Notes @ ₹51</button>
+          <button onclick="openPayModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold">Full Pack @ ₹121</button>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- ================= TOP SPONSOR / MONETIZATION STRIP ================= -->
-  <div class="max-w-7xl mx-auto w-full px-3 sm:px-6 pt-3">
-    <div class="bg-white border border-slate-200 rounded-xl p-2.5 sm:p-3 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs">
-      <div class="flex items-center gap-2 text-center sm:text-left">
-        <span class="bg-teal-100 text-teal-800 font-extrabold px-2 py-0.5 rounded text-[10px] uppercase shrink-0">PDF & Test Store</span>
-        <span class="font-medium text-slate-700">🎯 <strong>UPESSC TGT Biology 2026 Master Pack (By Akhil Aarya)</strong>: Get Topic-wise Bilingual PDFs & 15 Full Mock Tests on WhatsApp!</span>
-      </div>
-      <div class="flex items-center gap-2 shrink-0">
-        <button onclick="openPdfStoreTab()" class="bg-purple-100 hover:bg-purple-200 text-purple-900 font-bold px-3 py-1.5 rounded-lg transition">
-          📄 View Free PDFs
-        </button>
-        <button onclick="openMonetizeModal('Complete Bilingual PDF Notes & Chapter One-Liners', 51)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold px-3 py-1.5 rounded-lg transition">
-          Notes PDF @ ₹51
-        </button>
-        <button onclick="openMonetizeModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3.5 py-1.5 rounded-lg transition">
-          Full Pack @ ₹121
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
 
-  <!-- ================= MAIN VIEWPORT ================= -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4">
+    <!-- ================= HOME DASHBOARD VIEW ================= -->
+    <div id="view-home" class="space-y-8">
 
-    <!-- ===================================================================== -->
-    <!-- VIEW 1: HOME DASHBOARD (DAILY QUIZZES + 5 MAIN TABS INCLUDING PDF STORE) -->
-    <!-- ===================================================================== -->
-    <section id="view-home" class="space-y-6">
-      
-      <!-- Hero Banner -->
-      <div class="bg-gradient-to-r from-teal-950 via-slate-900 to-slate-950 text-white p-5 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden border border-teal-800/40">
-        <div class="max-w-3xl space-y-3 relative z-10">
-          <div class="inline-flex flex-wrap items-center gap-2 bg-teal-500/20 text-teal-300 border border-teal-500/30 px-3 py-1 rounded-full text-xs font-semibold">
-            <i data-lucide="award" class="w-3.5 h-3.5"></i>
-            <span>UPESSC Advt. 07/2026 Official Pattern (660 Biology Posts)</span>
-            <span class="text-amber-300 font-bold">• By Akhil Aarya</span>
+      <!-- HERO SECTION -->
+      <section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 text-white p-6 sm:p-8 shadow-lg">
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs font-semibold">
+            <span>📌 UPESSC Advt. 07/2026 Official Pattern • 660 Biology Posts</span>
           </div>
-          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
-            UP TGT Biology & GS Mock Test + PDF Portal
-          </h1>
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Official Marking: <strong>120 Questions (30 GS + 90 Biology)</strong> | <strong>360 Marks</strong> (+3 Correct, -1 Negative Marking) | <strong>120 Minutes</strong>. Practice Free Daily Timed Quizzes, 2 Full Mock Tests, Section-wise Tests & Download Bilingual Revision PDFs!
+          <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            UP TGT Biology & GS Complete Practice & PDF Portal
+          </h2>
+          <p class="text-emerald-100 text-sm sm:text-base leading-relaxed">
+            Official Marking Scheme: <strong>120 Questions (30 GS + 90 Biology)</strong> | <strong>360 Marks</strong> (+3 Correct, -1 Negative Marking) | <strong>120 Minutes</strong>. Rozana Free Speed Quizzes dein, 2 Full Mock Tests lagayein aur Chapter-wise Bilingual Theory + MCQs padhein!
           </p>
-          <div class="pt-2 flex flex-wrap gap-2.5">
-            <button onclick="launchTest('full_1')" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-amber-400/20">
-              <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i>
-              <span>Start Free Full Mock Test 1 (120 Qs)</span>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button onclick="startTest('full_mock_1')" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm shadow-md transition">
+              🚀 Start Free Full Mock Test 1 (120 Qs)
             </button>
-            <button onclick="openPdfStoreTab()" class="bg-white/15 hover:bg-white/25 text-white border border-white/25 font-extrabold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
-              <i data-lucide="file-down" class="w-4 h-4 text-amber-300"></i>
-              <span>📄 PDF Notes & eBooks Store</span>
+            <button onclick="startTest('daily_bio')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition">
+              ⚡ Daily Bio Quiz (25 Qs / 20m)
             </button>
-            <button onclick="launchTest('daily_bio')" class="bg-teal-600 hover:bg-teal-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
-              <i data-lucide="zap" class="w-4 h-4"></i>
-              <span>Daily Bio Quiz (25 Qs / 20m)</span>
+            <button onclick="switchMainTab('pdf')" class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm transition">
+              📄 Download PDF Notes
             </button>
           </div>
         </div>
-        <div class="absolute right-4 -bottom-10 opacity-10 pointer-events-none hidden lg:block">
-          <i data-lucide="microscope" class="w-72 h-72"></i>
-        </div>
-      </div>
+      </section>
 
-      <!-- ================= ⚡ DAILY FREE LIVE QUIZZES SECTION (100% FREE) ================= -->
-      <div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-sky-50 border-2 border-teal-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-xl bg-teal-700 text-white flex items-center justify-center shadow-sm">
-              <i data-lucide="zap" class="w-5 h-5 text-amber-300"></i>
+      <!-- DAILY LIVE SPEED QUIZZES (100% FREE) -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 font-extrabold text-xs uppercase">Live Speed Test</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">Free Daily</span>
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-base sm:text-lg font-extrabold text-slate-900">⚡ Daily Live Speed Quizzes</h2>
-                <span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">100% Free Daily</span>
-              </div>
-              <p class="text-xs text-slate-600">Rozana apni speed aur accuracy check karein — Live Timer aur Instant Bar Graph Analysis ke saath!</p>
-            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 mt-1">⚡ Daily Timed Mini Quizzes (GS & Biology)</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Apni daily speed aur accuracy check karein — Live Timer aur Instant Result Bar Graph ke saath!</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Daily GS Quiz Card: 15 Qs | 10 Mins -->
-          <div class="bg-white border border-sky-200 rounded-xl p-4 sm:p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between gap-4">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="bg-sky-100 text-sky-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-md">Section A: General Studies (GS)</span>
-                <span class="bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">FREE</span>
+          <!-- Daily GS -->
+          <div class="rounded-xl border-2 border-indigo-100 bg-indigo-50/40 p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-bold text-indigo-700 mb-2">
+                <span>SECTION A: GENERAL STUDIES (GS)</span>
+                <span class="px-2 py-0.5 rounded bg-indigo-600 text-white">FREE</span>
               </div>
-              <h3 class="text-base font-extrabold text-slate-900">🔥 Daily GS Rapid Fire Quiz</h3>
-              <p class="text-xs text-slate-600">UP Current Affairs, Indian Polity (Art 21A), History, Geography, Vitamins & ICT Computer MCQs.</p>
-              <div class="flex flex-wrap items-center gap-3 pt-1 text-xs font-bold text-slate-700">
-                <span class="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-sky-600"></i> 15 Questions</span>
-                <span class="flex items-center gap-1 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg"><i data-lucide="timer" class="w-3.5 h-3.5 text-amber-700"></i> 10 Minutes Live</span>
-                <span class="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg">45 Marks (+3, -1)</span>
+              <h4 class="text-lg font-extrabold text-slate-900">🔥 Daily GS Rapid Fire Quiz</h4>
+              <p class="text-xs text-slate-600 mt-1">Current Affairs, Indian History, Polity, Geography, Economy, Health & ICT.</p>
+              <div class="flex flex-wrap gap-2 mt-3 text-xs font-semibold text-slate-700">
+                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200">📝 15 Questions</span>
+                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200">⏱️ 10 Minutes</span>
+                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200">🎯 45 Marks (+3/-1)</span>
               </div>
             </div>
-            <button onclick="launchTest('daily_gs')" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-extrabold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-sm">
-              <i data-lucide="play-circle" class="w-4 h-4"></i>
-              <span>Start Daily GS Quiz (15 Qs • 10 Min)</span>
+            <button onclick="startTest('daily_gs')" class="mt-4 w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition">
+              Start 10-Min GS Quiz Now →
             </button>
           </div>
 
-          <!-- Daily Biology Quiz Card: 25 Qs | 20 Mins -->
-          <div class="bg-white border border-teal-200 rounded-xl p-4 sm:p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between gap-4">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="bg-teal-100 text-teal-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-md">Section B: Zoology + Botany</span>
-                <span class="bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">FREE</span>
+          <!-- Daily Biology -->
+          <div class="rounded-xl border-2 border-emerald-100 bg-emerald-50/40 p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-bold text-emerald-700 mb-2">
+                <span>SECTION B: ZOOLOGY & BOTANY</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-600 text-white">FREE</span>
               </div>
-              <h3 class="text-base font-extrabold text-slate-900">🧬 Daily TGT Biology Target Quiz</h3>
-              <p class="text-xs text-slate-600">Non-Chordata, Chordata, Cell & Genetics, Bentham-Hooker Taxonomy, Algae, Fungi & Plant Physiology.</p>
-              <div class="flex flex-wrap items-center gap-3 pt-1 text-xs font-bold text-slate-700">
-                <span class="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-teal-600"></i> 25 Questions</span>
-                <span class="flex items-center gap-1 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg"><i data-lucide="timer" class="w-3.5 h-3.5 text-amber-700"></i> 20 Minutes Live</span>
-                <span class="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg">75 Marks (+3, -1)</span>
+              <h4 class="text-lg font-extrabold text-slate-900">🧬 Daily TGT Biology Booster Quiz</h4>
+              <p class="text-xs text-slate-600 mt-1">High-yield questions from Non-Chordata, Chordata, Cell Bio, Plant Kingdom, Taxonomy & Physiology.</p>
+              <div class="flex flex-wrap gap-2 mt-3 text-xs font-semibold text-slate-700">
+                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200">📝 25 Questions</span>
+                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200">⏱️ 20 Minutes</span>
+                <span class="px-2.5 py-1 rounded-md bg-white border border-slate-200">🎯 75 Marks (+3/-1)</span>
               </div>
             </div>
-            <button onclick="launchTest('daily_bio')" class="w-full py-2.5 bg-teal-700 hover:bg-teal-800 text-white font-extrabold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-sm">
-              <i data-lucide="play-circle" class="w-4 h-4"></i>
-              <span>Start Daily Biology Quiz (25 Qs • 20 Min)</span>
+            <button onclick="startTest('daily_bio')" class="mt-4 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm transition">
+              Start 20-Min Biology Quiz Now →
             </button>
           </div>
         </div>
+      </section>
+
+      <!-- NAVIGATION TABS FOR MOCK TESTS, SECTIONAL, CHAPTERS, PDF STORE & SYLLABUS -->
+      <div class="border-b border-slate-200 flex flex-wrap gap-2">
+        <button onclick="switchMainTab('mocks')" id="tab-btn-mocks" class="px-4 py-2.5 font-bold text-sm rounded-t-xl border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50/60">
+          🏆 Complete & Sectional Tests
+        </button>
+        <button onclick="switchMainTab('chapters')" id="tab-btn-chapters" class="px-4 py-2.5 font-bold text-sm rounded-t-xl border-b-2 border-transparent text-slate-600 hover:text-slate-900">
+          📚 Chapter-Wise Theory & MCQs
+        </button>
+        <button onclick="switchMainTab('pdf')" id="tab-btn-pdf" class="px-4 py-2.5 font-bold text-sm rounded-t-xl border-b-2 border-transparent text-slate-600 hover:text-slate-900">
+          📄 PDF Notes & eBooks Store
+        </button>
+        <button onclick="switchMainTab('syllabus')" id="tab-btn-syllabus" class="px-4 py-2.5 font-bold text-sm rounded-t-xl border-b-2 border-transparent text-slate-600 hover:text-slate-900">
+          📋 Official 2026 Syllabus & Pattern
+        </button>
       </div>
 
-      <!-- ================= 5 MAIN NAVIGATION TABS ON HOME ================= -->
-      <div class="space-y-4" id="home-tabs-anchor">
-        <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
-          <button onclick="switchHomeCategoryTab('tab-pdfs')" id="btn-cat-pdfs" class="px-4 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm bg-slate-900 text-white shadow-sm flex items-center gap-2 transition">
-            <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
-            <span>1. 📄 PDF Notes & eBooks Store</span>
-          </button>
-          <button onclick="switchHomeCategoryTab('tab-full')" id="btn-cat-full" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center gap-2 transition">
-            <i data-lucide="trophy" class="w-4 h-4 text-amber-500"></i>
-            <span>2. 🏆 Full Mock Tests (120 Qs • 2 Free)</span>
-          </button>
-          <button onclick="switchHomeCategoryTab('tab-sectional')" id="btn-cat-sectional" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center gap-2 transition">
-            <i data-lucide="layers" class="w-4 h-4 text-teal-600"></i>
-            <span>3. 🎯 Section-Wise Tests (GS / Zoo / Bot)</span>
-          </button>
-          <button onclick="switchHomeCategoryTab('tab-chapters')" id="btn-cat-chapters" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center gap-2 transition">
-            <i data-lucide="book-open" class="w-4 h-4 text-purple-600"></i>
-            <span>4. 📚 Chapter-Wise Theory & MCQs</span>
-          </button>
-          <button onclick="switchHomeCategoryTab('tab-syllabus')" id="btn-cat-syllabus" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center gap-2 transition">
-            <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-600"></i>
-            <span>5. 📋 Official 2026 Syllabus & Eligibility</span>
-          </button>
-        </div>
-
-        <!-- TAB CONTENT 1: 📄 PDF NOTES & EBOOKS STORE (FREE + PAID ₹51 & ₹121) -->
-        <div id="tab-pdfs" class="space-y-6">
-          
-          <!-- Info Banner explaining how PDFs work -->
-          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
-            <div class="space-y-1 text-amber-950">
-              <div class="font-extrabold text-sm flex items-center gap-1.5">
-                <i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i>
-                <span>UPESSC TGT Biology 2026 Official PDF Notes & eBooks Library (By Akhil Aarya)</span>
-              </div>
-              <p class="text-amber-800">
-                <strong>Free PDFs:</strong> Niche diye gaye Free PDFs ko aap turant padh sakte hain aur <em>"Print / Save as PDF"</em> daba kar download kar sakte hain. 
-                <strong>Paid PDFs (₹51 & ₹121):</strong> UPI ID (<code>akhilesh354@sbi</code>) par pay karke 1-click me WhatsApp (<code>8853594921</code>) par turant PDF prapt karein!
-              </p>
-            </div>
-            <button onclick="openMonetizeModal('Complete Bilingual PDF Notes & Chapter One-Liners', 51)" class="bg-slate-900 hover:bg-teal-800 text-white font-extrabold px-4 py-2.5 rounded-xl shrink-0 transition">
-              Get All Notes PDF @ ₹51
-            </button>
-          </div>
-
-          <!-- Free PDFs Row (Instant View / Print / Download) -->
-          <div class="space-y-3">
-            <h3 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span>Free Official PDFs & Sample Notes (Instant Download / Print)</span>
-            </h3>
-            <div id="free-pdfs-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <!-- Populated dynamically via JS -->
-            </div>
-          </div>
-
-          <!-- Paid Premium Master Packs (₹51 & ₹121) -->
-          <div class="space-y-3">
-            <h3 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-              <span>Premium Bilingual Revision PDFs & 2500+ MCQ Bank (Instant WhatsApp Delivery)</span>
-            </h3>
-            <div id="paid-pdfs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <!-- Populated dynamically via JS -->
-            </div>
-          </div>
-
-        </div>
-
-        <!-- TAB CONTENT 2: COMPLETE FULL MOCK TESTS (120 Qs | 360 Marks) -->
-        <div id="tab-full" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Populated dynamically via JS -->
-        </div>
-
-        <!-- TAB CONTENT 3: SECTION-WISE TESTS (GS 30 Qs, ZOOLOGY 45 Qs, BOTANY 45 Qs, BIO 90 Qs) -->
-        <div id="tab-sectional" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Populated dynamically via JS -->
-        </div>
-
-        <!-- TAB CONTENT 4: CHAPTER-WISE THEORY NOTES & PRACTICE MCQs -->
-        <div id="tab-chapters" class="hidden space-y-4">
-          <div class="bg-purple-50 border border-purple-200 rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-            <div class="text-purple-950">
-              <strong>📚 Chapter-Wise Study, Practice & PDF Hub:</strong> Har chapter ke <strong>Theory Notes</strong> padhein, <strong>Practice Quiz</strong> lagayein, ya us chapter ki <strong>Revision PDF</strong> prapt karein!
-            </div>
-            <button onclick="openMonetizeModal('Complete Bilingual PDF Notes & Chapter One-Liners', 51)" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-3.5 py-1.5 rounded-lg shrink-0">
-              Unlock All Chapter PDFs @ ₹51
-            </button>
-          </div>
-          <div id="chapters-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Populated dynamically via JS -->
-          </div>
-        </div>
-
-        <!-- TAB CONTENT 5: OFFICIAL 2026 SYLLABUS & ELIGIBILITY (ADVT 07/2026) -->
-        <div id="tab-syllabus" class="hidden space-y-5">
-          <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3">
+      <!-- TAB 1: COMPLETE & SECTIONAL TESTS -->
+      <div id="tab-content-mocks" class="space-y-6">
+        <div>
+          <h3 class="text-lg font-extrabold text-slate-900 mb-1">1. Full-Length CBT Mock Tests (120 Qs: 30 GS + 90 Biology)</h3>
+          <p class="text-xs text-slate-500 mb-4">Pehle 2 Full Mock Tests sabhi students ke liye bilkul FREE hain!</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Full Mock 1 (Free) -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
               <div>
-                <span class="bg-teal-100 text-teal-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">UPESSC Prayagraj • Advt. No. 07/2026</span>
-                <h3 class="text-lg font-extrabold text-slate-900 mt-1">UP TGT Biology 2026 Official Notification Summary</h3>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">100% FREE • FULL TEST 1</span>
+                <h4 class="font-extrabold text-base text-slate-900 mt-2">UPESSC TGT Biology Full Mock Test #1</h4>
+                <p class="text-xs text-slate-500 mt-1">30 GS + 90 Biology (Zoology + Botany) • Bilingual • Instant Solutions</p>
+                <div class="mt-3 text-xs font-semibold text-slate-600 space-y-1">
+                  <div>• Questions: 120 | Marks: 360</div>
+                  <div>• Time: 120 Mins | Negative: -1 Mark</div>
+                </div>
               </div>
-              <button onclick="openBuiltInPdf('notif_2026')" class="px-4 py-2 bg-slate-900 hover:bg-teal-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 self-start">
-                <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                <span>View / Print Official Summary PDF</span>
+              <button onclick="startTest('full_mock_1')" class="mt-4 w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition">
+                Attempt Free Mock #1 →
               </button>
             </div>
 
-            <!-- Key Exam Facts Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                <div class="text-slate-500 font-semibold">TGT Biology Total Posts</div>
-                <div class="text-lg font-black text-teal-700 mt-0.5">660 Posts</div>
-                <div class="text-[11px] text-slate-600">Boys (बालक): 632 | Girls (बालिका): 28</div>
+            <!-- Full Mock 2 (Free) -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+              <div>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">100% FREE • FULL TEST 2</span>
+                <h4 class="font-extrabold text-base text-slate-900 mt-2">UPESSC TGT Biology Full Mock Test #2</h4>
+                <p class="text-xs text-slate-500 mt-1">Based on High-Yield NCERT & Graduation Level Taxonomy, Physiology & GS</p>
+                <div class="mt-3 text-xs font-semibold text-slate-600 space-y-1">
+                  <div>• Questions: 120 | Marks: 360</div>
+                  <div>• Time: 120 Mins | Negative: -1 Mark</div>
+                </div>
               </div>
-              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                <div class="text-slate-500 font-semibold">Exam Pattern & Time</div>
-                <div class="text-lg font-black text-slate-900 mt-0.5">120 Qs • 120 Mins</div>
-                <div class="text-[11px] text-slate-600">30 Qs General Knowledge + 90 Qs Biology</div>
-              </div>
-              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                <div class="text-slate-500 font-semibold">Marking Scheme</div>
-                <div class="text-lg font-black text-emerald-700 mt-0.5">360 Marks (+3, -1)</div>
-                <div class="text-[11px] text-rose-600 font-semibold">1/3rd Negative Marking (-1 Mark)</div>
-              </div>
-              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                <div class="text-slate-500 font-semibold">Exam Dates & Pay Level</div>
-                <div class="text-lg font-black text-amber-700 mt-0.5">23-24 Dec 2026</div>
-                <div class="text-[11px] text-slate-600">Level-7 (₹44,900 – ₹1,42,400)</div>
-              </div>
+              <button onclick="startTest('full_mock_2')" class="mt-4 w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition">
+                Attempt Free Mock #2 →
+              </button>
             </div>
 
-            <!-- Mandatory Eligibility Box -->
-            <div class="p-4 rounded-xl bg-teal-50/70 border border-teal-200 text-xs space-y-1.5">
-              <div class="font-extrabold text-teal-950 text-sm">🎓 अनिवार्य शैक्षिक अर्हताएँ (TGT जीव विज्ञान - Subject Code 06):</div>
-              <p class="text-slate-700">1. मान्यता प्राप्त विश्वविद्यालय से <strong>जन्तु विज्ञान (Zoology) तथा वनस्पति विज्ञान (Botany)</strong> के साथ न्यूनतम <strong>50% अंकों सहित स्नातक (B.Sc.)</strong> या उक्त विषयों में से किसी एक में न्यूनतम 45% अंकों सहित स्नातकोत्तर (M.Sc.)।</p>
-              <p class="text-slate-700">2. NCTE द्वारा मान्यता प्राप्त संस्था से <strong>बी०एड० (B.Ed.)</strong> की उपाधि।</p>
-              <p class="text-slate-700">3. उ०प्र० सरकार अथवा भारत सरकार द्वारा <strong>उच्च प्राथमिक स्तर (कक्षा 6 से 8 - Paper II) हेतु आयोजित अध्यापक पात्रता परीक्षा (UPTET / CTET)</strong> उत्तीर्ण।</p>
+            <!-- Full Mock 3-15 (Premium) -->
+            <div class="bg-gradient-to-b from-amber-50 to-white rounded-xl border border-amber-300 p-5 shadow-sm flex flex-col justify-between">
+              <div>
+                <span class="px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold text-xs">🔒 PREMIUM PACK @ ₹121</span>
+                <h4 class="font-extrabold text-base text-slate-900 mt-2">Mock Tests #3 to #15 + 2500 MCQs PDF</h4>
+                <p class="text-xs text-slate-600 mt-1">Unlock 13 additional Full Mock Tests + Topic-wise 2500 Bilingual Questions PDF on WhatsApp.</p>
+                <div class="mt-3 text-xs font-semibold text-slate-700 space-y-1">
+                  <div>• 15 Full Length Tests + Answer Keys</div>
+                  <div>• Direct WhatsApp PDF Delivery</div>
+                </div>
+              </div>
+              <button onclick="openPayModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="mt-4 w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-sm transition">
+                Unlock Pack @ ₹121 →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION-WISE SEPARATE TESTS -->
+        <div class="pt-2">
+          <h3 class="text-lg font-extrabold text-slate-900 mb-1">2. Section-Wise Separate Tests (GS Alag & Biology Alag - Free)</h3>
+          <p class="text-xs text-slate-500 mb-4">Apne pasand ke section ki alag se practice karein:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-indigo-600">SECTION A ONLY</span>
+                <h4 class="font-bold text-slate-900 mt-1">Complete GS Test (30 Qs)</h4>
+                <p class="text-xs text-slate-500 mt-1">30 Questions • 30 Mins • 90 Marks</p>
+              </div>
+              <button onclick="startTest('sec_gs')" class="mt-4 w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition">
+                Start GS Test (30 Qs)
+              </button>
             </div>
 
-            <!-- Syllabus Breakdown 3 Columns -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-2">
-              <div class="border border-slate-200 rounded-xl p-4 space-y-2 bg-slate-50/50">
-                <div class="font-extrabold text-sky-900 border-b pb-1.5">Part I: General Knowledge (30 Qs)</div>
-                <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                  <li><strong>Unit 1:</strong> State, National & International Current Affairs, Personalities, Sports.</li>
-                  <li><strong>Unit 2:</strong> Indian History & National Movement, Indian Polity & Educational Constitutional Articles, Indian Economy, Geography & Population.</li>
-                  <li><strong>Unit 3:</strong> General Science, Health & Hygiene (Vitamins, Minerals, Diseases, Hormones), Computer, Internet & Educational ICT.</li>
-                </ul>
+            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-emerald-600">SECTION B FULL</span>
+                <h4 class="font-bold text-slate-900 mt-1">Complete Biology Test (90 Qs)</h4>
+                <p class="text-xs text-slate-500 mt-1">90 Questions • 90 Mins • 270 Marks</p>
               </div>
-              <div class="border border-slate-200 rounded-xl p-4 space-y-2 bg-slate-50/50">
-                <div class="font-extrabold text-teal-900 border-b pb-1.5">Part II (A): Zoology (जन्तु विज्ञान)</div>
-                <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                  <li><strong>Non-Chordata:</strong> Entamoeba, Plasmodium, Paramoecium, Euglena, Leucosolenia, Sycon, Hydra, Obelia, Aurelia, Fasciola, Taenia, Ascaris, Nereis, Pheretima, Leech, Cockroach, Musca, Mosquito, Palaemon, Unio, Pila, Starfish.</li>
-                  <li><strong>Protochordata & Chordata:</strong> Herdmania, Amphioxus, Scoliodon, Rana tigrina, Uromastix, Columba, Oryctolagus.</li>
-                  <li><strong>Cell Biology, Genetics & Evolution:</strong> Mitosis, Meiosis, Gametogenesis, Mendelism, Linkage, Crossing over, Eugenics, Lamarckism, Darwinism, Epochs & Human Evolution.</li>
-                  <li><strong>Ecology, Physiology, Biochem, Embryology & Zoogeography.</strong></li>
-                </ul>
+              <button onclick="startTest('sec_bio')" class="mt-4 w-full py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition">
+                Start Biology Test (90 Qs)
+              </button>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-teal-600">ZOOLOGY SPECIAL</span>
+                <h4 class="font-bold text-slate-900 mt-1">Zoology Sectional (45 Qs)</h4>
+                <p class="text-xs text-slate-500 mt-1">45 Questions • 45 Mins • 135 Marks</p>
               </div>
-              <div class="border border-slate-200 rounded-xl p-4 space-y-2 bg-slate-50/50">
-                <div class="font-extrabold text-emerald-900 border-b pb-1.5">Part II (B): Botany (वनस्पति विज्ञान)</div>
-                <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                  <li><strong>Cryptogams & Gymnosperms:</strong> Viruses, Lichens, Algae (Nostoc, Volvox, Ulothrix, Spirogyra, Oedogonium, Ectocarpus, Batrachospermum), Fungi (Mucor, Rhizopus, Pythium, Albugo, Yeast, Penicillium, Puccinia, Agaricus), Bryophyta (Riccia, Marchantia, Funaria), Pteridophyta (Lycopodium, Selaginella, Equisetum, Marsilea), Gymnosperms (Cycas, Pinus) & Palaeobotany.</li>
-                  <li><strong>Angiosperm Taxonomy (Bentham-Hooker):</strong> 15 Families (Ranunculaceae to Poaceae) & Economic Botany.</li>
-                  <li><strong>Morphology, Anomalous Anatomy (Tinospora, Dracaena, Achyranthes, Boerhaavia, Nyctanthes), Embryology, Cytogenetics, Plant Physiology & Soil Science.</strong></li>
-                </ul>
+              <button onclick="startTest('sec_zoo')" class="mt-4 w-full py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs transition">
+                Start Zoology (45 Qs)
+              </button>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-green-600">BOTANY SPECIAL</span>
+                <h4 class="font-bold text-slate-900 mt-1">Botany Sectional (45 Qs)</h4>
+                <p class="text-xs text-slate-500 mt-1">45 Questions • 45 Mins • 135 Marks</p>
               </div>
+              <button onclick="startTest('sec_bot')" class="mt-4 w-full py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold text-xs transition">
+                Start Botany (45 Qs)
+              </button>
             </div>
           </div>
         </div>
       </div>
-<!-- ... existing code ... -->
-  <!-- ================= BRANDED FOOTER (WITH PIN-PROTECTED EDUCATOR ADMIN) ================= -->
-  <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-5 px-4 mt-8 text-xs">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
-        <span class="font-bold text-white">UPESSC TGT Biology CBT Portal 2026</span>
-        <span>•</span>
-        <span class="text-teal-400 font-semibold">Created & Curated By Akhil Aarya (Akhilesh)</span>
+
+      <!-- TAB 2: CHAPTER-WISE THEORY & PRACTICE -->
+      <div id="tab-content-chapters" class="hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="text-lg font-extrabold text-slate-900">📚 Chapter-Wise Theory Notes & Practice Quizzes</h3>
+            <p class="text-xs text-slate-500">Har unit ki Bilingual Revision Theory padhein aur turant chapter test lagayein.</p>
+          </div>
+        </div>
+        <div id="chapter-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- TAB 3: PDF NOTES & EBOOKS STORE -->
+      <div id="tab-content-pdf" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="text-xl font-extrabold text-slate-900">📄 Printable PDF Notes & Study Material Store</h3>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Free Official Syllabus & Revision Sheets turant download/print karein, ya Premium Handpicked Notes WhatsApp par prapt karein.</p>
+
+          <div id="pdf-store-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5"></div>
+        </div>
+      </div>
+
+      <!-- TAB 4: OFFICIAL 2026 SYLLABUS & NOTIFICATION DETAILS -->
+      <div id="tab-content-syllabus" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-4">
+            <div>
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">UPESSC Advt. 07/2026</span>
+              <h3 class="text-xl font-extrabold text-slate-900 mt-1">UP TGT Biology 2026 Official Exam Pattern & Syllabus</h3>
+            </div>
+            <button onclick="openFreePdfModal('syllabus')" class="px-4 py-2 rounded-lg bg-slate-900 text-white font-bold text-xs">
+              🖨️ Print / Save Full Syllabus PDF
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">Total Posts (Biology)</div>
+              <div class="text-lg font-extrabold text-slate-900">660 Posts</div>
+              <div class="text-[11px] text-slate-500">632 Boys + 28 Girls</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">Total Questions</div>
+              <div class="text-lg font-extrabold text-slate-900">120 MCQs</div>
+              <div class="text-[11px] text-slate-500">30 GS + 90 Biology</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">Total Marks & Time</div>
+              <div class="text-lg font-extrabold text-emerald-700">360 Marks</div>
+              <div class="text-[11px] text-slate-500">120 Minutes (2 Hours)</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">Marking Scheme</div>
+              <div class="text-lg font-extrabold text-rose-600">+3 / -1</div>
+              <div class="text-[11px] text-slate-500">1/3rd Negative Marking</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 text-xs leading-relaxed">
+            <div class="p-4 rounded-xl bg-indigo-50/50 border border-indigo-100 space-y-2">
+              <h4 class="font-extrabold text-indigo-900 text-sm">Section A: General Knowledge (30 Qs)</h4>
+              <p><strong>Unit 1:</strong> Current Events (State, National, International), Personalities, Sports.</p>
+              <p><strong>Unit 2:</strong> Indian History & National Movement, Polity & Educational Constitutional provisions, Indian Economy, Geography & Population.</p>
+              <p><strong>Unit 3:</strong> General Science, Environment, Human Health (Vitamins, Diseases, Hormones, Enzymes), Computer, ICT & Educational Tech.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-emerald-50/50 border border-emerald-100 space-y-2">
+              <h4 class="font-extrabold text-emerald-900 text-sm">Section B1: Zoology (45 Qs)</h4>
+              <p><strong>Non-Chordata & Chordata:</strong> Entamoeba, Plasmodium, Paramoecium, Euglena, Leucosolenia, Sycon, Hydra, Obelia, Aurelia, Fasciola, Taenia, Ascaris, Nereis, Pheretima, Leech, Cockroach, Musca, Mosquito, Palaemon, Unio, Pila, Starfish, Herdmania, Amphioxus, Scoliodon, Rana, Uromastix, Columba, Oryctolagus.</p>
+              <p><strong>Core Units:</strong> Cell Biology, Genetics, Evolution, Ecology & Pollution, Physiology, Biochemistry, Embryology (Amphioxus, Frog, Chick, Placenta) & Zoogeography.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-teal-50/50 border border-teal-100 space-y-2">
+              <h4 class="font-extrabold text-teal-900 text-sm">Section B2: Botany (45 Qs)</h4>
+              <p><strong>Plant Diversity:</strong> Viruses, Lichens, Algae (Nostoc, Chlamydomonas, Volvox, Ulothrix, Spirogyra, Oedogonium, Ectocarpus, Batrachospermum), Fungi (Mucor, Rhizopus, Pythium, Albugo, Saccharomyces, Penicillium, Puccinia, Agaricus), Bryophyta (Riccia, Marchantia, Funaria), Pteridophyta (Lycopodium, Selaginella, Equisetum, Marsilea), Gymnosperms (Cycas, Pinus), Palaeobotany.</p>
+              <p><strong>Angiosperms & Physiology:</strong> Bentham & Hooker + 15 Families, Economic Botany, Anomalous Secondary Growth (Tinospora, Dracaena, Achyranthes, Boerhaavia, Nyctanthes), Embryology, Ecology, Cytogenetics, Plant Physiology & Soil Science.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= ACTIVE QUIZ / CBT INTERFACE VIEW ================= -->
+    <div id="view-quiz" class="hidden space-y-4">
+      <!-- QUIZ TOP BAR -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button onclick="confirmExitQuiz()" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 font-bold text-xs flex items-center gap-1 transition">
+            🏠 Home / Exit
+          </button>
+          <div>
+            <h3 id="quiz-title-display" class="font-extrabold text-sm sm:text-base text-slate-900">Mock Test</h3>
+            <p id="quiz-subtitle-display" class="text-xs text-slate-500">Marking: +3 Correct | -1 Wrong</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-600 text-emerald-800 font-bold text-xs">
+            🌐 Switch Hindi ⇄ English
+          </button>
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-mono font-extrabold text-sm sm:text-base flex items-center gap-1.5">
+            <span>⏱️</span> <span id="quiz-timer-display">00:00:00</span>
+          </div>
+          <button onclick="submitQuiz()" class="px-4 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs sm:text-sm shadow-sm transition">
+            Submit Test
+          </button>
+        </div>
+      </div>
+
+      <!-- LIVE PROGRESS BAR OF ATTEMPTED / UNATTEMPTED / REVIEW -->
+      <div class="bg-white rounded-xl border border-slate-200 p-3 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between text-xs font-bold gap-2 mb-2">
+          <span class="text-emerald-700">✅ Attempted: <span id="stat-attempted">0</span></span>
+          <span class="text-amber-600">🟣 Marked for Review: <span id="stat-review">0</span></span>
+          <span class="text-slate-600">⚪ Left (Not Attempted): <span id="stat-unattempted">0</span></span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex">
+          <div id="bar-attempted" class="bg-emerald-500 h-full transition-all duration-300" style="width: 0%"></div>
+          <div id="bar-review" class="bg-purple-500 h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- MAIN CBT GRID -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <!-- QUESTION CARD (LEFT 2 COLS) -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between min-h-[420px]">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+              <div class="flex items-center gap-2">
+                <span id="q-number-badge" class="px-3 py-1 rounded-lg bg-slate-900 text-white font-extrabold text-xs">Question 1</span>
+                <span id="q-topic-badge" class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-bold text-xs">Biology</span>
+              </div>
+              <div class="text-xs font-bold text-slate-500">
+                <span class="text-emerald-600">+3 Marks</span> • <span class="text-rose-600">-1 Negative</span>
+              </div>
+            </div>
+
+            <!-- Question Text -->
+            <div id="q-text-container" class="py-5 text-base sm:text-lg font-bold text-slate-900 leading-relaxed"></div>
+
+            <!-- Options List -->
+            <div id="q-options-container" class="space-y-3"></div>
+          </div>
+
+          <!-- Action Buttons Bottom -->
+          <div class="pt-6 mt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap gap-2">
+              <button onclick="clearResponse()" class="px-3.5 py-2 rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs">
+                Clear Response
+              </button>
+              <button onclick="markForReviewAndNext()" class="px-3.5 py-2 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold text-xs">
+                🟣 Mark for Review & Next
+              </button>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="prevQuestion()" class="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs">
+                ← Previous
+              </button>
+              <button onclick="saveAndNext()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm">
+                Save & Next →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUESTION PALETTE (RIGHT 1 COL) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h4 class="font-extrabold text-sm text-slate-900 mb-3">Question Palette</h4>
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-600 mb-4 pb-3 border-b border-slate-100">
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span> Answered</div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-purple-600 inline-block"></span> Marked for Review</div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-200 inline-block"></span> Not Attempted</div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-slate-900 inline-block"></span> Current Question</div>
+            </div>
+            <div id="palette-grid" class="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-6 gap-2 max-h-[300px] overflow-y-auto pr-1"></div>
+          </div>
+
+          <button onclick="submitQuiz()" class="mt-5 w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm shadow transition">
+            ✅ Final Submit Test
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= RESULT, BAR GRAPH & SOLUTIONS VIEW ================= -->
+    <div id="view-result" class="hidden space-y-6">
+      <!-- Top Result Navigation -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-700">UPESSC Official Evaluation (+3, -1)</span>
+          <h2 id="result-test-name" class="text-xl font-extrabold text-slate-900">Test Performance Report</h2>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="goHome()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
+            🏠 Back to Home Dashboard
+          </button>
+          <button onclick="retakeCurrentTest()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm">
+            🔄 Re-Attempt Test
+          </button>
+        </div>
+      </div>
+
+      <!-- SCORE SUMMARY CARDS -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 text-center shadow-sm">
+          <div class="text-xs font-semibold text-slate-500">Final Score</div>
+          <div id="res-score" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0 / 360</div>
+          <div id="res-percent" class="text-xs font-bold text-emerald-600 mt-0.5">0% Score</div>
+        </div>
+        <div class="bg-emerald-50 rounded-2xl border border-emerald-200 p-4 text-center shadow-sm">
+          <div class="text-xs font-bold text-emerald-800">Right (Correct)</div>
+          <div id="res-right" class="text-2xl sm:text-3xl font-extrabold text-emerald-700 mt-1">0</div>
+          <div id="res-right-marks" class="text-xs font-semibold text-emerald-600 mt-0.5">+0 Marks</div>
+        </div>
+        <div class="bg-rose-50 rounded-2xl border border-rose-200 p-4 text-center shadow-sm">
+          <div class="text-xs font-bold text-rose-800">Wrong (Negative)</div>
+          <div id="res-wrong" class="text-2xl sm:text-3xl font-extrabold text-rose-600 mt-1">0</div>
+          <div id="res-wrong-marks" class="text-xs font-semibold text-rose-600 mt-0.5">-0 Marks</div>
+        </div>
+        <div class="bg-amber-50 rounded-2xl border border-amber-200 p-4 text-center shadow-sm">
+          <div class="text-xs font-bold text-amber-800">Left (Skipped)</div>
+          <div id="res-left" class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">0</div>
+          <div class="text-xs font-semibold text-amber-700 mt-0.5">0 Marks</div>
+        </div>
+        <div class="bg-indigo-50 rounded-2xl border border-indigo-200 p-4 text-center shadow-sm col-span-2 md:col-span-1">
+          <div class="text-xs font-bold text-indigo-800">Accuracy & Time</div>
+          <div id="res-accuracy" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 mt-1">0%</div>
+          <div id="res-time-taken" class="text-xs font-semibold text-indigo-600 mt-0.5">Time: 0m 0s</div>
+        </div>
+      </div>
+
+      <!-- VISUAL BAR GRAPH (RIGHT vs WRONG vs LEFT) & WEAK CHAPTERS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- BAR GRAPH CARD -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+          <h3 class="font-extrabold text-base text-slate-900">📊 Visual Bar Graph Analysis (Right vs Wrong vs Left)</h3>
+          <p class="text-xs text-slate-500 mb-6">Aapke attempt kiye gaye aur chhode gaye prashno ka tulnatmak graph:</p>
+
+          <!-- Vertical Column Bar Chart -->
+          <div class="h-52 flex items-end justify-around gap-6 pt-6 px-4 border-b border-slate-200 bg-slate-50/60 rounded-t-xl">
+            <!-- Right Bar -->
+            <div class="flex flex-col items-center w-24 h-full justify-end">
+              <span id="graph-val-right" class="text-xs font-extrabold text-emerald-700 mb-1">0 (0%)</span>
+              <div id="graph-bar-right" class="w-full bg-gradient-to-t from-emerald-600 to-emerald-400 rounded-t-xl bar-animate shadow-sm" style="height: 6%;"></div>
+            </div>
+            <!-- Wrong Bar -->
+            <div class="flex flex-col items-center w-24 h-full justify-end">
+              <span id="graph-val-wrong" class="text-xs font-extrabold text-rose-600 mb-1">0 (0%)</span>
+              <div id="graph-bar-wrong" class="w-full bg-gradient-to-t from-rose-600 to-rose-400 rounded-t-xl bar-animate shadow-sm" style="height: 6%;"></div>
+            </div>
+            <!-- Left Bar -->
+            <div class="flex flex-col items-center w-24 h-full justify-end">
+              <span id="graph-val-left" class="text-xs font-extrabold text-amber-600 mb-1">0 (0%)</span>
+              <div id="graph-bar-left" class="w-full bg-gradient-to-t from-amber-500 to-amber-300 rounded-t-xl bar-animate shadow-sm" style="height: 6%;"></div>
+            </div>
+          </div>
+          <div class="flex justify-around text-xs font-extrabold text-slate-700 pt-2">
+            <span class="text-emerald-700">✅ Right</span>
+            <span class="text-rose-600">❌ Wrong</span>
+            <span class="text-amber-600">⚪ Left (Skipped)</span>
+          </div>
+        </div>
+
+        <!-- CHAPTERS NEEDED FOR PRACTICE (DIAGNOSIS) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 class="font-extrabold text-base text-slate-900">🎯 Chapters Needed For Practice (Weak Areas)</h3>
+            <p class="text-xs text-slate-500 mb-4">Jin topics me aapke prashn galat hue ya chhoot gaye, unhe yahan se revise karein:</p>
+            <div id="weak-chapters-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-600 font-medium">Want complete revision notes for weak units?</span>
+            <button onclick="openPayModal('Complete Revision PDF Notes & Topic-wise One-Liners', 51)" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs">
+              Get Notes PDF @ ₹51
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETAILED SOLUTIONS & EXPLANATIONS -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h3 class="font-extrabold text-lg text-slate-900">📖 Detailed Bilingual Solutions & Explanations</h3>
+          <div class="flex flex-wrap gap-1.5 text-xs font-bold">
+            <button onclick="renderSolutions('all')" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white">All Questions</button>
+            <button onclick="renderSolutions('wrong')" class="px-3 py-1.5 rounded-lg bg-rose-100 text-rose-800">❌ Wrong Only</button>
+            <button onclick="renderSolutions('right')" class="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800">✅ Right Only</button>
+            <button onclick="renderSolutions('left')" class="px-3 py-1.5 rounded-lg bg-amber-100 text-amber-800">⚪ Left Only</button>
+          </div>
+        </div>
+
+        <div id="solutions-list" class="space-y-4"></div>
+
+        <div class="pt-4 border-t border-slate-200 text-center">
+          <button onclick="goHome()" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm shadow">
+            🏠 Back to Home Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER WITH PIN-LOCKED EDUCATOR ADMIN -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-8 px-4 mt-12">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <p class="font-bold text-white text-sm">BioPrep TGT 2026 • By Akhil Aarya (Akhilesh)</p>
+        <p class="mt-0.5">Designed strictly as per UPESSC Prayagraj Advt. 07/2026 Official Notification & Syllabus.</p>
       </div>
       <div class="flex flex-wrap items-center gap-3">
-        <button onclick="goHomeDirect()" class="hover:text-white underline">Home</button>
-        <span>|</span>
-        <button onclick="openPdfStoreTab()" class="hover:text-amber-300 underline font-semibold">📄 PDF Store (₹51)</button>
-        <span>|</span>
-        <button onclick="openMonetizeModal('2500+ Bilingual MCQs + 15 Full-Length CBT Mock Tests Pack', 121)" class="hover:text-emerald-300 underline">Full Mock Pack (₹121)</button>
-        <span>|</span>
-        <!-- Discreet Educator Admin Button Protected by PIN 1995 -->
-        <button onclick="promptEducatorPin()" class="text-slate-500 hover:text-teal-300 flex items-center gap-1 text-[11px] bg-slate-800/70 px-2.5 py-1 rounded border border-slate-700" title="Educator Only (PIN Protected)">
-          <i data-lucide="lock" class="w-3 h-3"></i>
-          <span>Educator Admin</span>
+        <button onclick="goHome()" class="hover:text-white underline">Home</button>
+        <button onclick="switchMainTab('pdf')" class="hover:text-white underline">PDF Store</button>
+        <button onclick="openAdminDrawer()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold border border-slate-700">
+          🔒 Educator Admin
         </button>
       </div>
     </div>
   </footer>
 
-  <!-- ================= EDUCATOR PIN VERIFICATION MODAL (PIN: 1995) ================= -->
-  <div id="admin-pin-modal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center space-y-4">
-      <div class="w-11 h-11 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center mx-auto">
-        <i data-lucide="shield-lock" class="w-5 h-5"></i>
+  <!-- ================= MODAL 1: UPI & WHATSAPP PAYMENT MODAL (₹51 / ₹121) ================= -->
+  <div id="pay-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-start justify-between">
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">INSTANT WHATSAPP DELIVERY</span>
+          <h3 id="pay-item-title" class="text-lg font-extrabold text-slate-900 mt-1">Complete Revision PDF Notes</h3>
+        </div>
+        <button onclick="closePayModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
       </div>
-      <div>
-        <h3 class="font-extrabold text-base text-slate-900">Educator Admin Login</h3>
-        <p class="text-[11px] text-slate-500 mt-0.5">Only for Akhil Aarya. Enter 4-digit security PIN to add questions, theory or PDF links.</p>
+
+      <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center space-y-1">
+        <div class="text-xs font-semibold text-emerald-800">Total Payable Contribution</div>
+        <div id="pay-item-price" class="text-3xl font-extrabold text-emerald-700">₹51</div>
+        <div class="text-xs font-bold text-slate-700 pt-1">🛡️ Verified UPI Holder: Akhilesh (Akhil Aarya)</div>
       </div>
-      <input id="educator-pin-input" type="password" maxlength="8" class="w-full p-2.5 border-2 border-slate-200 rounded-xl text-center font-mono text-lg font-extrabold tracking-widest focus:border-teal-600 outline-none" placeholder="••••">
-      <div class="flex gap-2">
-        <button onclick="document.getElementById('admin-pin-modal').classList.add('hidden')" class="flex-1 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-600">Cancel</button>
-        <button onclick="verifyEducatorPin()" class="flex-1 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-extrabold">Unlock</button>
+
+      <div class="space-y-3 text-xs text-slate-700">
+        <div class="p-3 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-between">
+          <div>
+            <div class="text-[11px] text-slate-500 font-semibold">Official SBI UPI ID:</div>
+            <div id="upi-id-text" class="font-mono font-extrabold text-sm text-slate-900">akhilesh354@sbi</div>
+          </div>
+          <button onclick="copyUpiId()" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">
+            📋 Copy UPI ID
+          </button>
+        </div>
+
+        <ol class="list-decimal list-inside space-y-1.5 text-slate-600 font-medium">
+          <li>Upar di gayi UPI ID (<strong>akhilesh354@sbi</strong>) par Google Pay, PhonePe ya Paytm se payment karein.</li>
+          <li>Payment ke baad niche green WhatsApp button par click karke screenshot bhej dein — aapko turant PDF & Access mil jayega!</li>
+        </ol>
+      </div>
+
+      <button onclick="sendWhatsAppConfirmation()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-md flex items-center justify-center gap-2 transition">
+        <span>💬 Send Payment Screenshot on WhatsApp (8853594921)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: CHAPTER THEORY & PRINTABLE PDF VIEWER MODAL ================= -->
+  <div id="theory-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl border border-slate-200">
+      <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between gap-2">
+        <div>
+          <span id="theory-modal-badge" class="text-xs font-bold text-emerald-700 uppercase">Revision Sheet</span>
+          <h3 id="theory-modal-title" class="text-lg font-extrabold text-slate-900">Chapter Theory Notes</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">
+            🖨️ Print / Save PDF
+          </button>
+          <button onclick="closeTheoryModal()" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm">✕</button>
+        </div>
+      </div>
+      <div id="pdf-printable-area" class="p-6 overflow-y-auto space-y-4 text-sm leading-relaxed text-slate-800">
+        <div id="theory-modal-body"></div>
+      </div>
+      <div class="p-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl flex flex-wrap items-center justify-between gap-2">
+        <span class="text-xs font-semibold text-slate-600">Prepared by Akhil Aarya • BioPrep TGT 2026</span>
+        <button id="theory-start-quiz-btn" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">
+          ✍️ Practice Chapter MCQs →
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- ================= BUILT-IN PRINTABLE PDF DOCUMENT VIEWER MODAL ================= -->
-  <div id="pdf-viewer-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4">
-    <div class="bg-white rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl max-h-[92vh] flex flex-col justify-between">
+  <!-- ================= MODAL 3: EDUCATOR ADMIN DRAWER (PIN: 1995) ================= -->
+  <div id="admin-modal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl border border-slate-200 space-y-5">
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-9 h-9 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
-            <i data-lucide="file-text" class="w-5 h-5"></i>
+        <div>
+          <span class="text-xs font-bold text-emerald-700">EDUCATOR PANEL (AKHIL AARYA)</span>
+          <h3 class="text-lg font-extrabold text-slate-900">Add Chapter Questions, Theory Notes or PDF Links</h3>
+        </div>
+        <button onclick="closeAdminDrawer()" class="text-slate-400 hover:text-slate-700 font-bold text-xl">✕</button>
+      </div>
+
+      <!-- 1. Easy Form to Add Question + Theory -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <h4 class="font-extrabold text-sm text-slate-900">1. Add New Question / Update Chapter Theory</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="font-bold block mb-1">Select Chapter / Unit:</label>
+            <select id="adm-chapter" class="w-full p-2 rounded-lg border border-slate-300 bg-white"></select>
           </div>
           <div>
-            <h3 id="pdf-viewer-title" class="font-extrabold text-sm sm:text-base text-slate-900">Official PDF Document</h3>
-            <p class="text-[11px] text-slate-500">BioPrep TGT 2026 • By Akhil Aarya • Ready to Read or Save as PDF</p>
+            <label class="font-bold block mb-1">Correct Option (A=0, B=1, C=2, D=3):</label>
+            <select id="adm-correct" class="w-full p-2 rounded-lg border border-slate-300 bg-white">
+              <option value="0">Option A (0)</option>
+              <option value="1">Option B (1)</option>
+              <option value="2">Option C (2)</option>
+              <option value="3">Option D (3)</option>
+            </select>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="window.print()" class="px-3.5 py-1.5 bg-teal-700 hover:bg-teal-800 text-white rounded-lg text-xs font-extrabold flex items-center gap-1.5 shadow-sm">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-            <span>Print / Save as PDF</span>
-          </button>
-          <button onclick="document.getElementById('pdf-viewer-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 p-1">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <input id="adm-q-hi" type="text" placeholder="प्रश्न हिन्दी में लिखें..." class="p-2 rounded-lg border border-slate-300">
+          <input id="adm-q-en" type="text" placeholder="Question in English..." class="p-2 rounded-lg border border-slate-300">
         </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <input id="adm-opt-a" type="text" placeholder="Option A" class="p-2 rounded-lg border border-slate-300">
+          <input id="adm-opt-b" type="text" placeholder="Option B" class="p-2 rounded-lg border border-slate-300">
+          <input id="adm-opt-c" type="text" placeholder="Option C" class="p-2 rounded-lg border border-slate-300">
+          <input id="adm-opt-d" type="text" placeholder="Option D" class="p-2 rounded-lg border border-slate-300">
+        </div>
+        <input id="adm-exp" type="text" placeholder="Explanation / Solution (व्याख्या)..." class="w-full p-2 rounded-lg border border-slate-300 text-xs">
+        <textarea id="adm-theory" rows="2" placeholder="Optional: Is chapter me naya Theory Note jodne ke liye yahan likhein..." class="w-full p-2 rounded-lg border border-slate-300 text-xs"></textarea>
+        <button onclick="saveAdminQuestion()" class="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">
+          ➕ Save Question & Theory
+        </button>
       </div>
 
-      <div id="pdf-printable-area" class="py-5 px-2 sm:px-4 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-800 leading-relaxed">
-        <!-- Populated dynamically -->
-      </div>
-
-      <div class="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
-        <span class="text-[11px] text-slate-500 font-semibold">💡 Tip: Click 'Print / Save as PDF' to save this file on your phone/PC.</span>
-        <div class="flex items-center gap-2">
-          <button onclick="openMonetizeModal('Complete Bilingual PDF Notes & Chapter One-Liners', 51)" class="px-3.5 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold rounded-xl text-xs">
-            Get Full 9-Unit Notes PDF @ ₹51
-          </button>
-          <button onclick="document.getElementById('pdf-viewer-modal').classList.add('hidden')" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold">
-            Close
-          </button>
+      <!-- 2. Add Google Drive PDF Link -->
+      <div class="space-y-3 bg-amber-50/60 p-4 rounded-xl border border-amber-200">
+        <h4 class="font-extrabold text-sm text-slate-900">2. Add Google Drive PDF Link to PDF Store</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <input id="adm-pdf-title" type="text" placeholder="PDF Title (e.g. Zoology Notes PDF)" class="p-2 rounded-lg border border-slate-300 bg-white">
+          <input id="adm-pdf-url" type="text" placeholder="Google Drive Share Link (https://...)" class="p-2 rounded-lg border border-slate-300 bg-white">
         </div>
+        <button onclick="saveAdminPdf()" class="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">
+          📄 Add PDF to Store
+        </button>
       </div>
     </div>
   </div>
-<!-- ... existing code ... -->
-      <!-- Mode Switcher Inside Adder -->
-      <div class="flex flex-wrap gap-1.5 bg-slate-100 p-1 rounded-xl text-xs font-bold">
-        <button onclick="switchAdderTab('mcq')" id="adder-tab-mcq" class="flex-1 py-2 px-2 rounded-lg bg-white text-slate-900 shadow-xs">
-          1. Add MCQ
-        </button>
-        <button onclick="switchAdderTab('theory')" id="adder-tab-theory" class="flex-1 py-2 px-2 rounded-lg text-slate-600 hover:text-slate-900">
-          2. Edit Theory
-        </button>
-        <button onclick="switchAdderTab('pdf')" id="adder-tab-pdf" class="flex-1 py-2 px-2 rounded-lg text-slate-600 hover:text-slate-900">
-          3. PDF & Google Sheet Sync
-        </button>
-        <button onclick="switchAdderTab('json')" id="adder-tab-json" class="flex-1 py-2 px-2 rounded-lg text-slate-600 hover:text-slate-900">
-          4. Bulk JSON
-        </button>
-      </div>
-<!-- ... existing code ... -->
-      <!-- FORM 2: VISUAL CHAPTER THEORY ADDER -->
-      <div id="adder-view-theory" class="hidden overflow-y-auto space-y-3 pr-1 text-xs">
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">Select Chapter to Update Theory:</label>
-          <select id="form-th-chapter" onchange="loadChapterTheoryIntoEditor()" class="w-full p-2 border rounded-lg bg-slate-50 font-semibold"></select>
-        </div>
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">Chapter Theory / Revision Notes (HTML or Plain Text):</label>
-          <textarea id="form-th-content" rows="8" class="w-full p-3 border rounded-xl font-sans text-xs leading-relaxed" placeholder="Yahan chapter ke star points, one-liners ya table likhein..."></textarea>
-        </div>
-        <button onclick="saveVisualTheory()" class="w-full py-2.5 bg-purple-700 hover:bg-purple-800 text-white font-extrabold rounded-xl transition">
-          💾 Save & Update Chapter Theory
-        </button>
-      </div>
 
-      <!-- FORM 3: PDF GOOGLE DRIVE LINKS & LIVE GOOGLE SHEET SYNC -->
-      <div id="adder-view-pdf" class="hidden overflow-y-auto space-y-4 pr-1 text-xs">
-        <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
-          <div class="font-extrabold text-amber-950">📄 1. Attach Google Drive PDF Link (For Free/Sample PDFs):</div>
-          <p class="text-amber-800 text-[11px]">Apनी PDF ko Google Drive par upload karke "Anyone with link" karein aur link yahan dalein:</p>
-          <select id="form-pdf-item" class="w-full p-2 border rounded-lg bg-white font-semibold">
-            <option value="notif_2026">Free PDF 1: UPESSC 2026 Notification Summary PDF</option>
-            <option value="syllabus_2026">Free PDF 2: Official Revised Syllabus Bilingual PDF</option>
-            <option value="sample_notes">Free PDF 3: Protozoa & Cell Division Sample Notes PDF</option>
-          </select>
-          <input id="form-pdf-url" type="url" class="w-full p-2 border rounded-lg bg-white" placeholder="https://drive.google.com/file/d/.../view">
-          <button onclick="saveCustomPdfLink()" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold rounded-lg">
-            Save Google Drive PDF Link
-          </button>
-        </div>
-
-        <div class="p-3.5 bg-teal-50 border border-teal-200 rounded-xl space-y-2">
-          <div class="font-extrabold text-teal-950">📊 2. Live Google Sheet Question Sync (Optional):</div>
-          <p class="text-teal-800 text-[11px]">
-            Aapko 1-100 questions haath se likhne ki zaroorat nahi hai! Website me pehle se questions hain. Agar aap kabhi Google Sheet se naye questions live jodna chahein (File ➔ Share ➔ Publish to Web as CSV), to uska CSV link yahan paste karein:
-          </p>
-          <input id="form-sheet-csv" type="url" class="w-full p-2 border rounded-lg bg-white" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv">
-          <button onclick="syncGoogleSheetCsv()" class="w-full py-2 bg-teal-700 hover:bg-teal-800 text-white font-extrabold rounded-lg">
-            Save & Sync Google Sheet CSV
-          </button>
-        </div>
-      </div>
-
-      <!-- FORM 4: BULK JSON & GITHUB EXPORT -->
-<!-- ... existing code ... -->
-    // ============================================================================
-    // 1. OWNER CONFIGURATION (PRE-CONFIGURED FOR AKHILESH / AKHIL AARYA)
-    // ============================================================================
-    const SITE_CONFIG = {
+  <!-- ================= APPLICATION JAVASCRIPT ================= -->
+  <script>
+    // EDUCATOR PAYMENT & CONTACT CONFIG (FIXED FOR AKHILESH / AKHIL AARYA)
+    const EDUCATOR_CONFIG = {
       upiId: "akhilesh354@sbi",
-      accountHolder: "Akhilesh (Akhil Aarya)",
+      holderName: "Akhilesh (Akhil Aarya)",
       whatsappNumber: "918853594921",
-      notesPrice: 51,
-      fullPackPrice: 121,
       adminPin: "1995"
     };
 
-    // Custom Google Drive PDF URLs (if added by Educator)
-    let customPdfLinks = {};
-    try {
-      const savedLinks = localStorage.getItem('upessc_tgt_pdf_links_v1');
-      if (savedLinks) customPdfLinks = JSON.parse(savedLinks);
-    } catch (e) {}
+    let currentLang = "both"; // 'both', 'hi', 'en'
+    let selectedPayItem = { title: "Complete Revision PDF Notes", price: 51 };
 
-    // Built-in Printable PDF Documents (Work immediately out-of-the-box)
-    const BUILTIN_PDF_DOCS = {
-      notif_2026: {
-        title: "UPESSC TGT 2026 Official Notification Summary (Advt. 07/2026)",
-        sub: "Important Dates, 660 Biology Vacancies, +3/-1 Marking Scheme & Eligibility",
-        html: `
-          <div class="space-y-4">
-            <div class="border-b-2 border-slate-900 pb-3 text-center">
-              <h2 class="text-lg font-black text-slate-900">उत्तर प्रदेश शिक्षा सेवा चयन आयोग, प्रयागराज (UPESSC)</h2>
-              <p class="text-xs font-bold text-teal-800">सहायक अध्यापक (स्नातक वेतनक्रम - TGT) चयन परीक्षा 2026 • विज्ञापन संख्या: 07/2026</p>
-              <p class="text-[11px] text-slate-500">Compiled By Akhil Aarya • BioPrep TGT Portal</p>
-            </div>
-            <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border">
-              <div><strong>ऑनलाइन आवेदन प्रारम्भ:</strong> 24.10.2026</div>
-              <div><strong>आवेदन शुल्क जमा अंतिम तिथि:</strong> 23.11.2026</div>
-              <div><strong>लिखित परीक्षा तिथि:</strong> 23 व 24 दिसम्बर, 2026</div>
-              <div><strong>वेतनमान:</strong> लेवल-7 (₹44,900 से ₹1,42,400)</div>
-            </div>
-            <div class="space-y-2">
-              <h4 class="font-extrabold text-slate-900">1. जीव विज्ञान (TGT Biology - Subject Code 06) रिक्त पदों का विवरण:</h4>
-              <p class="text-xs">• <strong>बालक वर्ग (Boys School):</strong> 632 पद (Gen: 228, OBC: 161, SC: 127, ST: 0, EWS: 116)</p>
-              <p class="text-xs">• <strong>बालिका वर्ग (Girls School):</strong> 28 पद (Gen: 11, OBC: 8, SC: 4, ST: 0, EWS: 5)</p>
-              <p class="text-xs font-bold text-teal-800">• कुल जीव विज्ञान पद: 660 पद (समस्त विषयों के कुल पद: 17,735)</p>
-            </div>
-            <div class="space-y-2">
-              <h4 class="font-extrabold text-slate-900">2. नवीन परीक्षा योजना एवं ऋणात्मक अंकन (Marking Scheme):</h4>
-              <ul class="list-disc pl-5 text-xs space-y-1">
-                <li>कुल प्रश्न: <strong>120 बहुविकल्पीय प्रश्न</strong> (30 प्रश्न सामान्य ज्ञान + 90 प्रश्न जीव विज्ञान)।</li>
-                <li>कुल पूर्णांक: <strong>360 अंक</strong> | समय अवधि: <strong>2 घण्टे (120 मिनट)</strong>।</li>
-                <li>प्रत्येक सही उत्तर हेतु <strong>+3 अंक</strong> देय होंगे तथा प्रत्येक गलत उत्तर हेतु <strong>-1 अंक (Minus Marking)</strong> काटा जाएगा।</li>
-              </ul>
-            </div>
-          </div>
-        `
+    // CHAPTERS & HIGH-YIELD REVISION THEORY
+    const CHAPTERS = [
+      {
+        id: "zoo_non_chordata",
+        section: "zoo",
+        name: "1. Non-Chordata (Protozoa to Echinodermata)",
+        sub: "Entamoeba, Plasmodium, Sycon, Hydra, Obelia, Fasciola, Taenia, Pheretima, Cockroach, Pila, Starfish",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">1. Phylum Protozoa & Porifera</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Entamoeba histolytica:</strong> Monogenetic parasite residing in human large intestine; infective stage is <em>Tetranucleate Cyst</em>.</li>
+            <li><strong>Plasmodium:</strong> Digenetic; infective stage for human is <em>Sporozoite</em>; Schuffner's dots are seen in RBCs infected with <em>P. vivax</em>.</li>
+            <li><strong>Porifera (Canal Systems):</strong> Leucosolenia shows simplest <em>Asconoid</em> type; Sycon shows <em>Syconoid</em> type; Leuconoid is steepest/most complex. Unique collar cells: <em>Choanocytes</em>.</li>
+          </ul>
+          <h4 class="font-extrabold text-base text-emerald-800 mt-3">2. Coelenterata, Helminthes, Annelida, Arthropoda, Mollusca & Echinodermata</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Obelia:</strong> Exhibits Metagenesis (alternation between asexual Polyp and sexual Medusa). Larva: <em>Planula</em>.</li>
+            <li><strong>Fasciola hepatica:</strong> Sheep liver fluke; Intermediate host is snail (<em>Lymnaea</em>). Larval sequence: Miracidium → Sporocyst → Redia → Cercaria → Metacercaria.</li>
+            <li><strong>Pheretima (Earthworm):</strong> Typhlosole (26–95 segments) increases absorption area; Chloragogen cells are analogous to vertebrate liver.</li>
+            <li><strong>Mollusca & Echinodermata:</strong> Pila has <em>Radula</em> for rasping and <em>Osphradium</em> for testing chemical nature of water. Starfish (Asterias) possesses <em>Water Vascular System</em> (Madreporite) and <em>Bipinnaria</em> larva.</li>
+          </ul>`
       },
-      syllabus_2026: {
-        title: "UPESSC TGT Biology + GS Official Revised Syllabus 2026 (Bilingual)",
-        sub: "Complete Unit-wise Syllabus for Section A (30 Qs GK) & Section B (90 Qs Zoology + Botany)",
-        html: `
-          <div class="space-y-4">
-            <div class="border-b-2 border-slate-900 pb-3 text-center">
-              <h2 class="text-lg font-black text-slate-900">UPESSC TGT BIOLOGY (CODE-06) + GK OFFICIAL SYLLABUS 2026</h2>
-              <p class="text-xs font-bold text-teal-800">30 Questions General Knowledge + 90 Questions Biology (Zoology & Botany) = 120 Questions (360 Marks)</p>
-            </div>
-            <div class="space-y-2 text-xs">
-              <h4 class="font-extrabold text-sky-900 uppercase">Section A: General Knowledge (30 Questions)</h4>
-              <p><strong>Unit 1 (Current Affairs):</strong> State, National & International Events, Personalities in News, Sports.</p>
-              <p><strong>Unit 2 (History, Polity, Economy, Geography):</strong> Indian History & National Movement, Indian Constitution & Educational System Development, Indian Economy, Basic Indian Geography & Population.</p>
-              <p><strong>Unit 3 (General Science & ICT):</strong> General Science, Tech & Environment; Human Health & Hygiene (Vitamins, Minerals, Deficiency Diseases, Hormones, Enzymes); Computer & Internet Terminology, ICT Uses & Educational Technology.</p>
-            </div>
-            <div class="space-y-2 text-xs">
-              <h4 class="font-extrabold text-teal-900 uppercase">Section B (Part 1): Zoology (जन्तु विज्ञान)</h4>
-              <p><strong>1. Non-Chordata:</strong> Protozoa (Entamoeba, Plasmodium, Paramoecium, Euglena & Protozoan diseases), Porifera (Leucosolenia, Sycon), Coelenterata (Hydra, Obelia, Aurelia), Helminthes (Fasciola, Taenia, Ascaris & diseases), Annelida (Nereis, Pheretima, Leech), Arthropoda (Cockroach, Musca, Mosquito, Palaemon & Economic importance of insects), Mollusca (Unio, Pila), Echinodermata (Starfish).</p>
-              <p><strong>2. Protochordata & Chordata:</strong> Herdmania, Amphioxus; Scoliodon (Pisces), Rana tigrina (Amphibia), Uromastix (Reptilia), Columba (Aves), Oryctolagus (Mammalia).</p>
-              <p><strong>3. Cell Biology, Genetics & Evolution:</strong> Ultra structure of cell, Mitosis, Meiosis, Gametogenesis, Mendel's laws, Linkage, Crossing over, Eugenics; Lamarckism, Darwinism, Mutation, Isolation, Epochs/Periods & Human Evolution.</p>
-              <p><strong>4. Ecology, Pollution, Physiology, Biochemistry (Carbohydrates, Proteins, Lipids, Enzymes, Hormones), Embryology (Amphioxus, Frog, Chick & Mammalian Placenta) & Zoogeography.</strong></p>
-            </div>
-            <div class="space-y-2 text-xs">
-              <h4 class="font-extrabold text-emerald-900 uppercase">Section B (Part 2): Botany (वनस्पति विज्ञान)</h4>
-              <p><strong>1. Viruses, Lichens, Algae & Fungi:</strong> Nostoc, Chlamydomonas, Volvox, Ulothrix, Spirogyra, Oedogonium, Ectocarpus, Batrachospermum; Mucor, Rhizopus, Pythium, Albugo, Saccharomyces, Penicillium, Puccinia, Agaricus.</p>
-              <p><strong>2. Bryophyta, Pteridophyta, Gymnosperms & Palaeobotany:</strong> Riccia, Marchantia, Funaria; Lycopodium, Selaginella, Equisetum, Marsilea; Cycas & Pinus; Geological time scale & fossils.</p>
-              <p><strong>3. Angiosperm Taxonomy (Bentham & Hooker):</strong> Ranunculaceae, Brassicaceae, Papaveraceae, Caryophyllaceae, Fabaceae, Rosaceae, Cucurbitaceae, Apiaceae, Asteraceae, Solanaceae, Acanthaceae, Lamiaceae, Euphorbiaceae, Liliaceae, Poaceae + Economic Botany.</p>
-              <p><strong>4. Morphology, Anomalous Secondary Growth (Tinospora, Dracaena, Achyranthes, Boerhaavia, Nyctanthes), Embryology, Ecology, Cytogenetics, Plant Physiology & Soil Science.</strong></p>
-            </div>
-          </div>
-        `
+      {
+        id: "zoo_chordata",
+        section: "zoo",
+        name: "2. Protochordata & Vertebrates (Chordata)",
+        sub: "Herdmania, Amphioxus, Scoliodon, Rana, Uromastix, Columba, Oryctolagus",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Protochordata & Vertebrata Key Facts</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Herdmania (Urochordata):</strong> Shows <em>Retrogressive Metamorphosis</em> (advanced free-swimming tadpole larva transforms into sessile adult). Neural gland is excretory.</li>
+            <li><strong>Amphioxus (Branchiostoma):</strong> Cephalochordate; Wheel organ & Hatschek's pit; flame cells (Solenocytes) for excretion.</li>
+            <li><strong>Scoliodon (Dogfish):</strong> Cartilaginous fish; placoid scales; 2-chambered venous heart; <em>Ampullae of Lorenzini</em> act as thermoreceptors/electroreceptors.</li>
+            <li><strong>Rana (Frog), Uromastix, Columba (Pigeon) & Oryctolagus (Rabbit):</strong> Frog has 10 pairs of cranial nerves (Anamniota); Reptiles, Aves & Mammals have 12 pairs (Amniota). Pigeon crop secretes nutritive 'Pigeon milk' under Prolactin control.</li>
+          </ul>`
       },
-      sample_notes: {
-        title: "Free Sample Note: Protozoa, Canal System & Cell Division One-Liners",
-        sub: "Bilingual High-Yield Revision Sheet Curated By Akhil Aarya",
-        html: `
-          <div class="space-y-4">
-            <div class="border-b-2 border-slate-900 pb-3 text-center">
-              <h2 class="text-lg font-black text-slate-900">BIOPREP TGT BIOLOGY — STAR REVISION SHEET (SAMPLE PDF)</h2>
-              <p class="text-xs font-bold text-teal-800">Curated By Akhil Aarya (Full 9-Unit PDF Pack available @ ₹51 on UPI: akhilesh354@sbi)</p>
-            </div>
-            <div class="space-y-2 text-xs">
-              <h4 class="font-extrabold text-slate-900">1. Phylum Protozoa — Exam Star Points:</h4>
-              <ul class="list-disc pl-5 space-y-1">
-                <li><strong>Entamoeba histolytica:</strong> Monogenetic parasite in human colon; infective stage is <em>Quadrinucleate Cyst</em> (Tetranucleate cyst). Chromatoid bodies made of ribonucleoprotein are present.</li>
-                <li><strong>Plasmodium (Malaria):</strong> Digenetic (Primary host: Female Anopheles; Secondary host: Man). Infective stage to man: <em>Sporozoite</em>. Haemozoin toxin causes chill and high fever. Maurer's dots (<em>P. falciparum</em>), Schuffner's dots (<em>P. vivax</em>).</li>
-                <li><strong>Euglena viridis:</strong> Mixotrophic nutrition (Holophytic in light + Saprophytic in dark); reserve food is <em>Paramylum</em> ($\beta-1,3$ glucan).</li>
-              </ul>
-              <h4 class="font-extrabold text-slate-900 pt-2">2. Porifera Canal System & Larvae:</h4>
-              <ul class="list-disc pl-5 space-y-1">
-                <li><strong>Leucosolenia:</strong> Asconoid canal system; Olynthus stage.</li>
-                <li><strong>Sycon (Scypha):</strong> Syconoid canal system (Ostia ➔ Incurrent canal ➔ Prosopyle ➔ Radial canal lined by Choanocytes ➔ Apopyle ➔ Spongocoel ➔ Osculum). Larva: <em>Amphiblastula</em> (hollow, flagellated).</li>
-              </ul>
-              <h4 class="font-extrabold text-slate-900 pt-2">3. Plant Anomalous Secondary Growth (Botany Shortcut):</h4>
-              <ul class="list-disc pl-5 space-y-1">
-                <li><strong>Nyctanthes (Harshringar):</strong> 4 inverted cortical vascular bundles in the 4 corners of quadrangular stem.</li>
-                <li><strong>Dracaena:</strong> Monocot stem showing anomalous secondary growth via accessory cambium.</li>
-                <li><strong>Boerhaavia & Achyranthes:</strong> Medullary vascular bundles & successive rings of vascular bundles.</li>
-              </ul>
-            </div>
-          </div>
-        `
+      {
+        id: "zoo_cell_gen",
+        section: "zoo",
+        name: "3. Cell Biology, Genetics & Evolution",
+        sub: "Mitosis, Meiosis, Mendelism, Crossing Over, Lamarckism, Darwinism, Human Evolution",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Cell Division, Genetics & Evolution</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Meiosis I (Prophase I):</strong> Leptotene (bouquet stage) → Zygotene (Synapsis / Synaptonemal complex) → Pachytene (Crossing over / Recombination nodules) → Diplotene (Chiasmata visible) → Diakinesis (Terminalization).</li>
+            <li><strong>Genetics:</strong> Linkage coined by T.H. Morgan in <em>Drosophila</em>. Crossing over results in genetic recombination.</li>
+            <li><strong>Evolution:</strong> Lamarck ('Philosophie Zoologique'); Darwin ('Origin of Species', Natural Selection); Hugo de Vries (Mutation theory on <em>Oenothera lamarckiana</em>).</li>
+          </ul>`
+      },
+      {
+        id: "zoo_physio",
+        section: "zoo",
+        name: "4. Animal Physiology, Biochemistry & Embryology",
+        sub: "Digestion, Respiration, Circulation, Excretion, Nerve, Endocrine, Enzymes, Frog/Chick Embryo",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Animal Physiology & Embryology</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Respiration & Circulation:</strong> Oxygen dissociation curve is Sigmoid; Bohr effect (high CO2 shifts curve right); Pacemaker is SA Node.</li>
+            <li><strong>Biochemistry:</strong> Michaelis constant (Km) indicates substrate concentration at 1/2 Vmax (lower Km = higher affinity).</li>
+            <li><strong>Embryology:</strong> Amphioxus has microlecithal/isolecithal egg (Holoblastic equal cleavage); Frog has mesolecithal/telolecithal egg; Chick has macrolecithal/polylecithal egg (Meroblastic discoidal cleavage).</li>
+          </ul>`
+      },
+      {
+        id: "bot_diversity",
+        section: "bot",
+        name: "5. Viruses, Lichens, Algae & Fungi",
+        sub: "Nostoc, Volvox, Ulothrix, Spirogyra, Oedogonium, Ectocarpus, Batrachospermum, Puccinia, Agaricus",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Algae, Fungi & Lichens</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Algae:</strong> Chlamydomonas (cup-shaped chloroplast); Ulothrix (girdle-shaped); Spirogyra (ribbon/spiral); Oedogonium (reticulate, cap cells, dwarf male/nannandrium); Batrachospermum (freshwater red alga, Chantransia stage).</li>
+            <li><strong>Fungi:</strong> Albugo candida causes white rust of crucifers; Puccinia graminis causes black stem rust of wheat (heteroecious: wheat & barberry).</li>
+            <li><strong>Lichens:</strong> Symbiotic association of Phycobiont (Alga) + Mycobiont (Fungus); Litmus obtained from <em>Roccella</em>; SO2 pollution indicator.</li>
+          </ul>`
+      },
+      {
+        id: "bot_cryptogams",
+        section: "bot",
+        name: "6. Bryophyta, Pteridophyta & Gymnosperms",
+        sub: "Riccia, Marchantia, Funaria, Lycopodium, Selaginella, Equisetum, Marsilea, Cycas, Pinus",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Archegoniatae & Palaeobotany</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Bryophyta:</strong> Marchantia has Gemma cups for asexual reproduction and elaters for spore dispersal. Funaria capsule has peristome teeth (32 in two rings of 16).</li>
+            <li><strong>Pteridophyta:</strong> Selaginella & Marsilea are <em>Heterosporous</em>; Selaginella shows rhizophore and precocious germination (seed habit precursor).</li>
+            <li><strong>Gymnosperms:</strong> Cycas has coralloid roots (with cyanobacteria Nostoc/Anabaena), largest ovule & flagellated multiciliated male gametes. Pinus has winged pollen (Sulphur shower) and mycorrhizal roots.</li>
+          </ul>`
+      },
+      {
+        id: "bot_taxonomy",
+        section: "bot",
+        name: "7. Angiosperm Taxonomy, Anatomy & Embryology",
+        sub: "Bentham & Hooker, 15 Families, Anomalous Secondary Growth, Double Fertilization",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Taxonomy & Anomalous Anatomy</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Families:</strong> Brassicaceae (Tetradynamous stamens, Replum/Siliqua); Asteraceae (Capitulum, Syngenesious stamens, Cypsela); Lamiaceae (Verticillaster, Gynobasic style); Poaceae (Spike of spikelets, Lodicules, Caryopsis).</li>
+            <li><strong>Anomalous Secondary Growth:</strong> Nyctanthes (4 cortical vascular bundles in stem corners); Dracaena (secondary growth in monocot stem); Boerhaavia & Achyranthes (medullary vascular bundles).</li>
+            <li><strong>Embryology:</strong> Polygonum type embryo sac is 7-celled, 8-nucleate; Double fertilization discovered by Nawaschin.</li>
+          </ul>`
+      },
+      {
+        id: "bot_physio",
+        section: "bot",
+        name: "8. Plant Physiology, Ecology & Soil Science",
+        sub: "Photosynthesis (C3, C4, CAM), Respiration, Transpiration, Hormones, Nitrogen Cycle",
+        theory: `
+          <h4 class="font-extrabold text-base text-emerald-800">Plant Physiology & Ecology</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Water & Minerals:</strong> Cohesion-tension theory by Dixon & Joly; Stomatal opening driven by K+ ion pump (Levitt). Molybdenum (Mo) is essential for Nitrate reductase & Nitrogenase.</li>
+            <li><strong>Photosynthesis:</strong> C4 plants show Kranz anatomy (maize, sugarcane) and lack photorespiration; first stable product is OAA (4C).</li>
+            <li><strong>Phytohormones:</strong> Auxin (apical dominance, IAA); Gibberellin (bolting, alpha-amylase); Cytokinin (Richmond-Lang effect, delays senescence); ABA (stress hormone, stomatal closure).</li>
+          </ul>`
+      },
+      {
+        id: "gs_complete",
+        section: "gs",
+        name: "9. General Knowledge (GS - 30 Questions Unit)",
+        sub: "Current Affairs, Indian History, Polity, Economy, Geography, Health, ICT & Edu Tech",
+        theory: `
+          <h4 class="font-extrabold text-base text-indigo-800">UPESSC General Knowledge (30 Questions)</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Polity & Education:</strong> 86th Constitutional Amendment Act (2002) added Article 21A (Right to Education, 6–14 yrs); NEP 2020 replaced 10+2 with 5+3+3+4 curricular structure.</li>
+            <li><strong>History & Geography:</strong> 1857 Revolt in Prayagraj led by Maulvi Liaquat Ali; Tropic of Cancer passes through 8 Indian states.</li>
+            <li><strong>Science & ICT:</strong> Vitamin B12 contains Cobalt; SWAYAM, DIKSHA and NISHTHA are major Digital Education initiatives in India.</li>
+          </ul>`
       }
-    };
-<!-- ... existing code ... -->
-      } else if (mode === 'sec_gs_1') {
-        currentTestTitle = "🎯 GS Sectional Mock Test 1 (30 Qs • 30 Mins)";
-        durationMinutes = 30;
-        questionsList = buildQuestionSet(gkPool, 30, 0);
-      } else if (mode === 'sec_gs_2') {
-        currentTestTitle = "🎯 GS Sectional Mock Test 2 (30 Qs • 30 Mins)";
-        durationMinutes = 30;
-        questionsList = buildQuestionSet(gkPool, 30, 5);
-      } else if (mode === 'sec_zoo_1') {
-        currentTestTitle = "🦁 Zoology Special Sectional Test (45 Qs • 45 Mins)";
-        durationMinutes = 45;
-        const zooPool = bioPool.filter(q => (q.chapterId && q.chapterId.startsWith('zoo_')) || q.chapterId === 'bio_cell_genetics');
-        questionsList = buildQuestionSet(zooPool.length > 0 ? zooPool : bioPool, 45, 0);
-      } else if (mode === 'sec_bot_1') {
-        currentTestTitle = "🌿 Botany Special Sectional Test (45 Qs • 45 Mins)";
-        durationMinutes = 45;
-        const botPool = bioPool.filter(q => q.chapterId && q.chapterId.startsWith('bot_'));
-        questionsList = buildQuestionSet(botPool.length > 0 ? botPool : bioPool, 45, 0);
-      } else if (mode === 'sec_bio_1') {
-        currentTestTitle = "🎯 Complete Biology (Zoology + Botany) Sectional Test 1 (90 Qs • 90 Mins)";
-        durationMinutes = 90;
-        questionsList = buildQuestionSet(bioPool, 90, 0);
-      } else if (mode === 'sec_bio_2') {
-        currentTestTitle = "🎯 Complete Biology (Zoology + Botany) Sectional Test 2 (90 Qs • 90 Mins)";
-        durationMinutes = 90;
-        questionsList = buildQuestionSet(bioPool, 90, 7);
-      } else if (mode === 'full_1') {
-<!-- ... existing code ... -->
-    function switchHomeCategoryTab(tabId) {
-      ['tab-pdfs', 'tab-full', 'tab-sectional', 'tab-chapters', 'tab-syllabus'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-      });
-      const target = document.getElementById(tabId);
-      if (target) target.classList.remove('hidden');
+    ];
 
-      const btnMap = {
-        'tab-pdfs': 'btn-cat-pdfs',
-        'tab-full': 'btn-cat-full',
-        'tab-sectional': 'btn-cat-sectional',
-        'tab-chapters': 'btn-cat-chapters',
-        'tab-syllabus': 'btn-cat-syllabus'
-      };
-      Object.keys(btnMap).forEach(k => {
-        const btn = document.getElementById(btnMap[k]);
-        if (!btn) return;
-        if (k === tabId) {
-          btn.className = "px-4 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm bg-slate-900 text-white shadow-sm flex items-center gap-2 transition";
+    // CORE VERIFIED BILINGUAL QUESTION BANK
+    const BASE_QUESTIONS = [
+      // GS QUESTIONS
+      {
+        id: 1, section: "gs", chapterId: "gs_complete", topic: "Polity & Education",
+        q_hi: "भारतीय संविधान के किस संशोधन द्वारा शिक्षा के अधिकार (अनुच्छेद 21A) को मौलिक अधिकार बनाया गया?",
+        q_en: "By which Constitutional Amendment was the Right to Education (Article 21A) made a Fundamental Right?",
+        options_hi: ["42वाँ संशोधन", "44वाँ संशोधन", "86वाँ संशोधन, 2002", "91वाँ संशोधन"],
+        options_en: ["42nd Amendment", "44th Amendment", "86th Amendment, 2002", "91st Amendment"],
+        correct: 2,
+        exp_hi: "86वें संविधान संशोधन अधिनियम (2002) द्वारा 6 से 14 वर्ष के बच्चों के लिए निःशुल्क और अनिवार्य शिक्षा को अनुच्छेद 21A के तहत मौलिक अधिकार बनाया गया।",
+        exp_en: "The 86th Constitutional Amendment Act, 2002 inserted Article 21A making free and compulsory education for children aged 6–14 years a Fundamental Right."
+      },
+      {
+        id: 2, section: "gs", chapterId: "gs_complete", topic: "Educational Policy",
+        q_hi: "राष्ट्रीय शिक्षा नीति (NEP) 2020 के अनुसार स्कूली शिक्षा की नई पाठ्यचर्या और शैक्षणिक संरचना क्या है?",
+        q_en: "What is the new curricular and pedagogical structure of school education under NEP 2020?",
+        options_hi: ["10 + 2", "5 + 3 + 3 + 4", "4 + 3 + 3 + 5", "5 + 4 + 3 + 3"],
+        options_en: ["10 + 2", "5 + 3 + 3 + 4", "4 + 3 + 3 + 5", "5 + 4 + 3 + 3"],
+        correct: 1,
+        exp_hi: "NEP 2020 ने 10+2 संरचना को 5+3+3+4 (Foundational, Preparatory, Middle, Secondary) में बदल दिया है।",
+        exp_en: "NEP 2020 replaced the 10+2 structure with a 5+3+3+4 design covering ages 3–18 years."
+      },
+      {
+        id: 3, section: "gs", chapterId: "gs_complete", topic: "Indian History",
+        q_hi: "प्रयागराज (इलाहाबाद) में 1857 के विद्रोह का नेतृत्व किसने किया था?",
+        q_en: "Who led the Revolt of 1857 in Prayagraj (Allahabad)?",
+        options_hi: ["नाना साहेब", "मौलवी लियाकत अली", "खान बहादुर खान", "कुँवर सिंह"],
+        options_en: ["Nana Saheb", "Maulvi Liaquat Ali", "Khan Bahadur Khan", "Kunwar Singh"],
+        correct: 1,
+        exp_hi: "प्रयागराज (इलाहाबाद) में 1857 के प्रथम स्वतंत्रता संग्राम का नेतृत्व मौलवी लियाकत अली ने किया था।",
+        exp_en: "Maulvi Liaquat Ali led the uprising of 1857 in Prayagraj (Allahabad)."
+      },
+      {
+        id: 4, section: "gs", chapterId: "gs_complete", topic: "General Science & Health",
+        q_hi: "निम्नलिखित में से किस विटामिन में कोबाल्ट (Cobalt) धातु पाई जाती है?",
+        q_en: "Which of the following vitamins contains the metal Cobalt?",
+        options_hi: ["विटामिन B1", "विटामिन B6", "विटामिन B12 (सायनोकोबालामिन)", "विटामिन C"],
+        options_en: ["Vitamin B1", "Vitamin B6", "Vitamin B12 (Cyanocobalamin)", "Vitamin C"],
+        correct: 2,
+        exp_hi: "विटामिन B12 का रासायनिक नाम सायनोकोबालामिन है जिसमें कोबाल्ट धातु उपस्थित होती है। इसकी कमी से पर्निशियस एनीमिया होता है।",
+        exp_en: "Vitamin B12 (Cyanocobalamin) contains Cobalt ion at its center; its deficiency causes pernicious anemia."
+      },
+      {
+        id: 5, section: "gs", chapterId: "gs_complete", topic: "ICT & Education",
+        q_hi: "शिक्षा प्रौद्योगिकी में भारत सरकार के पोर्टल 'SWAYAM' का पूर्ण रूप क्या है?",
+        q_en: "What does the acronym 'SWAYAM' stand for in Indian Educational Technology?",
+        options_hi: ["Study Webs of Active-Learning for Young Aspiring Minds", "School Webs of Advanced Youth Minds", "System of Web Academic Youth Management", "Smart Web Application for Young Minds"],
+        options_en: ["Study Webs of Active-Learning for Young Aspiring Minds", "School Webs of Advanced Youth Minds", "System of Web Academic Youth Management", "Smart Web Application for Young Minds"],
+        correct: 0,
+        exp_hi: "SWAYAM (Study Webs of Active-Learning for Young Aspiring Minds) भारत सरकार का एक प्रमुख MOOC शैक्षिक प्लेटफॉर्म है।",
+        exp_en: "SWAYAM stands for Study Webs of Active-Learning for Young Aspiring Minds, an Indian MOOC platform."
+      },
+      {
+        id: 6, section: "gs", chapterId: "gs_complete", topic: "Indian Geography",
+        q_hi: "भारत में कर्क रेखा (Tropic of Cancer) कुल कितने राज्यों से होकर गुजरती है?",
+        q_en: "Through how many Indian states does the Tropic of Cancer pass?",
+        options_hi: ["6 राज्य", "7 राज्य", "8 राज्य", "9 राज्य"],
+        options_en: ["6 States", "7 States", "8 States", "9 States"],
+        correct: 2,
+        exp_hi: "कर्क रेखा भारत के 8 राज्यों (गुजरात, राजस्थान, मध्य प्रदेश, छत्तीसगढ़, झारखंड, पश्चिम बंगाल, त्रिपुरा और मिजोरम) से गुजरती है।",
+        exp_en: "The Tropic of Cancer passes through 8 Indian states: Gujarat, Rajasthan, MP, Chhattisgarh, Jharkhand, West Bengal, Tripura, and Mizoram."
+      },
+      {
+        id: 7, section: "gs", chapterId: "gs_complete", topic: "Computer & ICT",
+        q_hi: "कम्प्यूटर शब्दावली में 'HTTP' में 'P' का क्या अर्थ है?",
+        q_en: "In computer terminology, what does 'P' stand for in 'HTTP'?",
+        options_hi: ["Program", "Protocol", "Processor", "Pathway"],
+        options_en: ["Program", "Protocol", "Processor", "Pathway"],
+        correct: 1,
+        exp_hi: "HTTP का पूर्ण रूप HyperText Transfer Protocol है।",
+        exp_en: "HTTP stands for HyperText Transfer Protocol."
+      },
+      {
+        id: 8, section: "gs", chapterId: "gs_complete", topic: "Environment & Ecology",
+        q_hi: "विश्व ओजोन दिवस (World Ozone Day) प्रत्येक वर्ष किस तिथि को मनाया जाता है?",
+        q_en: "On which date is World Ozone Day observed every year?",
+        options_hi: ["5 जून", "22 अप्रैल", "16 सितम्बर", "2 दिसम्बर"],
+        options_en: ["5 June", "22 April", "16 September", "2 December"],
+        correct: 2,
+        exp_hi: "16 सितम्बर 1987 को मॉन्ट्रियल प्रोटोकॉल पर हस्ताक्षर की स्मृति में प्रतिवर्ष 16 सितम्बर को विश्व ओजोन दिवस मनाया जाता है।",
+        exp_en: "World Ozone Day is celebrated on 16 September commemorating the Montreal Protocol (1987)."
+      },
+      {
+        id: 9, section: "gs", chapterId: "gs_complete", topic: "Indian Economy",
+        q_hi: "भारत में मौद्रिक नीति (Monetary Policy) किसके द्वारा तैयार और लागू की जाती है?",
+        q_en: "Monetary Policy in India is formulated and implemented by:",
+        options_hi: ["नीति आयोग", "भारतीय रिजर्व बैंक (RBI)", "सेबी (SEBI)", "नाबार्ड (NABARD)"],
+        options_en: ["NITI Aayog", "Reserve Bank of India (RBI)", "SEBI", "NABARD"],
+        correct: 1,
+        exp_hi: "भारतीय रिजर्व बैंक (RBI) की मौद्रिक नीति समिति (MPC) द्वारा भारत में मौद्रिक नीति का निर्धारण किया जाता है।",
+        exp_en: "The Reserve Bank of India (RBI) formulates and implements Monetary Policy via its Monetary Policy Committee."
+      },
+      {
+        id: 10, section: "gs", chapterId: "gs_complete", topic: "Indian Constitution",
+        q_hi: "भारतीय संविधान की किस अनुसूची में 22 आधिकारिक भाषाओं का उल्लेख किया गया है?",
+        q_en: "Which Schedule of the Indian Constitution lists the 22 official languages?",
+        options_hi: ["सातवीं अनुसूची", "आठवीं अनुसूची", "नौवीं अनुसूची", "दसवीं अनुसूची"],
+        options_en: ["Seventh Schedule", "Eighth Schedule", "Ninth Schedule", "Tenth Schedule"],
+        correct: 1,
+        exp_hi: "भारतीय संविधान की आठवीं अनुसूची (Eighth Schedule) में भारत की 22 मान्यता प्राप्त भाषाओं का उल्लेख है।",
+        exp_en: "The Eighth Schedule to the Constitution of India lists the 22 official languages."
+      },
+
+      // ZOOLOGY QUESTIONS
+      {
+        id: 11, section: "zoo", chapterId: "zoo_non_chordata", topic: "Protozoa",
+        q_hi: "मनुष्य में एन्टअमीबा हिस्टोलिटिका (Entamoeba histolytica) की संक्रामक अवस्था (Infective stage) कौन-सी है?",
+        q_en: "Which is the infective stage of Entamoeba histolytica for humans?",
+        options_hi: ["ट्रॉफोजोइट (Trophozoite)", "प्रिकिस्टिक अवस्था", "चतुष्केन्द्रकीय पुटी (Tetranucleate Cyst)", "द्विकेन्द्रकीय पुटी"],
+        options_en: ["Trophozoite", "Precystic stage", "Tetranucleate Cyst (Quadrinucleate cyst)", "Binucleate cyst"],
+        correct: 2,
+        exp_hi: "एन्टअमीबा हिस्टोलिटिका की चतुष्केन्द्रकीय पुटी (Tetranucleate / Quadrinucleate cyst) दूषित जल व भोजन के माध्यम से मनुष्य को संक्रमित करती है।",
+        exp_en: "The mature Tetranucleate (Quadrinucleate) cyst is the infective stage of Entamoeba histolytica transmitted via contaminated food and water."
+      },
+      {
+        id: 12, section: "zoo", chapterId: "zoo_non_chordata", topic: "Protozoa",
+        q_hi: "प्लाज्मोडियम वाइवैक्स (Plasmodium vivax) से संक्रमित मनुष्य के लाल रक्त कणों (RBCs) में कौन-से कण दिखाई देते हैं?",
+        q_en: "Which stippling/dots appear in human RBCs infected with Plasmodium vivax?",
+        options_hi: ["मॉरर के बिंदु (Maurer's dots)", "शुफनर के बिंदु (Schuffner's dots)", "ज़िमैन्स के बिंदु (Ziemann's dots)", "हीमोजोइन कण"],
+        options_en: ["Maurer's dots", "Schuffner's dots", "Ziemann's dots", "Haemozoin granules"],
+        correct: 1,
+        exp_hi: "प्लाज्मोडियम वाइवैक्स के संक्रमण में मनुष्य की RBCs में 'शुफनर के बिंदु' (Schuffner's dots) पाए जाते हैं।",
+        exp_en: "Schuffner's dots are characteristic eosinophilic stippling seen in erythrocytes infected by Plasmodium vivax."
+      },
+      {
+        id: 13, section: "zoo", chapterId: "zoo_non_chordata", topic: "Porifera",
+        q_hi: "ल्यूकोसोलेनिया (Leucosolenia) में किस प्रकार का नाल तंत्र (Canal System) पाया जाता है?",
+        q_en: "Which type of canal system is found in Leucosolenia?",
+        options_hi: ["एस्कॉन प्रकार (Asconoid type)", "साइकॉन प्रकार (Syconoid type)", "ल्यूकॉन प्रकार (Leuconoid type)", "रैगॉन प्रकार (Rhagon type)"],
+        options_en: ["Asconoid type", "Syconoid type", "Leuconoid type", "Rhagon type"],
+        correct: 0,
+        exp_hi: "ल्यूकोसोलेनिया में सबसे सरल प्रकार का 'एस्कॉन' (Asconoid) नाल तंत्र पाया जाता है।",
+        exp_en: "Leucosolenia possesses the simplest Asconoid type of canal system."
+      },
+      {
+        id: 14, section: "zoo", chapterId: "zoo_non_chordata", topic: "Coelenterata",
+        q_hi: "ओबेलिया (Obelia) के जीवन-चक्र में पॉलिप और मेडुसा अवस्थाओं के एकांतरण को क्या कहते हैं?",
+        q_en: "Alternation of asexual polyp and sexual medusa generations in Obelia is termed as:",
+        options_hi: ["कायांतरण (Metamorphosis)", "मेटाजेनेसिस (Metagenesis)", "पीढ़ी एकांतरण", "पार्थेनोजेनेसिस"],
+        options_en: ["Metamorphosis", "Metagenesis", "Paedogenesis", "Parthenogenesis"],
+        correct: 1,
+        exp_hi: "ओबेलिया में अलैंगिक पॉलिप तथा लैंगिक मेडुसा प्रावस्थाओं के एकांतरण को मेटाजेनेसिस (Metagenesis) कहते हैं।",
+        exp_en: "Alternation between asexual diploid polyp and sexual diploid medusa in Cnidarians like Obelia is called Metagenesis."
+      },
+      {
+        id: 15, section: "zoo", chapterId: "zoo_non_chordata", topic: "Helminthes",
+        q_hi: "फैशियोला हिपैटिका (Fasciola hepatica) के जीवन-चक्र में लार्वा अवस्थाओं का सही क्रम क्या है?",
+        q_en: "What is the correct sequence of larval stages in the life cycle of Fasciola hepatica?",
+        options_hi: [
+          "मिरासिडियम → स्पोरोसिस्ट → रेडिया → सर्केरिया → मेटासर्केरिया",
+          "मिरासिडियम → रेडिया → स्पोरोसिस्ट → सर्केरिया → मेटासर्केरिया",
+          "स्पोरोसिस्ट → मिरासिडियम → रेडिया → मेटासर्केरिया → सर्केरिया",
+          "सर्केरिया → मिरासिडियम → स्पोरोसिस्ट → रेडिया → मेटासर्केरिया"
+        ],
+        options_en: [
+          "Miracidium → Sporocyst → Redia → Cercaria → Metacercaria",
+          "Miracidium → Redia → Sporocyst → Cercaria → Metacercaria",
+          "Sporocyst → Miracidium → Redia → Metacercaria → Cercaria",
+          "Cercaria → Miracidium → Sporocyst → Redia → Metacercaria"
+        ],
+        correct: 0,
+        exp_hi: "फैशियोला के लार्वा का सही क्रम: मिरासिडियम → स्पोरोसिस्ट → रेडिया → सर्केरिया → मेटासर्केरिया है। भेड़ के लिए संक्रामक अवस्था मेटासर्केरिया है।",
+        exp_en: "The correct developmental order is Miracidium → Sporocyst → Redia → Cercaria → Metacercaria."
+      },
+      {
+        id: 16, section: "zoo", chapterId: "zoo_non_chordata", topic: "Annelida",
+        q_hi: "केंचुए (Pheretima posthuma) में 'क्लोरागोजेन कोशिकाएं' (Chloragogen cells) कशेरुकियों के किस अंग के समरूप कार्य करती हैं?",
+        q_en: "Chloragogen cells in Pheretima posthuma are analogous in function to which vertebrate organ?",
+        options_hi: ["वृक्क (Kidney)", "यकृत (Liver)", "फेफड़े (Lungs)", "प्लीहा (Spleen)"],
+        options_en: ["Kidney", "Liver", "Lungs", "Spleen"],
+        correct: 1,
+        exp_hi: "केंचुए की क्लोरागोजेन कोशिकाएं ग्लाइकोजन संचय तथा डीएमीनेशन (उत्सर्जन) का कार्य करती हैं, जो कशेरुकियों के यकृत (Liver) के समान है।",
+        exp_en: "Chloragogen cells (yellow cells) in earthworm store glycogen and neutralize toxins, functioning analogously to the vertebrate liver."
+      },
+      {
+        id: 17, section: "zoo", chapterId: "zoo_non_chordata", topic: "Mollusca",
+        q_hi: "पाइला (Pila globosa) में जल की रासायनिक प्रकृति का परीक्षण करने वाला संवेदी अंग कौन-सा है?",
+        q_en: "Which sensory organ in Pila globosa tests the chemical purity of water entering the mantle cavity?",
+        options_hi: ["रेडुला (Radula)", "ऑस्फ्रेडियम (Osphradium)", "स्टैटोसिस्ट (Statocyst)", "टेन्टेकल (Tentacle)"],
+        options_en: ["Radula", "Osphradium", "Statocyst", "Tentacle"],
+        correct: 1,
+        exp_hi: "पाइला में ऑस्फ्रेडियम (Osphradium) एक रसोसंवेदी अंग (Chemoreceptor) है जो जल की रासायनिक शुद्धता की जाँच करता है।",
+        exp_en: "Osphradium is an olfactory/chemoreceptive organ in Pila that tests the chemical nature of water."
+      },
+      {
+        id: 18, section: "zoo", chapterId: "zoo_chordata", topic: "Protochordata",
+        q_hi: "हर्डमानिया (Herdmania) में किस प्रकार का कायांतरण पाया जाता है?",
+        q_en: "Which type of metamorphosis is exhibited by Herdmania?",
+        options_hi: ["प्रगतिशील कायांतरण", "प्रतिगामी कायांतरण (Retrogressive Metamorphosis)", "अपूर्ण कायांतरण", "कोई कायांतरण नहीं"],
+        options_en: ["Progressive metamorphosis", "Retrogressive metamorphosis", "Incomplete metamorphosis", "No metamorphosis"],
+        correct: 1,
+        exp_hi: "हर्डमानिया के स्वतंत्र तैरने वाले विकसित टैडपोल लार्वा में नोटोकॉर्ड व नर्व कॉर्ड होते हैं जो वयस्क बनने पर समाप्त हो जाते हैं, इसे प्रतिगामी कायांतरण कहते हैं।",
+        exp_en: "Herdmania shows Retrogressive Metamorphosis where an active, chordate tadpole larva degenerates into a sedentary adult."
+      },
+      {
+        id: 19, section: "zoo", chapterId: "zoo_chordata", topic: "Vertebrates",
+        q_hi: "स्कोलियोडॉन (Scoliodon) में 'लोरेन्जिनी की तुंबिकाएं' (Ampullae of Lorenzini) किसके प्रति संवेदी होती हैं?",
+        q_en: "Ampullae of Lorenzini in Scoliodon (Dogfish) act as receptors for:",
+        options_hi: ["ताप एवं विद्युत संवेदना (Thermoreceptor & Electroreceptor)", "केवल प्रकाश", "संतुलन", "ध्वनि तरंगें"],
+        options_en: ["Temperature and electric fields (Thermo & Electroreceptors)", "Light only", "Equilibrium only", "Sound waves"],
+        correct: 0,
+        exp_hi: "स्कोलियोडॉन के थूथन पर स्थित लोरेन्जिनी की तुंबिकाएं तापग्राही (Thermoreceptors) तथा विद्युतग्राही होती हैं।",
+        exp_en: "Ampullae of Lorenzini in Scoliodon detect temperature changes (thermoreceptors) and weak electrical stimuli."
+      },
+      {
+        id: 20, section: "zoo", chapterId: "zoo_cell_gen", topic: "Cell Biology",
+        q_hi: "अर्धसूत्री विभाजन (Meiosis-I) की किस उप-अवस्था में जीन विनिमय (Crossing over) की प्रक्रिया होती है?",
+        q_en: "During which sub-stage of Prophase-I of Meiosis does Crossing Over take place?",
+        options_hi: ["लेप्टोटीन (Leptotene)", "जाइगोटीन (Zygotene)", "पैकीटीन (Pachytene)", "डिप्लोटीन (Diplotene)"],
+        options_en: ["Leptotene", "Zygotene", "Pachytene", "Diplotene"],
+        correct: 2,
+        exp_hi: "अर्धसूत्री विभाजन के प्रोफेज-I की पैकीटीन (Pachytene) अवस्था में समजात गुणसूत्रों के नॉन-सिस्टर क्रोमैटिड्स के बीच क्रॉसिंग ओवर होता है।",
+        exp_en: "Crossing over occurs during the Pachytene stage of Prophase-I with the help of enzyme recombinase."
+      },
+      {
+        id: 21, section: "zoo", chapterId: "zoo_physio", topic: "Biochemistry",
+        q_hi: "माइकेलिस स्थिरांक (Km) किसके बराबर होता है?",
+        q_en: "Michaelis constant (Km) of an enzyme represents the substrate concentration at which:",
+        options_hi: ["अभिक्रिया का वेग Vmax के बराबर हो", "अभिक्रिया का वेग अधिकतम वेग का आधा (1/2 Vmax) हो", "एंजाइम पूर्णतः संतृप्त हो", "अभिक्रिया रुक जाए"],
+        options_en: ["Reaction velocity equals Vmax", "Reaction velocity reaches half of maximum velocity (1/2 Vmax)", "Enzyme is completely denatured", "Reaction stops"],
+        correct: 1,
+        exp_hi: "Km वह क्रियाधार सांद्रता (Substrate concentration) है जिस पर एंजाइम अभिक्रिया की गति अधिकतम गति की आधी (1/2 Vmax) हो जाती है। कम Km = उच्च बंधुता।",
+        exp_en: "Km is the substrate concentration at which the reaction velocity is half of Vmax (1/2 Vmax). Lower Km indicates higher affinity."
+      },
+      {
+        id: 22, section: "zoo", chapterId: "zoo_physio", topic: "Embryology",
+        q_hi: "मुर्गी (Chick) के अंडे में किस प्रकार का विदलन (Cleavage) पाया जाता है?",
+        q_en: "Which type of cleavage is found in the macrolecithal/telolecithal egg of Chick (Poultry)?",
+        options_hi: ["पूर्णभंजी समान (Holoblastic equal)", "पूर्णभंजी असमान", "अंशभंजी बिम्बाभ (Meroblastic discoidal)", "अंशभंजी सतही"],
+        options_en: ["Holoblastic equal", "Holoblastic unequal", "Meroblastic discoidal", "Meroblastic superficial"],
+        correct: 2,
+        exp_hi: "मुर्गी का अंडा अतिपीतकी (Polylecithal/Macrolecithal) होता है, इसलिए इसमें केवल ब्लास्टोडिस्क पर अंशभंजी बिम्बाभ (Meroblastic discoidal) विदलन होता है।",
+        exp_en: "Due to heavy yolk, chick eggs undergo Meroblastic discoidal cleavage restricted to the germinal disc (blastodisc)."
+      },
+
+      // BOTANY QUESTIONS
+      {
+        id: 23, section: "bot", chapterId: "bot_diversity", topic: "Algae",
+        q_hi: "निम्नलिखित में से किस शैवाल में 'कैप कोशिकाएं' (Cap cells) तथा बौने नर (Nannandrium) पाए जाते हैं?",
+        q_en: "Which of the following algae shows 'Cap cells' and dwarf males (Nannandrium)?",
+        options_hi: ["यूलोथ्रिक्स (Ulothrix)", "स्पाइरोगाइरा (Spirogyra)", "ऊडोगोनियम (Oedogonium)", "क्टोकार्पस (Ectocarpus)"],
+        options_en: ["Ulothrix", "Spirogyra", "Oedogonium", "Ectocarpus"],
+        correct: 2,
+        exp_hi: "ऊडोगोनियम (Oedogonium) में कोशिका विभाजन के परिणामस्वरूप शीर्ष पर कैप कोशिकाएं (Apical cap cells) बनती हैं और मैक्रैन्ड्रस/नैनेन्ड्रस जातियाँ पाई जाती हैं।",
+        exp_en: "Oedogonium is characterized by reticulate chloroplast, apical cap cells, and dwarf males (nannandria) in nannandrous species."
+      },
+      {
+        id: 24, section: "bot", chapterId: "bot_diversity", topic: "Algae",
+        q_hi: "निम्न में से कौन-सा एक स्वच्छ जलीय लाल शैवाल (Freshwater Red Alga) है जिसके जीवन-चक्र में 'चैन्ट्रान्सिया अवस्था' पाई जाती है?",
+        q_en: "Which of the following is a freshwater Red Alga (Rhodophyceae) showing 'Chantransia stage'?",
+        options_hi: ["पॉलीसाइफोनिया", "बैट्रैकोस्पर्मम (Batrachospermum)", "ग्रेसिलेरिया", "एक्टोकार्पस"],
+        options_en: ["Polysiphonia", "Batrachospermum", "Gracilaria", "Ectocarpus"],
+        correct: 1,
+        exp_hi: "बैट्रैकोस्पर्मम (Frog spawn alga) एक स्वच्छ जलीय लाल शैवाल है जिसकी किशोर अवस्था को चैन्ट्रान्सिया अवस्था कहते हैं।",
+        exp_en: "Batrachospermum (frog spawn alga) is a freshwater rhodophyte whose juvenile protonemal stage is called the Chantransia stage."
+      },
+      {
+        id: 25, section: "bot", chapterId: "bot_diversity", topic: "Fungi",
+        q_hi: "क्रूसीफेरी (सरसों) कुल के पौधों में 'श्वेत किट्ट रोग' (White rust of Crucifers) किस कवक द्वारा होता है?",
+        q_en: "White rust of Crucifers is caused by which fungus?",
+        options_hi: ["पक्सीनिया ग्रैमिनिस", "एल्बुगो कैन्डिडा (Albugo candida)", "राइजोपस", "पाइथियम"],
+        options_en: ["Puccinia graminis", "Albugo candida", "Rhizopus", "Pythium"],
+        correct: 1,
+        exp_hi: "सरसों व अन्य क्रूसीफर पौधों में श्वेत किट्ट (White rust) रोग ओमाइसिटीज कवक एल्बुगो कैन्डिडा द्वारा होता है।",
+        exp_en: "Albugo candida (Cystopus candidus) is an obligate parasite causing white rust or blister disease in crucifers."
+      },
+      {
+        id: 26, section: "bot", chapterId: "bot_cryptogams", topic: "Pteridophyta",
+        q_hi: "निम्नलिखित में से कौन-से टेरिडोफाइट विषमबीजाणुक (Heterosporous) होते हैं?",
+        q_en: "Which of the following pairs of Pteridophytes are Heterosporous?",
+        options_hi: ["लाइकोपोडियम और इक्विसीटम", "सिलेजिनेला और मार्सिलिया (Selaginella & Marsilea)", "ड्रायोप्टेरिस और टेरिस", "राइनिया और साइलोटम"],
+        options_en: ["Lycopodium and Equisetum", "Selaginella and Marsilea", "Dryopteris and Pteris", "Rhynia and Psilotum"],
+        correct: 1,
+        exp_hi: "सिलेजिनेला और मार्सिलिया विषमबीजाणुक (Heterosporous) टेरिडोफाइट हैं जिनमें लघुबीजाणु (Microspores) और गुरुबीजाणु (Megaspores) बनते हैं।",
+        exp_en: "Selaginella and Marsilea are heterosporous pteridophytes producing microspores and megaspores."
+      },
+      {
+        id: 27, section: "bot", chapterId: "bot_cryptogams", topic: "Gymnosperms",
+        q_hi: "साइकस (Cycas) की प्रवाल जड़ों (Coralloid roots) में कौन-सा सहजीवी नील-हरित शैवाल पाया जाता है?",
+        q_en: "Coralloid roots of Cycas harbor which symbiotic nitrogen-fixing cyanobacteria?",
+        options_hi: ["स्पाइरोगाइरा", "नॉस्टॉक एवं एनाबीना (Nostoc & Anabaena)", "वॉलवॉक्स", "क्टोकार्पस"],
+        options_en: ["Spirogyra", "Nostoc and Anabaena", "Volvox", "Ectocarpus"],
+        correct: 1,
+        exp_hi: "साइकस की ऋणात्मक गुरुत्वानुवर्ती प्रवाल जड़ों (Coralloid roots) के शैवालीय क्षेत्र में नॉस्टॉक और एनाबीना सहजीवी के रूप में नाइट्रोजन स्थिरीकरण करते हैं।",
+        exp_en: "Coralloid roots of Cycas are apogeotropic and contain an algal zone inhabited by nitrogen-fixing Nostoc and Anabaena."
+      },
+      {
+        id: 28, section: "bot", chapterId: "bot_taxonomy", topic: "Plant Anatomy",
+        q_hi: "निक्टैन्थिस (Nyctanthes - हरसिंगार) के तने के वल्कुट (Cortex) में चार कोनों पर पाए जाने वाले संवहन पूलों का अभिविन्यास कैसा होता है?",
+        q_en: "In Nyctanthes stem, the four cortical vascular bundles present at the four corners are:",
+        options_hi: ["सामान्य अभिविन्यासित", "उल्टे अभिविन्यासित (Inverted: बाह्य फ्लोएम व आंतरिक जाइलम के स्थान पर उल्टा)", "अरीय (Radial)", "केन्द्राभिमुख"],
+        options_en: ["Normally oriented", "Invertedly oriented (Inverse collateral & open)", "Radial", "Concentric"],
+        correct: 1,
+        exp_hi: "निक्टैन्थिस के चतुष्कोणीय तने के चारों कोनों में 4 उल्टे वल्कुटीय संवहन पूल (Inverted cortical vascular bundles) पाए जाते हैं।",
+        exp_en: "Nyctanthes stem exhibits anomalous secondary growth with 4 inverted cortical vascular bundles at the four ridges."
+      },
+      {
+        id: 29, section: "bot", chapterId: "bot_taxonomy", topic: "Systematic Botany",
+        q_hi: "चतुर्दीर्घी पुंकेसर (Tetradynamous stamens) तथा रेप्लम (Replum) युक्त सिलिकुआ फल किस कुल का विशिष्ट लक्षण है?",
+        q_en: "Tetradynamous stamens (2+4) and Siliqua fruit with a false septum (Replum) are characteristic of:",
+        options_hi: ["सोलैनेसी", "ब्रैसिकेसी / क्रूसीफेरी (Brassicaceae)", "मालवेसी", "लैमिएसी"],
+        options_en: ["Solanaceae", "Brassicaceae (Cruciferae)", "Malvaceae", "Lamiaceae"],
+        correct: 1,
+        exp_hi: "ब्रैसिकेसी (क्रूसीफेरी - सरसों कुल) में 6 पुंकेसर (2 छोटे बाहरी + 4 लंबे भीतरी = चतुर्दीर्घी) तथा रेप्लम (आभासी पट) युक्त सिलिकुआ फल पाया जाता है।",
+        exp_en: "Brassicaceae (Cruciferae) has cruciform corolla, tetradynamous stamens (2+4), and siliqua/silicula fruit with replum."
+      },
+      {
+        id: 30, section: "bot", chapterId: "bot_physio", topic: "Plant Physiology",
+        q_hi: "C4 पौधों (जैसे मक्का एवं गन्ना) में प्रकाश-संश्लेषण के दौरान CO2 स्थिरीकरण का प्रथम स्थायी उत्पाद क्या होता है?",
+        q_en: "What is the first stable product of CO2 fixation in C4 plants (Hatch and Slack pathway)?",
+        options_hi: ["फॉस्फोग्लिसरिक अम्ल (3-PGA)", "ऑक्सैलोएसिटिक अम्ल (OAA - 4 Carbon)", "मैलिक अम्ल", "राइबुलोज बाइफॉस्फेट"],
+        options_en: ["3-Phosphoglyceric acid (PGA)", "Oxaloacetic acid (OAA - 4 Carbon)", "Malic acid", "Ribulose bisphosphate"],
+        correct: 1,
+        exp_hi: "C4 पौधों की पर्णमध्योतक कोशिकाओं में PEP कार्बोक्सिलेज की उपस्थिति में प्रथम स्थायी उत्पाद 4-कार्बन यौगिक ऑक्सैलोएसिटिक अम्ल (OAA) बनता है।",
+        exp_en: "In C4 plants showing Kranz anatomy, the primary CO2 acceptor is PEP and the first stable product is 4-carbon Oxaloacetic acid (OAA)."
+      }
+    ];
+
+    // DEFAULT PDF STORE ITEMS
+    const DEFAULT_PDFS = [
+      {
+        id: "pdf_free_syllabus",
+        title: "UPESSC TGT Biology 2026 Official Syllabus & Exam Scheme PDF",
+        desc: "Official 120 Qs Pattern (30 GS + 90 Biology), 660 Posts Category Table & Full Zoology/Botany Syllabus.",
+        type: "free",
+        action: "syllabus"
+      },
+      {
+        id: "pdf_free_oneliners",
+        title: "High-Yield TGT Biology Revision One-Liners (Free Sample PDF)",
+        desc: "Important Larval Stages, Canal Systems, Anomalous Secondary Growth & Plant Families Revision Sheet.",
+        type: "free",
+        action: "oneliners"
+      },
+      {
+        id: "pdf_paid_51",
+        title: "Complete TGT Biology Bilingual Revision Notes & One-Liners Pack",
+        desc: "All Zoology & Botany Chapters Covered • Exam-oriented Short Notes & Flowcharts (By Akhil Aarya).",
+        type: "paid",
+        price: 51
+      },
+      {
+        id: "pdf_paid_121",
+        title: "2500+ Bilingual MCQs Bank + 15 Full-Length CBT Mock Tests PDF Pack",
+        desc: "Topic-wise 2500+ Questions with Explanations + 15 Full Mock Papers (30 GS + 90 Bio) on WhatsApp.",
+        type: "paid",
+        price: 121
+      }
+    ];
+
+    // STATE MANAGEMENT
+    let customQuestions = JSON.parse(localStorage.getItem("bioprep_custom_qs") || "[]");
+    let customPdfs = JSON.parse(localStorage.getItem("bioprep_custom_pdfs") || "[]");
+    let customTheories = JSON.parse(localStorage.getItem("bioprep_custom_theories") || "{}");
+
+    let activeQuiz = {
+      name: "",
+      questions: [],
+      currentIndex: 0,
+      answers: {}, // index -> selected option (0..3)
+      review: {},  // index -> boolean
+      totalSeconds: 0,
+      remainingSeconds: 0,
+      timerInterval: null,
+      lastTestKey: ""
+    };
+
+    // INITIALIZE PORTAL ON LOAD
+    window.addEventListener("DOMContentLoaded", () => {
+      renderChaptersGrid();
+      renderPdfStore();
+      populateAdminChapters();
+    });
+
+    function getAllQuestions() {
+      return [...BASE_QUESTIONS, ...customQuestions];
+    }
+
+    // BUILD TEST QUESTION SETS TO EXACT OFFICIAL COUNTS (15, 25, 30, 45, 90, 120)
+    function buildQuestionSet(pool, targetCount, labelPrefix) {
+      const result = [];
+      if (pool.length === 0) return result;
+      for (let i = 0; i < targetCount; i++) {
+        const baseQ = pool[i % pool.length];
+        const cycle = Math.floor(i / pool.length);
+        result.push({
+          ...baseQ,
+          uid: `${labelPrefix}_${i + 1}`,
+          q_hi: cycle === 0 ? baseQ.q_hi : `[Practice Set ${cycle + 1}] ${baseQ.q_hi}`,
+          q_en: cycle === 0 ? baseQ.q_en : `[Practice Set ${cycle + 1}] ${baseQ.q_en}`
+        });
+      }
+      return result;
+    }
+
+    // NAVIGATION HELPERS
+    function goHome() {
+      if (activeQuiz.timerInterval) {
+        clearInterval(activeQuiz.timerInterval);
+        activeQuiz.timerInterval = null;
+      }
+      document.getElementById("view-quiz").classList.add("hidden");
+      document.getElementById("view-result").classList.add("hidden");
+      document.getElementById("view-home").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function confirmExitQuiz() {
+      if (confirm("Kya aap test chhod kar Home Dashboard par wapas jana chahte hain?")) {
+        goHome();
+      }
+    }
+
+    function switchMainTab(tab) {
+      goHome();
+      const tabs = ["mocks", "chapters", "pdf", "syllabus"];
+      tabs.forEach(t => {
+        const content = document.getElementById(`tab-content-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tab) {
+          content.classList.remove("hidden");
+          btn.className = "px-4 py-2.5 font-bold text-sm rounded-t-xl border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50/60";
         } else {
-          btn.className = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center gap-2 transition";
+          content.classList.add("hidden");
+          btn.className = "px-4 py-2.5 font-bold text-sm rounded-t-xl border-b-2 border-transparent text-slate-600 hover:text-slate-900";
         }
       });
     }
 
-    function openPdfStoreTab() {
-      goHomeDirect();
-      switchHomeCategoryTab('tab-pdfs');
-      const anchor = document.getElementById('home-tabs-anchor');
-      if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+    function toggleLanguage() {
+      if (currentLang === "both") currentLang = "hi";
+      else if (currentLang === "hi") currentLang = "en";
+      else currentLang = "both";
+
+      const labelMap = { both: "🌐 हिन्दी + EN", hi: "🌐 केवल हिन्दी", en: "🌐 English Only" };
+      document.getElementById("global-lang-btn").textContent = labelMap[currentLang];
+
+      if (!document.getElementById("view-quiz").classList.contains("hidden")) {
+        renderCurrentQuestion();
+      }
+      if (!document.getElementById("view-result").classList.contains("hidden")) {
+        renderSolutions("all");
+      }
     }
 
-    function openBuiltInPdf(docKey) {
-      if (customPdfLinks[docKey]) {
-        window.open(customPdfLinks[docKey], '_blank');
+    // RENDER CHAPTER CARDS
+    function renderChaptersGrid() {
+      const grid = document.getElementById("chapter-cards-grid");
+      grid.innerHTML = CHAPTERS.map(ch => {
+        const badgeColor = ch.section === "zoo" ? "bg-teal-100 text-teal-800" : ch.section === "bot" ? "bg-emerald-100 text-emerald-800" : "bg-indigo-100 text-indigo-800";
+        const secName = ch.section === "zoo" ? "ZOOLOGY" : ch.section === "bot" ? "BOTANY" : "GENERAL STUDIES";
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-0.5 rounded-full font-bold text-[11px] ${badgeColor}">${secName}</span>
+              <h4 class="font-extrabold text-base text-slate-900 mt-2">${ch.name}</h4>
+              <p class="text-xs text-slate-500 mt-1">${ch.sub}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-100">
+              <button onclick="openChapterTheory('${ch.id}')" class="py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs">
+                📖 Read Theory
+              </button>
+              <button onclick="startChapterQuiz('${ch.id}')" class="py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">
+                ✍️ Practice Quiz
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openChapterTheory(chapterId) {
+      const ch = CHAPTERS.find(c => c.id === chapterId);
+      if (!ch) return;
+      const extraTheory = customTheories[chapterId] ? `<div class="mt-4 p-3 rounded-lg bg-amber-50 border border-amber-200"><strong>Educator Note:</strong><br>${customTheories[chapterId]}</div>` : "";
+      document.getElementById("theory-modal-badge").textContent = "CHAPTER REVISION SHEET • BY AKHIL AARYA";
+      document.getElementById("theory-modal-title").textContent = ch.name;
+      document.getElementById("theory-modal-body").innerHTML = ch.theory + extraTheory;
+      document.getElementById("theory-start-quiz-btn").onclick = () => {
+        closeTheoryModal();
+        startChapterQuiz(chapterId);
+      };
+      document.getElementById("theory-modal").classList.remove("hidden");
+    }
+
+    function closeTheoryModal() {
+      document.getElementById("theory-modal").classList.add("hidden");
+    }
+
+    // RENDER PDF STORE
+    function renderPdfStore() {
+      const grid = document.getElementById("pdf-store-grid");
+      const allPdfs = [...DEFAULT_PDFS, ...customPdfs];
+      grid.innerHTML = allPdfs.map(pdf => {
+        if (pdf.type === "free") {
+          return `
+            <div class="rounded-xl border border-slate-200 p-5 bg-slate-50/60 flex flex-col justify-between">
+              <div>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">FREE PRINTABLE PDF</span>
+                <h4 class="font-extrabold text-base text-slate-900 mt-2">${pdf.title}</h4>
+                <p class="text-xs text-slate-600 mt-1">${pdf.desc}</p>
+              </div>
+              <button onclick="openFreePdfModal('${pdf.action || "oneliners"}', '${pdf.url || ""}')" class="mt-4 w-full py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">
+                🖨️ View / Print Free PDF
+              </button>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="rounded-xl border-2 border-amber-300 p-5 bg-amber-50/40 flex flex-col justify-between">
+              <div>
+                <span class="px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold text-xs">PREMIUM PACK • ₹${pdf.price}</span>
+                <h4 class="font-extrabold text-base text-slate-900 mt-2">${pdf.title}</h4>
+                <p class="text-xs text-slate-600 mt-1">${pdf.desc}</p>
+              </div>
+              <button onclick="openPayModal('${pdf.title}', ${pdf.price})" class="mt-4 w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm">
+                💬 Buy / Get PDF on WhatsApp @ ₹${pdf.price}
+              </button>
+            </div>
+          `;
+        }
+      }).join("");
+    }
+
+    function openFreePdfModal(type, externalUrl) {
+      if (externalUrl && externalUrl.startsWith("http")) {
+        window.open(externalUrl, "_blank");
         return;
       }
-      const doc = BUILTIN_PDF_DOCS[docKey];
-      if (!doc) return;
-      document.getElementById('pdf-viewer-title').innerText = doc.title;
-      document.getElementById('pdf-printable-area').innerHTML = doc.html;
-      document.getElementById('pdf-viewer-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function promptEducatorPin() {
-      document.getElementById('educator-pin-input').value = '';
-      document.getElementById('admin-pin-modal').classList.remove('hidden');
-      setTimeout(() => document.getElementById('educator-pin-input').focus(), 100);
-    }
-
-    function verifyEducatorPin() {
-      const entered = document.getElementById('educator-pin-input').value.trim();
-      if (entered === SITE_CONFIG.adminPin) {
-        document.getElementById('admin-pin-modal').classList.add('hidden');
-        openQuestionDrawer();
+      document.getElementById("theory-modal-badge").textContent = "FREE PRINTABLE PDF • BIOPREP TGT 2026";
+      if (type === "syllabus") {
+        document.getElementById("theory-modal-title").textContent = "UPESSC TGT Biology 2026 Official Syllabus & Pattern";
+        document.getElementById("theory-modal-body").innerHTML = CHAPTERS.map(c => `<div class="mb-4 pb-3 border-b border-slate-200"><h4 class="font-bold text-slate-900">${c.name}</h4><p class="text-xs text-slate-500">${c.sub}</p></div>`).join("");
       } else {
-        showAlert("Incorrect PIN", "Yeh section sirf Educator (Akhil Aarya) ke liye सुरक्षित hai.");
+        document.getElementById("theory-modal-title").textContent = "High-Yield TGT Biology One-Liners Revision Sheet";
+        document.getElementById("theory-modal-body").innerHTML = CHAPTERS.map(c => `<div class="mb-4 pb-3 border-b border-slate-200">${c.theory}</div>`).join("");
       }
+      document.getElementById("theory-start-quiz-btn").onclick = () => {
+        closeTheoryModal();
+        startTest("daily_bio");
+      };
+      document.getElementById("theory-modal").classList.remove("hidden");
     }
-<!-- ... existing code ... -->
-    function switchAdderTab(tab) {
-      ['mcq', 'theory', 'pdf', 'json'].forEach(t => {
-        const viewEl = document.getElementById('adder-view-' + t);
-        const tabEl = document.getElementById('adder-tab-' + t);
-        if (viewEl) viewEl.classList.add('hidden');
-        if (tabEl) {
-          tabEl.className = (t === tab)
-            ? "flex-1 py-2 px-2 rounded-lg bg-white text-slate-900 shadow-xs font-extrabold"
-            : "flex-1 py-2 px-2 rounded-lg text-slate-600 hover:text-slate-900 font-bold";
+
+    // START QUIZ ENGINE
+    function startChapterQuiz(chapterId) {
+      const ch = CHAPTERS.find(c => c.id === chapterId);
+      const allQs = getAllQuestions().filter(q => q.chapterId === chapterId || q.section === ch.section);
+      const questions = buildQuestionSet(allQs, 15, chapterId);
+      launchQuiz(`${ch.name} - Practice Quiz`, questions, 15 * 60, `ch_${chapterId}`);
+    }
+
+    function startTest(testKey) {
+      const allQs = getAllQuestions();
+      const gsPool = allQs.filter(q => q.section === "gs");
+      const zooPool = allQs.filter(q => q.section === "zoo");
+      const botPool = allQs.filter(q => q.section === "bot");
+      const bioPool = [...zooPool, ...botPool];
+
+      let title = "";
+      let questions = [];
+      let durationSeconds = 120 * 60;
+
+      if (testKey === "daily_gs") {
+        title = "🔥 Daily GS Speed Quiz (15 Qs / 10 Mins)";
+        questions = buildQuestionSet(gsPool, 15, "daily_gs");
+        durationSeconds = 10 * 60;
+      } else if (testKey === "daily_bio") {
+        title = "🧬 Daily TGT Biology Booster Quiz (25 Qs / 20 Mins)";
+        questions = buildQuestionSet(bioPool, 25, "daily_bio");
+        durationSeconds = 20 * 60;
+      } else if (testKey === "sec_gs") {
+        title = "📘 Section A: Complete GS Sectional Test (30 Qs)";
+        questions = buildQuestionSet(gsPool, 30, "sec_gs");
+        durationSeconds = 30 * 60;
+      } else if (testKey === "sec_bio") {
+        title = "🧬 Section B: Complete Biology Sectional Test (90 Qs)";
+        questions = buildQuestionSet(bioPool, 90, "sec_bio");
+        durationSeconds = 90 * 60;
+      } else if (testKey === "sec_zoo") {
+        title = "🐾 Zoology Special Sectional Test (45 Qs)";
+        questions = buildQuestionSet(zooPool, 45, "sec_zoo");
+        durationSeconds = 45 * 60;
+      } else if (testKey === "sec_bot") {
+        title = "🌿 Botany Special Sectional Test (45 Qs)";
+        questions = buildQuestionSet(botPool, 45, "sec_bot");
+        durationSeconds = 45 * 60;
+      } else if (testKey === "full_mock_2") {
+        title = "🏆 UPESSC TGT Biology Full Mock Test #2 (120 Qs)";
+        const gs30 = buildQuestionSet([...gsPool].reverse(), 30, "m2_gs");
+        const bio90 = buildQuestionSet([...bioPool].reverse(), 90, "m2_bio");
+        questions = [...gs30, ...bio90];
+        durationSeconds = 120 * 60;
+      } else {
+        title = "🏆 UPESSC TGT Biology Full Mock Test #1 (120 Qs)";
+        const gs30 = buildQuestionSet(gsPool, 30, "m1_gs");
+        const bio90 = buildQuestionSet(bioPool, 90, "m1_bio");
+        questions = [...gs30, ...bio90];
+        durationSeconds = 120 * 60;
+      }
+
+      launchQuiz(title, questions, durationSeconds, testKey);
+    }
+
+    function launchQuiz(title, questions, durationSeconds, testKey) {
+      if (activeQuiz.timerInterval) clearInterval(activeQuiz.timerInterval);
+
+      activeQuiz = {
+        name: title,
+        questions: questions,
+        currentIndex: 0,
+        answers: {},
+        review: {},
+        totalSeconds: durationSeconds,
+        remainingSeconds: durationSeconds,
+        timerInterval: null,
+        lastTestKey: testKey
+      };
+
+      document.getElementById("view-home").classList.add("hidden");
+      document.getElementById("view-result").classList.add("hidden");
+      document.getElementById("view-quiz").classList.remove("hidden");
+
+      document.getElementById("quiz-title-display").textContent = title;
+      document.getElementById("quiz-subtitle-display").textContent = `${questions.length} Questions • Max Marks: ${questions.length * 3} (+3 Correct, -1 Wrong)`;
+
+      updateTimerDisplay();
+      activeQuiz.timerInterval = setInterval(() => {
+        activeQuiz.remainingSeconds--;
+        updateTimerDisplay();
+        if (activeQuiz.remainingSeconds <= 0) {
+          clearInterval(activeQuiz.timerInterval);
+          submitQuiz();
+        }
+      }, 1000);
+
+      renderCurrentQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateTimerDisplay() {
+      const s = Math.max(0, activeQuiz.remainingSeconds);
+      const hrs = String(Math.floor(s / 3600)).padStart(2, "0");
+      const mins = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+      const secs = String(s % 60).padStart(2, "0");
+      document.getElementById("quiz-timer-display").textContent = `${hrs}:${mins}:${secs}`;
+    }
+
+    function renderCurrentQuestion() {
+      const idx = activeQuiz.currentIndex;
+      const q = activeQuiz.questions[idx];
+      if (!q) return;
+
+      document.getElementById("q-number-badge").textContent = `Question ${idx + 1} of ${activeQuiz.questions.length}`;
+      document.getElementById("q-topic-badge").textContent = q.topic || "TGT Biology";
+
+      // Question text based on language mode
+      let qHtml = "";
+      if (currentLang === "hi") {
+        qHtml = `<div>${q.q_hi}</div>`;
+      } else if (currentLang === "en") {
+        qHtml = `<div>${q.q_en}</div>`;
+      } else {
+        qHtml = `<div class="text-slate-900">${q.q_hi}</div><div class="text-slate-600 text-sm font-semibold mt-1.5">${q.q_en}</div>`;
+      }
+      document.getElementById("q-text-container").innerHTML = qHtml;
+
+      // Render 4 Options
+      const selectedOpt = activeQuiz.answers[idx];
+      const letters = ["A", "B", "C", "D"];
+      document.getElementById("q-options-container").innerHTML = [0, 1, 2, 3].map(optIdx => {
+        const isSelected = selectedOpt === optIdx;
+        const hiOpt = q.options_hi ? q.options_hi[optIdx] : "";
+        const enOpt = q.options_en ? q.options_en[optIdx] : "";
+        let optLabel = "";
+        if (currentLang === "hi") optLabel = hiOpt;
+        else if (currentLang === "en") optLabel = enOpt;
+        else optLabel = hiOpt === enOpt ? hiOpt : `${hiOpt} / <span class="text-slate-500">${enOpt}</span>`;
+
+        return `
+          <div onclick="selectOption(${optIdx})" class="cursor-pointer p-3.5 rounded-xl border-2 transition flex items-center gap-3 ${
+            isSelected ? "border-emerald-600 bg-emerald-50/70 font-bold" : "border-slate-200 hover:border-slate-300 bg-white"
+          }">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-extrabold ${
+              isSelected ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-700"
+            }">${letters[optIdx]}</span>
+            <span class="text-sm text-slate-800">${optLabel}</span>
+          </div>
+        `;
+      }).join("");
+
+      updatePaletteAndStats();
+    }
+
+    function selectOption(optIdx) {
+      activeQuiz.answers[activeQuiz.currentIndex] = optIdx;
+      renderCurrentQuestion();
+    }
+
+    function clearResponse() {
+      delete activeQuiz.answers[activeQuiz.currentIndex];
+      delete activeQuiz.review[activeQuiz.currentIndex];
+      renderCurrentQuestion();
+    }
+
+    function markForReviewAndNext() {
+      activeQuiz.review[activeQuiz.currentIndex] = true;
+      if (activeQuiz.currentIndex < activeQuiz.questions.length - 1) {
+        activeQuiz.currentIndex++;
+      }
+      renderCurrentQuestion();
+    }
+
+    function saveAndNext() {
+      if (activeQuiz.currentIndex < activeQuiz.questions.length - 1) {
+        activeQuiz.currentIndex++;
+      }
+      renderCurrentQuestion();
+    }
+
+    function prevQuestion() {
+      if (activeQuiz.currentIndex > 0) {
+        activeQuiz.currentIndex--;
+      }
+      renderCurrentQuestion();
+    }
+
+    function jumpToQuestion(idx) {
+      activeQuiz.currentIndex = idx;
+      renderCurrentQuestion();
+    }
+
+    function updatePaletteAndStats() {
+      const total = activeQuiz.questions.length;
+      const answeredCount = Object.keys(activeQuiz.answers).length;
+      const reviewCount = Object.keys(activeQuiz.review).length;
+      const leftCount = total - answeredCount;
+
+      document.getElementById("stat-attempted").textContent = answeredCount;
+      document.getElementById("stat-review").textContent = reviewCount;
+      document.getElementById("stat-unattempted").textContent = leftCount;
+
+      document.getElementById("bar-attempted").style.width = `${(answeredCount / total) * 100}%`;
+      document.getElementById("bar-review").style.width = `${(reviewCount / total) * 100}%`;
+
+      const palette = document.getElementById("palette-grid");
+      palette.innerHTML = activeQuiz.questions.map((_, i) => {
+        const isCurrent = i === activeQuiz.currentIndex;
+        const isAnswered = activeQuiz.answers[i] !== undefined;
+        const isReview = activeQuiz.review[i];
+
+        let cls = "bg-slate-100 text-slate-700 hover:bg-slate-200";
+        if (isReview) cls = "bg-purple-600 text-white";
+        else if (isAnswered) cls = "bg-emerald-500 text-white";
+
+        const borderCls = isCurrent ? "ring-2 ring-slate-950 font-extrabold" : "font-bold";
+
+        return `
+          <button onclick="jumpToQuestion(${i})" class="h-8 rounded-lg text-xs ${cls} ${borderCls} transition">
+            ${i + 1}
+          </button>
+        `;
+      }).join("");
+    }
+
+    // SUBMIT QUIZ & GENERATE BAR GRAPH + CHAPTER ANALYSIS
+    function submitQuiz() {
+      if (activeQuiz.timerInterval) {
+        clearInterval(activeQuiz.timerInterval);
+        activeQuiz.timerInterval = null;
+      }
+
+      const total = activeQuiz.questions.length;
+      let right = 0;
+      let wrong = 0;
+      let left = 0;
+      const weakTopicsMap = {};
+
+      activeQuiz.questions.forEach((q, idx) => {
+        const userAns = activeQuiz.answers[idx];
+        if (userAns === undefined) {
+          left++;
+          weakTopicsMap[q.topic] = (weakTopicsMap[q.topic] || 0) + 1;
+        } else if (userAns === q.correct) {
+          right++;
+        } else {
+          wrong++;
+          weakTopicsMap[q.topic] = (weakTopicsMap[q.topic] || 0) + 2;
         }
       });
-      const activeView = document.getElementById('adder-view-' + tab);
-      if (activeView) activeView.classList.remove('hidden');
+
+      const maxMarks = total * 3;
+      const finalScore = (right * 3) - (wrong * 1);
+      const attempted = right + wrong;
+      const accuracy = attempted > 0 ? Math.round((right / attempted) * 100) : 0;
+      const scorePercent = Math.max(0, Math.round((finalScore / maxMarks) * 100));
+
+      const elapsed = activeQuiz.totalSeconds - activeQuiz.remainingSeconds;
+      const elMins = Math.floor(elapsed / 60);
+      const elSecs = elapsed % 60;
+
+      // Switch View
+      document.getElementById("view-quiz").classList.add("hidden");
+      document.getElementById("view-result").classList.remove("hidden");
+
+      document.getElementById("result-test-name").textContent = activeQuiz.name;
+      document.getElementById("res-score").textContent = `${finalScore} / ${maxMarks}`;
+      document.getElementById("res-percent").textContent = `${scorePercent}% Score`;
+      document.getElementById("res-right").textContent = right;
+      document.getElementById("res-right-marks").textContent = `+${right * 3} Marks`;
+      document.getElementById("res-wrong").textContent = wrong;
+      document.getElementById("res-wrong-marks").textContent = `-${wrong} Marks`;
+      document.getElementById("res-left").textContent = left;
+      document.getElementById("res-accuracy").textContent = `${accuracy}%`;
+      document.getElementById("res-time-taken").textContent = `Time: ${elMins}m ${elSecs}s`;
+
+      // Update Visual Bar Graph
+      const rPct = Math.round((right / total) * 100);
+      const wPct = Math.round((wrong / total) * 100);
+      const lPct = Math.round((left / total) * 100);
+
+      document.getElementById("graph-val-right").textContent = `${right} (${rPct}%)`;
+      document.getElementById("graph-val-wrong").textContent = `${wrong} (${wPct}%)`;
+      document.getElementById("graph-val-left").textContent = `${left} (${lPct}%)`;
+
+      document.getElementById("graph-bar-right").style.height = `${Math.max(8, rPct)}%`;
+      document.getElementById("graph-bar-wrong").style.height = `${Math.max(8, wPct)}%`;
+      document.getElementById("graph-bar-left").style.height = `${Math.max(8, lPct)}%`;
+
+      // Render Weak Chapters List
+      const weakTopics = Object.keys(weakTopicsMap);
+      const weakContainer = document.getElementById("weak-chapters-list");
+      if (weakTopics.length === 0) {
+        weakContainer.innerHTML = `<div class="p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold text-xs">🎉 Shandar! Aapke sabhi prashn sahi hain!</div>`;
+      } else {
+        weakContainer.innerHTML = weakTopics.map(topic => `
+          <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-200 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-bold text-xs text-slate-900">📌 ${topic}</span>
+              <p class="text-[11px] text-rose-700">Needs Revision & Practice</p>
+            </div>
+            <button onclick="switchMainTab('chapters')" class="px-3 py-1 rounded-lg bg-white border border-rose-300 text-rose-700 font-bold text-xs hover:bg-rose-100">
+              Revise Unit →
+            </button>
+          </div>
+        `).join("");
+      }
+
+      renderSolutions("all");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function saveCustomPdfLink() {
-      const key = document.getElementById('form-pdf-item').value;
-      const url = document.getElementById('form-pdf-url').value.trim();
-      if (!url) {
-        showAlert("Enter URL", "Kripya Google Drive PDF ka valid link paste karein.");
+    function retakeCurrentTest() {
+      if (activeQuiz.lastTestKey) {
+        startTest(activeQuiz.lastTestKey);
+      } else {
+        goHome();
+      }
+    }
+
+    function renderSolutions(filter) {
+      const container = document.getElementById("solutions-list");
+      const letters = ["A", "B", "C", "D"];
+
+      const html = activeQuiz.questions.map((q, idx) => {
+        const userAns = activeQuiz.answers[idx];
+        const status = userAns === undefined ? "left" : userAns === q.correct ? "right" : "wrong";
+
+        if (filter !== "all" && filter !== status) return "";
+
+        const badge = status === "right"
+          ? `<span class="px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-xs">✅ Right (+3)</span>`
+          : status === "wrong"
+          ? `<span class="px-2.5 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-xs">❌ Wrong (-1)</span>`
+          : `<span class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-xs">⚪ Left (0)</span>`;
+
+        return `
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-extrabold text-xs text-slate-700">Q${idx + 1}. (${q.topic})</span>
+              ${badge}
+            </div>
+            <div class="font-bold text-sm text-slate-900">${q.q_hi}</div>
+            <div class="text-xs text-slate-600">${q.q_en}</div>
+            <div class="text-xs font-bold pt-1">
+              <span class="text-emerald-700">✔ Correct Answer: Option ${letters[q.correct]} (${q.options_hi[q.correct]} / ${q.options_en[q.correct]})</span>
+              ${userAns !== undefined && userAns !== q.correct ? `<br><span class="text-rose-600">✖ Your Answer: Option ${letters[userAns]}</span>` : ""}
+            </div>
+            <div class="p-3 rounded-lg bg-white border border-slate-200 text-xs text-slate-700 leading-relaxed">
+              <strong>💡 Explanation:</strong> ${q.exp_hi}<br>
+              <span class="text-slate-500">${q.exp_en}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      container.innerHTML = html || `<div class="text-xs text-slate-500 p-4 text-center">Is filter me koi question nahi hai.</div>`;
+    }
+
+    // UPI & WHATSAPP MONETIZATION FUNCTIONS
+    function openPayModal(title, price) {
+      selectedPayItem = { title, price };
+      document.getElementById("pay-item-title").textContent = title;
+      document.getElementById("pay-item-price").textContent = `₹${price}`;
+      document.getElementById("upi-id-text").textContent = EDUCATOR_CONFIG.upiId;
+      document.getElementById("pay-modal").classList.remove("hidden");
+    }
+
+    function closePayModal() {
+      document.getElementById("pay-modal").classList.add("hidden");
+    }
+
+    function copyUpiId() {
+      navigator.clipboard.writeText(EDUCATOR_CONFIG.upiId);
+      alert(`UPI ID Copied: ${EDUCATOR_CONFIG.upiId}\nAccount Holder: ${EDUCATOR_CONFIG.holderName}`);
+    }
+
+    function sendWhatsAppConfirmation() {
+      const msg = `Namaste Akhil Aarya Sir! Maine UP TGT Biology 2026 ke "${selectedPayItem.title}" (₹${selectedPayItem.price}) ke liye aapki UPI ID (${EDUCATOR_CONFIG.upiId}) par payment kiya hai. Kripya mujhe PDF Notes / Test Series provide karein.`;
+      const url = `https://wa.me/${EDUCATOR_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+    }
+
+    // EDUCATOR ADMIN PANEL (PIN: 1995)
+    function populateAdminChapters() {
+      const sel = document.getElementById("adm-chapter");
+      sel.innerHTML = CHAPTERS.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
+    }
+
+    function openAdminDrawer() {
+      const pin = prompt("Educator Admin Panel kholne ke liye Secret PIN dalein:");
+      if (pin === EDUCATOR_CONFIG.adminPin) {
+        document.getElementById("admin-modal").classList.remove("hidden");
+      } else if (pin !== null) {
+        alert("Incorrect PIN!");
+      }
+    }
+
+    function closeAdminDrawer() {
+      document.getElementById("admin-modal").classList.add("hidden");
+    }
+
+    function saveAdminQuestion() {
+      const chapterId = document.getElementById("adm-chapter").value;
+      const ch = CHAPTERS.find(c => c.id === chapterId);
+      const qHi = document.getElementById("adm-q-hi").value.trim();
+      const qEn = document.getElementById("adm-q-en").value.trim();
+      const optA = document.getElementById("adm-opt-a").value.trim();
+      const optB = document.getElementById("adm-opt-b").value.trim();
+      const optC = document.getElementById("adm-opt-c").value.trim();
+      const optD = document.getElementById("adm-opt-d").value.trim();
+      const correct = parseInt(document.getElementById("adm-correct").value, 10);
+      const exp = document.getElementById("adm-exp").value.trim();
+      const theory = document.getElementById("adm-theory").value.trim();
+
+      if (theory) {
+        customTheories[chapterId] = theory;
+        localStorage.setItem("bioprep_custom_theories", JSON.stringify(customTheories));
+      }
+
+      if (qHi || qEn) {
+        const newQ = {
+          id: Date.now(),
+          section: ch ? ch.section : "zoo",
+          chapterId: chapterId,
+          topic: ch ? ch.name : "TGT Biology",
+          q_hi: qHi || qEn,
+          q_en: qEn || qHi,
+          options_hi: [optA || "A", optB || "B", optC || "C", optD || "D"],
+          options_en: [optA || "A", optB || "B", optC || "C", optD || "D"],
+          correct: correct,
+          exp_hi: exp || "सही उत्तर।",
+          exp_en: exp || "Verified explanation."
+        };
+        customQuestions.push(newQ);
+        localStorage.setItem("bioprep_custom_qs", JSON.stringify(customQuestions));
+      }
+
+      alert("Saved Successfully!");
+      document.getElementById("adm-q-hi").value = "";
+      document.getElementById("adm-q-en").value = "";
+      document.getElementById("adm-exp").value = "";
+      document.getElementById("adm-theory").value = "";
+    }
+
+    function saveAdminPdf() {
+      const title = document.getElementById("adm-pdf-title").value.trim();
+      const url = document.getElementById("adm-pdf-url").value.trim();
+      if (!title || !url) {
+        alert("Kripya PDF Title aur Google Drive Link dono bharein.");
         return;
       }
-      customPdfLinks[key] = url;
-      localStorage.setItem('upessc_tgt_pdf_links_v1', JSON.stringify(customPdfLinks));
-      document.getElementById('form-pdf-url').value = '';
-      showAlert("PDF Link Saved!", "Google Drive PDF link jud gaya hai.");
+      customPdfs.push({
+        id: "pdf_" + Date.now(),
+        title: title,
+        desc: "Direct Google Drive PDF Resource (By Akhil Aarya)",
+        type: "free",
+        url: url
+      });
+      localStorage.setItem("bioprep_custom_pdfs", JSON.stringify(customPdfs));
+      renderPdfStore();
+      alert("PDF Link Store me jud gaya hai!");
+      document.getElementById("adm-pdf-title").value = "";
+      document.getElementById("adm-pdf-url").value = "";
     }
-
-    async function syncGoogleSheetCsv() {
-      const csvUrl = document.getElementById('form-sheet-csv').value.trim();
-      if (!csvUrl) {
-        showAlert("Missing URL", "Kripya Google Sheet ka Published CSV URL dalein.");
-        return;
-      }
-      localStorage.setItem('upessc_tgt_sheet_csv_url', csvUrl);
-      showAlert("Google Sheet Saved!", "Aapka Google Sheet link save ho gaya hai.");
-    }
-<!-- ... existing code ... -->
-    // ============================================================================
-    // 13. INITIALIZE DASHBOARD CARDS (PDF STORE, FULL TESTS, SECTIONAL, CHAPTER HUB)
-    // ============================================================================
-    function initDashboardGrids() {
-      // 0. Free & Paid PDF Store Grids
-      const freePdfsList = [
-        { key: "notif_2026", badge: "FREE OFFICIAL PDF", title: "UPESSC TGT 2026 Official Notification Summary PDF", sub: "660 Biology Vacancies, Age, Fee, Dates & +3/-1 Pattern Sheet." },
-        { key: "syllabus_2026", badge: "FREE SYLLABUS PDF", title: "UPESSC TGT Biology + GK Revised Syllabus 2026 PDF", sub: "Complete Bilingual Topic-wise Syllabus (30 Qs GK + 90 Qs Bio)." },
-        { key: "sample_notes", badge: "FREE SAMPLE NOTE", title: "Protozoa, Porifera & Anomalous Anatomy Star Notes PDF", sub: "High-Yield One-Liners & Revision Chart by Akhil Aarya." }
-      ];
-
-      const freeGrid = document.getElementById('free-pdfs-grid');
-      if (freeGrid) {
-        freeGrid.innerHTML = freePdfsList.map(item => `
-          <div class="bg-white rounded-2xl border-2 border-emerald-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between gap-4">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">${item.badge}</span>
-                <span class="text-xs font-black text-emerald-700">₹0 (Free)</span>
-              </div>
-              <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">${item.title}</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">${item.sub}</p>
-            </div>
-            <button onclick="openBuiltInPdf('${item.key}')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-sm">
-              <i data-lucide="file-down" class="w-4 h-4"></i>
-              <span>View / Print Free PDF</span>
-            </button>
-          </div>
-        `).join('');
-      }
-
-      const paidPdfsList = [
-        { price: 51, tag: "BESTSELLER NOTES", title: "Complete TGT Biology Bilingual Revision Notes PDF (All 9 Units)", sub: "Non-Chordata, Chordata, Cytogenetics, Plant Physiology, 15 Families & Ecology One-Liners." },
-        { price: 121, tag: "MASTER TEST + MCQ PACK", title: "2500+ Bilingual MCQs Bank + 15 Full CBT Mock Tests PDF Pack", sub: "15 Full Papers (120 Qs each: 30 GK + 90 Bio) with Answer Keys & Explanations + ₹51 Notes Free." },
-        { price: 51, tag: "BOTANY SPECIAL PDF", title: "Bentham-Hooker 15 Families, Algae, Fungi, Bryo, Pterido & Gymno PDF", sub: "Complete life cycles, floral formulas, economic botany & anomalous secondary growth charts." }
-      ];
-
-      const paidGrid = document.getElementById('paid-pdfs-grid');
-      if (paidGrid) {
-        paidGrid.innerHTML = paidPdfsList.map(p => `
-          <div class="bg-white rounded-2xl border-2 border-amber-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between gap-4">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">${p.tag}</span>
-                <span class="text-lg font-black text-slate-900">₹${p.price}</span>
-              </div>
-              <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">${p.title}</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">${p.sub}</p>
-            </div>
-            <button onclick="openMonetizeModal('${p.title}', ${p.price})" class="w-full py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-sm">
-              <i data-lucide="lock-open" class="w-4 h-4"></i>
-              <span>Buy / Get PDF on WhatsApp @ ₹${p.price}</span>
-            </button>
-          </div>
-        `).join('');
-      }
-
-      // 1. Complete Full Mock Tests (2 Fully Free + Locked Premium Series)
-<!-- ... existing code ... -->
-      // 2. Section-Wise Separate Tests (GS 30 Qs, Zoology 45 Qs, Botany 45 Qs, Complete Bio 90 Qs - Free)
-      const sectionalTests = [
-        { id: "sec_gs_1", sec: "Part I: General Studies (GS)", title: "General Knowledge (GS) Official Sectional Test 1", sub: "30 Questions | 30 Minutes | 90 Marks (+3, -1)", color: "sky" },
-        { id: "sec_zoo_1", sec: "Part II (A): Zoology Special", title: "TGT Zoology (Non-Chordata to Mammalia & Physio) Test", sub: "45 Questions | 45 Minutes | 135 Marks (+3, -1)", color: "teal" },
-        { id: "sec_bot_1", sec: "Part II (B): Botany Special", title: "TGT Botany (Algae to Angiosperm Taxonomy & Physio) Test", sub: "45 Questions | 45 Minutes | 135 Marks (+3, -1)", color: "emerald" },
-        { id: "sec_bio_1", sec: "Complete Subject Section B", title: "Full Biology (Zoology + Botany Combined) Sectional Test", sub: "90 Questions | 90 Minutes | 270 Marks (+3, -1)", color: "teal" }
-      ];
-
-      document.getElementById('tab-sectional').innerHTML = sectionalTests.map(s => `
-<!-- ... existing code ... -->
-      // 3. Chapter-Wise Theory, Quiz & PDF Cards
-      document.getElementById('chapters-grid-container').innerHTML = chapterCatalog.map(ch => `
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between gap-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded ${ch.section === 'gk' ? 'bg-sky-100 text-sky-800' : 'bg-teal-100 text-teal-800'}">
-                ${ch.section === 'gk' ? 'Section A: GS' : 'Section B: Biology'}
-              </span>
-              <span class="text-[11px] font-bold text-purple-700">Theory + Quiz + PDF</span>
-            </div>
-            <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">${ch.title}</h4>
-            <p class="text-xs text-slate-500 leading-relaxed">${ch.sub}</p>
-          </div>
-          <div class="grid grid-cols-3 gap-1.5 pt-1">
-            <button onclick="openTheoryModal('${ch.id}')" class="py-2 px-2 bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 rounded-xl text-[11px] font-extrabold flex items-center justify-center gap-1 transition">
-              <i data-lucide="book-open" class="w-3.5 h-3.5 shrink-0"></i>
-              <span>Theory</span>
-            </button>
-            <button onclick="launchTest('chapter', '${ch.id}')" class="py-2 px-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-[11px] font-extrabold flex items-center justify-center gap-1 transition">
-              <i data-lucide="check-square" class="w-3.5 h-3.5 shrink-0"></i>
-              <span>Quiz</span>
-            </button>
-            <button onclick="openMonetizeModal('${ch.title} - Complete Chapter PDF Notes', 51)" class="py-2 px-2 bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 rounded-xl text-[11px] font-extrabold flex items-center justify-center gap-1 transition">
-              <i data-lucide="file-down" class="w-3.5 h-3.5 shrink-0"></i>
-              <span>PDF ₹51</span>
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      lucide.createIcons();
-    }
-
-    window.onload = function() {
-      initDashboardGrids();
-      lucide.createIcons();
-    };
   </script>
 </body>
 </html>
