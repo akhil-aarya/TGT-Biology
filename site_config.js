@@ -7,6 +7,7 @@
 window.loadSiteFiles([
   "mock_3.js",
   "mock_4.js",
+  "mock_5.js",
   "daily_1.js",
   "daily_quiz.js",
   "chapter_extra.js"
@@ -28,5 +29,14 @@ window.registerPdfs([
     type: "paid",
     price: 51,
     ownerAction: "full_mock_4"
+  },
+  {
+    id: "pdf_mock5_paper",
+    title: "Full Mock Test #5 (120 Brand-New PYQ-Based Qs + Answer Key PDF)",
+    desc: "TGT / PGT / LT Grade Level 30 GS (5 CA) + 90 Biology (45 Zoo + 45 Bot) with Bilingual Solutions.",
+    type: "paid",
+    price: 51,
+    ownerAction: "full_mock_5"
   }
 ]);
+
