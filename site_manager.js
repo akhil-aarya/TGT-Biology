@@ -1,11 +1,10 @@
 // =========================================================================
-// BIOPREP TGT 2026 - PERMANENT MODULAR ENGINE (© AKHIL AARYA)
-// Upload ONCE. Never need to edit index.html again!
+// BIOPREP TGT 2026 - PERMANENT MODULAR ENGINE + DAILY QUIZ ARCHIVE
+// © Copyright 2026 Akhil Aarya (Akhilesh) | Never edit index.html again!
 // =========================================================================
 (function () {
   const CACHE_BUST = Date.now();
 
-  // Convert compact tuple [section, chapterId, topic, q_hi, q_en, opt_hi, opt_en, correct, exp_hi, exp_en] to full Object
   function parseTuples(rawArr, idPrefix) {
     return (rawArr || []).map((item, idx) => {
       if (!Array.isArray(item)) return item;
@@ -25,7 +24,7 @@
     });
   }
 
-  // Global Sequential Mock Registry (Starts with Built-in Mock #1 & Mock #2)
+  // Global Sequential Mock Registry (Mock #1 & #2 built-in)
   window.MOCK_TESTS_REGISTRY = [
     {
       id: "full_mock_1",
@@ -61,7 +60,9 @@
     }
   ];
 
-  window.CUSTOM_DAILY_QUIZ = { gs: null, bio: null };
+  // Global Sequential Daily Quiz Archive Registry (Day 1 -> Day 2 -> Day 3...)
+  window.DAILY_QUIZZES_REGISTRY = [];
+  window.CUSTOM_DAILY_QUIZ = { gs: null, bio: null, latestTitle: "" };
 
   // 1. REGISTER NEW MOCK TEST (Automatically sorts 1 -> 2 -> 3 -> 4...)
   window.registerMockTest = function (mockConfig) {
@@ -84,10 +85,8 @@
     if (existingIdx >= 0) window.MOCK_TESTS_REGISTRY[existingIdx] = entry;
     else window.MOCK_TESTS_REGISTRY.push(entry);
 
-    // Strictly sort in sequential order: 1, 2, 3, 4...
     window.MOCK_TESTS_REGISTRY.sort((a, b) => a.order - b.order);
 
-    // Optional: If mockConfig.addToChapters === true, also merge into Chapter-wise bank
     if (mockConfig.addToChapters === true) {
       window.registerChapterQuestions(parsedQuestions);
     }
@@ -97,7 +96,7 @@
     }
   };
 
-  // 2. REGISTER CHAPTER-WISE QUESTIONS (Auto-routes to exact chapterId!)
+  // 2. REGISTER CHAPTER-WISE QUESTIONS
   window.registerChapterQuestions = function (rawOrObjArray) {
     const parsed = parseTuples(rawOrObjArray, "ch_ext_" + Date.now());
     const existingKeys = new Set(BASE_QUESTIONS.map(q => q.q_en));
@@ -131,17 +130,151 @@
     if (typeof window.renderPdfStore === "function") window.renderPdfStore();
   };
 
-  // 5. REGISTER LIVE DAILY QUIZ QUESTIONS (GS 15 Qs / Bio 25 Qs)
+  // 5. REGISTER / ADD DAILY QUIZ TO ARCHIVE (Never deletes previous quizzes!)
   window.registerDailyQuiz = function (dailyObj) {
-    if (dailyObj.gs && dailyObj.gs.length) {
-      window.CUSTOM_DAILY_QUIZ.gs = parseTuples(dailyObj.gs, "daily_gs");
+    const order = Number(dailyObj.day || dailyObj.order) || (window.DAILY_QUIZZES_REGISTRY.length + 1);
+    const id = dailyObj.id || `daily_set_${order}`;
+    const entry = {
+      id: id,
+      order: order,
+      title: dailyObj.title || `Daily Quiz #${order}`,
+      date: dailyObj.date || `Set #${order}`,
+      gs: parseTuples(dailyObj.gs || [], `${id}_gs`),
+      bio: parseTuples(dailyObj.bio || [], `${id}_bio`)
+    };
+
+    const existingIdx = window.DAILY_QUIZZES_REGISTRY.findIndex(d => d.id === entry.id);
+    if (existingIdx >= 0) window.DAILY_QUIZZES_REGISTRY[existingIdx] = entry;
+    else window.DAILY_QUIZZES_REGISTRY.push(entry);
+
+    // Sort sequentially: Day 1 -> Day 2 -> Day 3...
+    window.DAILY_QUIZZES_REGISTRY.sort((a, b) => a.order - b.order);
+
+    // Set the newest (highest order) quiz as default for top Quick Start buttons
+    const latest = window.DAILY_QUIZZES_REGISTRY[window.DAILY_QUIZZES_REGISTRY.length - 1];
+    if (latest) {
+      window.CUSTOM_DAILY_QUIZ.gs = latest.gs.length ? latest.gs : null;
+      window.CUSTOM_DAILY_QUIZ.bio = latest.bio.length ? latest.bio : null;
+      window.CUSTOM_DAILY_QUIZ.latestTitle = latest.title;
     }
-    if (dailyObj.bio && dailyObj.bio.length) {
-      window.CUSTOM_DAILY_QUIZ.bio = parseTuples(dailyObj.bio, "daily_bio");
+
+    window.renderDailyQuizArchive();
+  };
+
+  // Alias so both addDailyQuiz() and registerDailyQuiz() work
+  window.addDailyQuiz = window.registerDailyQuiz;
+
+  // RENDER DAILY QUIZ ARCHIVE LIST INSIDE THE DAILY QUIZ SECTION
+  window.renderDailyQuizArchive = function () {
+    const gsBtn = document.querySelector("button[onclick=\"startTest('daily_gs')\"]");
+    const dailySection = gsBtn ? gsBtn.closest("section") : null;
+    if (!dailySection) return;
+
+    let archiveBox = document.getElementById("daily-quiz-archive-box");
+    if (!archiveBox) {
+      archiveBox = document.createElement("div");
+      archiveBox.id = "daily-quiz-archive-box";
+      archiveBox.className = "mt-6 pt-5 border-t border-slate-200";
+      dailySection.appendChild(archiveBox);
+    }
+
+    if (window.DAILY_QUIZZES_REGISTRY.length === 0) {
+      archiveBox.innerHTML = "";
+      return;
+    }
+
+    const totalSets = window.DAILY_QUIZZES_REGISTRY.length;
+    const latestOrder = window.DAILY_QUIZZES_REGISTRY[totalSets - 1].order;
+
+    archiveBox.innerHTML = `
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <div>
+          <h4 class="text-base font-extrabold text-slate-900">🗂️ All Daily Quizzes List (Previous & Latest — 100% Free)</h4>
+          <p class="text-xs text-slate-500">Koi bhi purani ya nayi Daily Quiz yahan se kabhi bhi attempt karein:</p>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-slate-900 text-white font-bold text-xs">${totalSets} Daily Sets Available</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        ${window.DAILY_QUIZZES_REGISTRY.map(q => {
+          const isLatest = q.order === latestOrder;
+          return `
+            <div class="rounded-xl border ${isLatest ? "border-emerald-300 bg-emerald-50/40" : "border-slate-200 bg-slate-50/60"} p-4 flex flex-col justify-between gap-3">
+              <div>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-extrabold ${isLatest ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-700"}">
+                    ${isLatest ? "🔥 LATEST" : q.date}
+                  </span>
+                  <span class="text-[11px] font-bold text-slate-500">${q.gs.length} GS • ${q.bio.length} Bio</span>
+                </div>
+                <h5 class="font-extrabold text-sm text-slate-900 mt-1.5">${q.title}</h5>
+              </div>
+              <div class="space-y-1.5">
+                <div class="grid grid-cols-2 gap-2">
+                  <button onclick="startDailyArchiveQuiz('${q.id}', 'gs')" class="py-2 px-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition">
+                    🔥 GS (${q.gs.length} Qs)
+                  </button>
+                  <button onclick="startDailyArchiveQuiz('${q.id}', 'bio')" class="py-2 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition">
+                    🧬 Bio (${q.bio.length} Qs)
+                  </button>
+                </div>
+                ${
+                  isOwner
+                    ? `<button onclick="openPrintableDailyQuiz('${q.id}')" class="w-full py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-[11px] transition">
+                        🖨️ Print ${q.title} PDF (© Copyright)
+                      </button>`
+                    : ""
+                }
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+  };
+
+  // LAUNCH ANY ARCHIVED DAILY QUIZ (GS OR BIOLOGY)
+  window.startDailyArchiveQuiz = function (quizId, type) {
+    const qObj = window.DAILY_QUIZZES_REGISTRY.find(d => d.id === quizId);
+    if (!qObj) return;
+    if (type === "gs") {
+      launchQuiz(`${qObj.title} — GS Speed Quiz (${qObj.gs.length} Qs / 10 Mins)`, qObj.gs, 10 * 60, `daily_arch||${quizId}||gs`);
+    } else {
+      launchQuiz(`${qObj.title} — Biology Booster (${qObj.bio.length} Qs / 20 Mins)`, qObj.bio, 20 * 60, `daily_arch||${quizId}||bio`);
     }
   };
 
-  // OVERRIDE: RENDER MOCK CARDS SEQUENTIALLY (1 -> 2 -> 3 -> 4...)
+  // OWNER PRINTABLE PDF FOR ANY DAILY QUIZ SET
+  window.openPrintableDailyQuiz = function (quizId) {
+    const qObj = window.DAILY_QUIZZES_REGISTRY.find(d => d.id === quizId);
+    if (!qObj) return;
+    const qs = [...qObj.gs, ...qObj.bio];
+    const letters = ["A", "B", "C", "D"];
+    document.getElementById("theory-modal-badge").textContent = "© COPYRIGHT 2026 AKHIL AARYA • DAILY QUIZ SHEET";
+    document.getElementById("theory-modal-title").textContent = `${qObj.title} (${qObj.gs.length} GS + ${qObj.bio.length} Biology with Answers)`;
+    document.getElementById("theory-modal-body").innerHTML = qs.map((q, i) => `
+      <div class="pb-3 mb-3 border-b border-slate-200 text-xs">
+        <div class="font-bold text-slate-900">Q${i + 1}. [${q.topic}] ${q.q_hi}</div>
+        <div class="text-slate-700 mb-1">${q.q_en}</div>
+        <div class="grid grid-cols-2 gap-1 text-slate-600">
+          <div>(A) ${q.options_hi[0]} (${q.options_en[0]})</div>
+          <div>(B) ${q.options_hi[1]} (${q.options_en[1]})</div>
+          <div>(C) ${q.options_hi[2]} (${q.options_en[2]})</div>
+          <div>(D) ${q.options_hi[3]} (${q.options_en[3]})</div>
+        </div>
+        <div class="mt-1 font-bold text-emerald-800">Ans: (${letters[q.correct]}) | व्याख्या: ${q.exp_hi}</div>
+      </div>
+    `).join("");
+    document.getElementById("theory-modal").classList.remove("hidden");
+  };
+
+  // HOOK INTO OWNER LOGIN/LOGOUT SO ARCHIVE PRINT BUTTONS REFRESH AUTOMATICALLY
+  const origUpdateOwnerUI = window.updateOwnerUI;
+  window.updateOwnerUI = function () {
+    if (typeof origUpdateOwnerUI === "function") origUpdateOwnerUI();
+    if (typeof window.renderDailyQuizArchive === "function") window.renderDailyQuizArchive();
+  };
+
+  // RENDER MOCK CARDS SEQUENTIALLY (1 -> 2 -> 3 -> 4...)
   window.renderMockAndSectionalCards = function () {
     const mockGrid = document.getElementById("mock-tests-grid");
     const secGrid = document.getElementById("sectional-tests-grid");
@@ -221,9 +354,14 @@
     }).join("");
   };
 
-  // OVERRIDE: START TEST ENGINE WITH PAID/OWNER SECURITY
+  // START TEST ENGINE (HANDLES MOCKS, DAILY ARCHIVE, RE-ATTEMPT & SECTIONALS)
   window.startTest = function (testKey) {
-    // 1. Check Registered Full Mock Tests (Mock 1, 2, 3, 4...)
+    if (typeof testKey === "string" && testKey.startsWith("daily_arch||")) {
+      const parts = testKey.split("||");
+      window.startDailyArchiveQuiz(parts[1], parts[2]);
+      return;
+    }
+
     const mockObj = window.MOCK_TESTS_REGISTRY.find(m => m.id === testKey);
     if (mockObj) {
       if (mockObj.isPaid && !isOwner) {
@@ -235,7 +373,6 @@
       return;
     }
 
-    // 2. Daily Quizzes & Sectional Tests
     const allQs = getAllQuestions();
     const gsPool = allQs.filter(q => q.section === "gs");
     const zooPool = allQs.filter(q => q.section === "zoo");
@@ -243,10 +380,12 @@
 
     if (testKey === "daily_gs") {
       const qs = window.CUSTOM_DAILY_QUIZ.gs || gsPool.slice(0, 15);
-      launchQuiz("🔥 Daily GS & Current Affairs Speed Quiz (15 Qs / 10 Mins)", qs, 10 * 60, "daily_gs");
+      const label = window.CUSTOM_DAILY_QUIZ.latestTitle ? `${window.CUSTOM_DAILY_QUIZ.latestTitle} — ` : "";
+      launchQuiz(`🔥 ${label}Daily GS Speed Quiz (${qs.length} Qs / 10 Mins)`, qs, 10 * 60, "daily_gs");
     } else if (testKey === "daily_bio") {
       const qs = window.CUSTOM_DAILY_QUIZ.bio || [...zooPool.slice(0, 13), ...botPool.slice(0, 12)];
-      launchQuiz("🧬 Daily TGT Biology Booster Quiz (25 Qs / 20 Mins)", qs, 20 * 60, "daily_bio");
+      const label = window.CUSTOM_DAILY_QUIZ.latestTitle ? `${window.CUSTOM_DAILY_QUIZ.latestTitle} — ` : "";
+      launchQuiz(`🧬 ${label}Daily Biology Quiz (${qs.length} Qs / 20 Mins)`, qs, 20 * 60, "daily_bio");
     } else if (testKey === "sec_gs") {
       launchQuiz("📘 Section A: Complete GS + Current Affairs Test (30 Qs)", gsPool.slice(0, 30), 30 * 60, "sec_gs");
     } else if (testKey === "sec_zoo") {
@@ -262,7 +401,6 @@
     }
   };
 
-  // OVERRIDE: PRINT ANY MOCK TEST PAPER WITH COPYRIGHT WATERMARK
   window.openPrintableFullPaper = function (mockId) {
     const targetMock = window.MOCK_TESTS_REGISTRY.find(m => m.id === mockId) || window.MOCK_TESTS_REGISTRY[0];
     const qs = targetMock ? targetMock.getQuestions() : getAllQuestions().slice(0, 120);
@@ -287,7 +425,6 @@
     document.getElementById("theory-modal").classList.remove("hidden");
   };
 
-  // DYNAMIC SCRIPT LOADER FOR site_config.js AND ALL DATA FILES
   window.loadSiteFiles = function (fileList) {
     (fileList || []).forEach(file => {
       const s = document.createElement("script");
@@ -297,6 +434,5 @@
     });
   };
 
-  // Auto-load site_config.js
   window.loadSiteFiles(["site_config.js"]);
 })();
