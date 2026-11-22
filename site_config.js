@@ -6,8 +6,9 @@
 
 window.loadSiteFiles([
   "mock_3.js",
-  "daily_quiz.js",
   "mock_4.js",
+  "daily_1.js",
+  "daily_quiz.js",
   "chapter_extra.js"
 ]);
 
