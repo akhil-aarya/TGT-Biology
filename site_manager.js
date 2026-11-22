@@ -435,4 +435,97 @@
   };
 
   window.loadSiteFiles(["site_config.js"]);
+  // PERMANENT PRINT FIX: ZERO OVERLAP MULTI-PAGE A4 PDF WITH COPYRIGHT WATERMARK
+  const printFixStyle = document.createElement("style");
+  printFixStyle.textContent = `
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 14mm 12mm;
+      }
+      html, body {
+        display: block !important;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      body > *:not(#theory-modal):not(#print-watermark) {
+        display: none !important;
+      }
+      #theory-modal:not(.hidden) {
+        position: static !important;
+        inset: auto !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        visibility: visible !important;
+      }
+      #theory-modal > div {
+        display: block !important;
+        position: static !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+        visibility: visible !important;
+      }
+      #theory-modal > div > div:first-child,
+      #theory-modal > div > div:last-child {
+        display: none !important;
+      }
+      #pdf-printable-area {
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        visibility: visible !important;
+      }
+      #pdf-printable-area * {
+        visibility: visible !important;
+      }
+      #theory-modal-body > div {
+        display: block !important;
+        position: static !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        margin-bottom: 10px !important;
+        padding-bottom: 8px !important;
+        line-height: 1.45 !important;
+      }
+      #theory-modal-body .grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 4px 12px !important;
+        margin-top: 4px !important;
+      }
+      #print-watermark {
+        display: flex !important;
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) rotate(-32deg) !important;
+        width: 90% !important;
+        white-space: normal !important;
+        font-size: 24px !important;
+        color: rgba(15, 23, 42, 0.06) !important;
+        z-index: 0 !important;
+      }
+    }
+  `;
+  document.head.appendChild(printFixStyle);
 })();
